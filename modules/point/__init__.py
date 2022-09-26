@@ -1,1 +1,1 @@
-from .point import *
+from .point import Point
