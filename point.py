@@ -1,3 +1,5 @@
+import math
+
 class Point():
 
     def __init__(self, x, y):
@@ -16,5 +18,9 @@ class Point():
     def __ne__(self, other):
         return self.x != other.x or self.y != other.y
     
+    def polar_angle(self, p):
+        curr_point_polar_angle = math.atan2((self.y - p.y), (self.x - p.x))*180/math.pi
+        curr_point_polar_angle = curr_point_polar_angle if (curr_point_polar_angle >= 0) else 360 + curr_point_polar_angle
+        return curr_point_polar_angle
 
     
