@@ -1,4 +1,5 @@
-from modules import Point, Segment
+from point import Point
+from segment import Segment
 
 n = int(input())
 for _ in range(n):
