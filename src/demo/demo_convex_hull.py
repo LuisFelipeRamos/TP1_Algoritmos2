@@ -4,6 +4,14 @@ from src.convex_hull import gift_wrapping_convex_hull
 import random
 import matplotlib.pyplot as plt
 
+# |%%--%%| <Wg7dfQZUCw|MdoLa6tj6Q>
+"""°°°
+# Demonstração Envoltória Convexa
+
+Esta demonstração gera um conjunto de pontos aleatórios, constrói sua envoltória convexa e a exibe usando a biblioteca matplotlib
+°°°"""
+# |%%--%%| <MdoLa6tj6Q|uml482HVlH>
+
 set_of_points: list[Point] = []
 for _ in range(100):
     x: int
