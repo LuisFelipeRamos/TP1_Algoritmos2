@@ -8,3 +8,6 @@ src/test/.pytest_cache
 # Visualizador de gráficos (@Igor)
 src/.jukit
 src/*/.jukit
+
+# Arquivos em python dos notebooks (@Igor)
+src/demo/*.py
