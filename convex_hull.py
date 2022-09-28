@@ -1,49 +1,42 @@
 from point import Point
+from segment import Segment
 import math
 import random
 import matplotlib.pyplot as plt
 
-def gift_wrapping_convex_hull(list_of_points):
-    min_polar_angle = float('inf')
-    anchor_point = min(list_of_points)
-    curr_anchor_point = anchor_point
-    min_polar_angle_point = Point(float('inf'), float('inf'))
-    convex_hull = [anchor_point]
-    while (min_polar_angle_point != anchor_point):
-        for point in list_of_points:
-            if (point == curr_anchor_point):
+def gift_wrapping_convex_hull(set_of_points):
+    anchor = min(set_of_points)
+    curr_anchor = anchor
+    dst = set_of_points[0] if set_of_points[0] != anchor else set_of_points[1]
+    curr_hull_edge = Segment(anchor, dst)
+    convex_hull = []
+    while (dst != anchor):
+        dst = set_of_points[0] if set_of_points[0] != curr_anchor else set_of_points[1]
+        for point in set_of_points:
+            if (point == curr_anchor or point == dst):
                 continue
-
-            curr_point_polar_angle = point.polar_angle(curr_anchor_point)
-            
-            if (curr_point_polar_angle < min_polar_angle):
-                min_polar_angle = curr_point_polar_angle
-                min_polar_angle_point = point
-        convex_hull.append(min_polar_angle_point)
-        print(min_polar_angle_point)
-        curr_anchor_point = min_polar_angle_point
-        min_polar_angle = float('inf')
+            possible_hull_edge = Segment(curr_anchor, point)
+            if (curr_hull_edge.is_counter_clockwise(possible_hull_edge)): 
+                curr_hull_edge = possible_hull_edge
+                dst = point
+        convex_hull.append(curr_hull_edge)
+        curr_anchor = dst
+        curr_hull_edge = Segment(curr_anchor, set_of_points[0] if set_of_points[0] != curr_anchor else set_of_points[1] )
     return convex_hull
 
-list_of_points = []
-for _ in range(5):
-    x, y = random.randint(1, 10), random.randint(1, 10)
-    list_of_points.append(Point(x, y))
+set_of_points = []
+for _ in range(100):
+    x, y = random.randint(1, 100), random.randint(1, 100)
+    set_of_points.append(Point(x, y))
 
-listaux = [Point(1, 2), Point(3, 10), Point(9, 6),Point(9, 1), Point(4 ,8)]
-for i in listaux:
-    for j in listaux:
-        print(i, end=' - ')
-        print(j, end=' : ')
-        print(j.polar_angle(i))
+hull = gift_wrapping_convex_hull(set_of_points)
 
 
-""" res = gift_wrapping_convex_hull(listaux)
-for r in res: print (r) """
-
-xmin, xmax, ymin,ymax = -10, 10, -10, 10
+xmin, xmax, ymin,ymax = -100, 100, -100, 100
 ticks_frequency = 1
-fig, ax = plt.subplots(figsize=(10, 10))
-ax.scatter([point.x for point in listaux], [point.y for point in listaux], c=['b'])
+fig, ax = plt.subplots(figsize=(100, 100))
+ax.scatter([point.x for point in set_of_points], [point.y for point in set_of_points], c=['b'])
 ax.grid(which='both', color='grey', linewidth=1, linestyle='-', alpha=0.2)
+for edge in hull:
+    plt.plot([edge.points[0].x, edge.points[1].x], [edge.points[0].y, edge.points[1].y], 'r')
 plt.show()
