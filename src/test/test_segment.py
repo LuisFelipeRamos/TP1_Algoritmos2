@@ -1,5 +1,5 @@
-from src.point import Point
-from src.segment import Segment
+from src.point.point import Point
+from src.segment.segment import Segment
 
 
 def test_is_counter_clockwise():
