@@ -1,5 +1,5 @@
 from __future__ import annotations
-from point import Point
+from ..point.point import Point
 
 class Segment:
     def __init__(self, p0: Point, p1: Point) -> None:

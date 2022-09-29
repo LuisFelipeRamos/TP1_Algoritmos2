@@ -1,5 +1,6 @@
-from segment.segment import Segment
-from point import Point
+
+from src.segment import Segment
+from src.point import Point
 
 import random
 import matplotlib.pyplot as plt
@@ -69,47 +70,3 @@ class ConvexHull:
         for edge in self.convex_hull:
             plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], 'k', linewidth=0.5)
         plt.show()
-
-
-
-def generate_random_set_of_points(number_of_points, min_x, max_x, min_y, max_y):
-    set_of_points = []
-    for _ in range(number_of_points):
-        x, y = random.randint(min_x, max_x), random.randint(min_x, max_y)
-        set_of_points.append(Point(x, y))
-    return set_of_points
-
-
-
-alg_times = [0, 0]
-try:
-    set_of_points = []
-    typer = 0
-    for i in range(1000):
-        type=1
-        set_of_points = generate_random_set_of_points(10, 1, 100, 1, 100)
-        t0 = time.time()
-        convex_hull = ConvexHull(set_of_points, alg='gift_wrapping')
-        t1 = time.time()
-        alg_times[0] += t1 - t0
-    alg_times[0] /= 100
-
-    for i in range(1000):
-        typer=2
-        set_of_points = generate_random_set_of_points(10, 1, 100, 1, 100)
-        t0 = time.time()
-        convex_hull = ConvexHull(set_of_points, alg='graham_scan')
-        t1 = time.time()
-        alg_times[1] += t1 - t0
-    alg_times[1]/=100
-except:
-    print("erro")
-    print(typer)
-    size=10
-    fig, ax = plt.subplots(figsize=(size, size))
-    ax.scatter([point.x for point in set_of_points], [point.y for point in set_of_points], c=['k'], s=2)
-    ax.grid(which='both', color='grey', linewidth=0.5, linestyle='-', alpha=0.2)
-    plt.show()
-       
-
-print(alg_times)
