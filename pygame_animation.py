@@ -4,7 +4,6 @@ from src.segment import Segment
 
 import time
 import pygame
-import random
 
 pygame.init()
 
@@ -13,15 +12,6 @@ WHITE = 255, 255, 255
 BLACK = 0, 0, 0
 BLUE = 0, 0, 255
 RED = 255, 0, 0
-
-
-def generate_random_set_of_points(number_of_points, min_x, max_x, min_y, max_y):
-    set_of_points = []
-    for _ in range(number_of_points):
-        x, y = random.randint(min_x, max_x), random.randint(min_x, max_y)
-        set_of_points.append(Point(x, y))
-    return set_of_points
-
 
 class AlgorithmVisualization:
 
@@ -44,6 +34,7 @@ class AlgorithmVisualization:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         run = False
+                        pygame.quit()
 
                 anchor = max(set_of_points)
                 curr_anchor = anchor

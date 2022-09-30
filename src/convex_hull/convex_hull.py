@@ -63,7 +63,7 @@ class ConvexHull:
         return convex_hull
 
     def plot(self, size):
-        fig, ax = plt.subplots(figsize=(size, size))
+        fig, ax = plt.subplots(figsize=(100, 100))
         ax.scatter([point.x for point in self.set_of_points], [point.y for point in self.set_of_points], c=['k'], s=2)
         ax.grid(which='both', color='grey', linewidth=0.5, linestyle='-', alpha=0.2)
         for edge in self.convex_hull:
