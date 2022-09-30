@@ -1,6 +1,8 @@
 from src.point.point import Point
 from src.segment.segment import Segment
-from src.convex_hull.convex_hull import ConvexHull
+from src.convex_hull import ConvexHull
+
+from pygame_animation import AlgorithmVisualization
 
 # libs
 import math
@@ -16,9 +18,10 @@ def generate_random_set_of_points(number_of_points, min_x, max_x, min_y, max_y):
         set_of_points.append(Point(x, y))
 
     return set_of_points
+
 def main():
     
-    alg_times = [0, 0]
+    """ alg_times = [0, 0]
     
     set_of_points = []
     typer = 0
@@ -40,7 +43,15 @@ def main():
         alg_times[1] += t1 - t0
     alg_times[1]/=100
     
-    print(alg_times)
+    print(alg_times) """
+
+    FPS = 60
+    SCREEN_MARGIN = 100
+    WIDTH, HEIGHT = 600, 600         
+    set_of_points = generate_random_set_of_points(50, SCREEN_MARGIN, WIDTH - SCREEN_MARGIN, SCREEN_MARGIN, HEIGHT - SCREEN_MARGIN)
+
+    alg_visualization = AlgorithmVisualization(WIDTH, HEIGHT,SCREEN_MARGIN, FPS)
+    alg_visualization.animate_convex_hull("gift_wrapping", set_of_points)
 
 if __name__ == "__main__":
     main()

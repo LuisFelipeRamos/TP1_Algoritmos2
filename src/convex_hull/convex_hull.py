@@ -1,4 +1,3 @@
-
 from src.segment import Segment
 from src.point import Point
 
