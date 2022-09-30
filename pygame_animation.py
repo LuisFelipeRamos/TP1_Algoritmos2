@@ -5,6 +5,9 @@ import pygame
 from src.point import Point
 from src.segment import Segment
 
+import time
+import pygame
+
 pygame.init()
 
 # colors
@@ -12,7 +15,6 @@ WHITE = 255, 255, 255
 BLACK = 0, 0, 0
 BLUE = 0, 0, 255
 RED = 255, 0, 0
-
 
 class AlgorithmVisualization:
     def __init__(
@@ -28,7 +30,7 @@ class AlgorithmVisualization:
         if alg == "gift_wrapping":
             self.animate_using_gift_wrapping(set_of_points)
         elif alg == "graham_scan":
-            self.animate_using_gift_wrapping(set_of_points)
+            self.animate_using_graham_scan(set_of_points)
         else:
             print(
                 "Não temos uma animação pronta para esse algoritmo de envoltória convexa"

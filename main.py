@@ -1,3 +1,6 @@
+from src.point.point import Point
+from src.segment.segment import Segment
+from src.convex_hull import ConvexHull, convex_hull
 import random
 
 from pygame_animation import AlgorithmVisualization
@@ -25,7 +28,7 @@ def main():
     )
 
     alg_visualization = AlgorithmVisualization(WIDTH, HEIGHT, SCREEN_MARGIN, FPS)
-    alg_visualization.animate_convex_hull("gift_wrapping", set_of_points)
+    alg_visualization.animate_convex_hull("graham_scan", set_of_points)
 
 
 if __name__ == "__main__":
