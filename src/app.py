@@ -1,10 +1,7 @@
 from src.point.point import Point
-from src.segment.segment import Segment
-from src.convex_hull import ConvexHull, convex_hull
 import random
 
-from pygame_animation import AlgorithmVisualization
-from src.point.point import Point
+from src.animation import AlgorithmVisualization
 
 
 def generate_random_set_of_points(number_of_points: int, min_x: int, max_x: int, min_y: int, max_y: int) -> list[Point]:
@@ -18,7 +15,7 @@ def generate_random_set_of_points(number_of_points: int, min_x: int, max_x: int,
     return set_of_points
 
 
-def main():
+def run():
     FPS: int = 60
     SCREEN_MARGIN: int = 100
     WIDTH: int = 600
@@ -32,4 +29,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run()
