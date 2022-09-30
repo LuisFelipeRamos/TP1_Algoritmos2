@@ -4,7 +4,7 @@ from pygame_animation import AlgorithmVisualization
 from src.point.point import Point
 
 
-def generate_random_set_of_points(number_of_points, min_x, max_x, min_y, max_y):
+def generate_random_set_of_points(number_of_points: int, min_x: int, max_x: int, min_y: int, max_y: int) -> list[Point]:
     set_of_points: list[Point] = []
     for _ in range(number_of_points):
         x: int
