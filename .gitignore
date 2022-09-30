@@ -13,3 +13,8 @@ src/*/.jukit
 
 # Arquivos em python dos notebooks (@Igor)
 src/demo/*.py
+
+# Lixo do LaTeX
+docs/report/report.*
+!docs/report/report.tex
+!docs/report/report.pdf
