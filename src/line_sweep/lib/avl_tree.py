@@ -333,50 +333,6 @@ class AVLTree:
         else:
             return self._dfsSearch(currentNode.right, key)
 
-    ###
-    # Funções Originais
-    def above(self, key):
-        """
-        Search a AVLNode satisfies AVLNode.val = key.
-        if found return AVLNode, else return None.
-        """
-        return self._dfsAbove(self.root, key)
-
-    def _dfsAbove(self, currentNode, key):
-        """
-        Helper function to search a key in AVLTree.
-        """
-        if currentNode is None:
-            return None
-        elif currentNode.val == key:
-            return currentNode.right
-        elif currentNode.val > key:
-            return self._dfsAbove(currentNode.left, key)
-        else:
-            return self._dfsAbove(currentNode.right, key)
-
-    def below(self, key):
-        """
-        Search a AVLNode satisfies AVLNode.val = key.
-        if found return AVLNode, else return None.
-        """
-        return self._dfsBelow(self.root, key)
-
-    def _dfsBelow(self, currentNode, key):
-        """
-        Helper function to search a key in AVLTree.
-        """
-        if currentNode is None:
-            return None
-        elif currentNode.val == key:
-            return currentNode.left
-        elif currentNode.val > key:
-            return self._dfsBelow(currentNode.left, key)
-        else:
-            return self._dfsBelow(currentNode.right, key)
-    # Funções Originais
-    ###
-
     def delete(self, key):
         """
         Delete a key from AVLTree
