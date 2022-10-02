@@ -1,4 +1,4 @@
-from src.event import Event
+from src.line_sweep.event import Event
 from src.segment import Segment
 from src.point import Point
 

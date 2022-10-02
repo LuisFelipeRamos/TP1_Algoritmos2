@@ -1,4 +1,4 @@
-from src.event import Event
+from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLTree
 from src.segment import Segment
 
