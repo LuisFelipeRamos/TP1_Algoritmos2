@@ -28,7 +28,7 @@ def run():
         number_of_points, SCREEN_MARGIN, WIDTH - SCREEN_MARGIN, SCREEN_MARGIN, HEIGHT - SCREEN_MARGIN
     )
 
-    """time_dict = {"graham_scan": 0, "gift_wrapping": 0, "incremental": 0}
+    time_dict = {"graham_scan": 0, "gift_wrapping": 0, "incremental": 0}
     for _ in range(100):
         set_of_points = generate_random_set_of_points(
         number_of_points, SCREEN_MARGIN, WIDTH - SCREEN_MARGIN, SCREEN_MARGIN, HEIGHT - SCREEN_MARGIN
@@ -56,11 +56,7 @@ def run():
         time_dict["incremental"] += a2 - a1
     for e in time_dict.keys():
         time_dict[e]/=100
-    print(time_dict) """
-   
-
-    convex_hull = ConvexHull(set_of_points, alg='incremental')
-    convex_hull.plot(100)
+    print(time_dict)
   
 
 
