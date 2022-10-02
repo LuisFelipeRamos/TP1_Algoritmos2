@@ -16,7 +16,7 @@ class ConvexHull:
             self.convex_hull = self.generate_through_gift_wrapping_alg()
         elif (self.alg == 'graham_scan'):
             self.convex_hull = self.generate_through_graham_scan_alg()
-        elif (self.alg == 'incremental_alg'):
+        elif (self.alg == 'incremental'):
             self.convex_hull = self.generate_through_incremental_alg()
         else:
             print('I don''t know this alg...')
@@ -89,8 +89,9 @@ class ConvexHull:
         upper_hull.append(s2)
         hull_farest_right_point = lower_hull[-1].p1
         for point in self.set_of_points[3:]:
-
-            if point.y >= hull_farest_right_point.y:
+            
+            hull_farest_right_point_to_new_point = Segment(hull_farest_right_point, point)
+            if hull_farest_right_point_to_new_point.is_counter_clockwise(lower_hull[-1]):
                 lower_point: Point = upper_hull[0].p0
                 upper_point: Point = upper_hull[0].p1
                 del upper_hull[0]
