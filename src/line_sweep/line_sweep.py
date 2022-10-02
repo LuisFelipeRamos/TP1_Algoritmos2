@@ -10,26 +10,19 @@ def invert_segments(set_of_segments: list[Segment]):
 
 
 class LineSweep:
-    def any_segments_intersect(self, poly1: list[Segment], poly2: list[Segment]):
+    def any_segments_intersect(self, S: list[tuple[Segment, int]]):
         treeSegments: AVLTree = AVLTree()
-        invert_segments(poly1)
-        invert_segments(poly2)
+        invert_segments([segment for segment, _ in S])
         events: list[Event] = [
-            Event(segment.p0.x, segment.p0.y, True, segment) for segment in poly1
+            Event(segment.p0.x, segment.p0.y, True, segment, id) for segment, id in S
         ]
         events.extend(
-            Event(segment.p1.x, segment.p1.y, False, segment) for segment in poly1
-        )
-        events.extend(
-            Event(segment.p0.x, segment.p0.y, True, segment) for segment in poly2
-        )
-        events.extend(
-            Event(segment.p0.x, segment.p0.y, True, segment) for segment in poly2
+            Event(segment.p1.x, segment.p1.y, False, segment, id) for segment, id in S
         )
         events.sort()
         for e in events:
             if e.isLeft:
-                s: Segment = e.segment
+                s = e.segment, e.id
                 # FIXME: Consertar inserção. Usar um comparador baseado na altura
                 # da interseção com a reta de eventos
                 treeSegments.insert(s)
@@ -49,9 +42,11 @@ class LineSweep:
                             below = node.parent
                 if (
                     above != None
-                    and s.intersects(above.val)
+                    and s[0].intersects(above.val[0])
+                    and s[1] != above.val[1]
                     or below != None
-                    and s.intersects(below.val)
+                    and s[0].intersects(below.val[0])
+                    and s[1] != below.val[1]
                 ):
                     return True
             else:
@@ -62,7 +57,12 @@ class LineSweep:
                 if node != None:
                     above = node.right
                     below = node.left
-                if above != None and below != None and above.val.intersects(below.val):
+                if (
+                    above != None
+                    and below != None
+                    and above.val[0].intersects(below[0].val)
+                    and above.val[1] != above[0].val
+                ):
                     return True
                 treeSegments.delete(s)
         return False

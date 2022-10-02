@@ -3,11 +3,12 @@ from __future__ import annotations
 from src.segment import Segment
 
 class Event:
-    def __init__(self, x: float, y: float, l: bool, s: Segment) -> None:
+    def __init__(self, x: float, y: float, l: bool, s: Segment, i: int = -1) -> None:
         self.x = x
         self.y = y
         self.isLeft = l
         self.segment = s
+        self.id = i
 
     def __repr__(self) -> str:
         return f"[({self.x}, {self.y}, {self.isLeft})]"

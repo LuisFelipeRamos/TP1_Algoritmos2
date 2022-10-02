@@ -4,7 +4,7 @@ from src.point import Point
 
 
 class Segment:
-    def __init__(self, p0: Point, p1: Point, id: int = 0) -> None:
+    def __init__(self, p0: Point, p1: Point) -> None:
         self.p0 = p0
         self.p1 = p1
 
@@ -12,8 +12,6 @@ class Segment:
         self.y = p1.y - p0.y
 
         self.length = self.p0.get_distance(p1)
-        # Compare pontos de polígonos diferentes
-        self.pol_id = id
 
     def __repr__(self) -> str:
         return f"<{self.p0}, {self.p1}>"
@@ -62,21 +60,20 @@ class Segment:
 
     def intersects(self, other: Segment) -> bool:
         # Quando estamos no mesmo polígono, podemos compartilhar um ponto
-        if self.pol_id == other.pol_id:
-            if (
-                self.p0 == other.p0
-                and self.p1 != other.p1
-                or self.p0 == other.p1
-                and self.p1 != other.p0
-            ):
-                return False
-            if (
-                self.p1 == other.p1
-                and self.p0 != other.p0
-                or self.p1 == other.p0
-                and self.p0 != other.p1
-            ):
-                return False
+        if (
+            self.p0 == other.p0
+            and self.p1 != other.p1
+            or self.p0 == other.p1
+            and self.p1 != other.p0
+        ):
+            return False
+        if (
+            self.p1 == other.p1
+            and self.p0 != other.p0
+            or self.p1 == other.p0
+            and self.p0 != other.p1
+        ):
+            return False
 
         # Quando o segmento repete ele se intercepta
         if self == other:

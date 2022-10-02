@@ -59,18 +59,9 @@ def test_intersects():
     seg3: Segment = Segment(Point(2, 2), Point(4, 6))
     seg4: Segment = Segment(Point(3, 7), Point(5, 8))
     seg5: Segment = Segment(Point(5, 8), Point(9, 9))
-    seg6: Segment = Segment(Point(4, 4), Point(3, 2), 2)
-    seg7: Segment = Segment(Point(1, 1), Point(4, 4), 1)
-    seg8: Segment = Segment(Point(4, 4), Point(4, 6), 1)
 
     # Mesmo segmento
     assert seg1.intersects(seg1)
-
-    # Segmentos compartilham um ponto em comum e pertencem ao mesmo poligono
-    assert not seg7.intersects(seg8)
-
-    # Segmentos compartilham um ponto em comum e pertencem a polígonos diferentes
-    assert seg7.intersects(seg6)
 
     # Ambas orientações trocados
     assert seg1.intersects(seg2)
