@@ -29,3 +29,6 @@ class Segment:
         if self.is_colinear(other):
             return self.length < other.length
         return self.cross_product(other) < 0
+    
+    def get_inverse(self):
+        return Segment(self.p1, self.p0)
