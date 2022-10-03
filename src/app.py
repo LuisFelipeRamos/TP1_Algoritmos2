@@ -14,10 +14,8 @@ def generate_random_set_of_points(number_of_points: int, min_x: int, max_x: int,
     for _ in range(number_of_points):
         x: int
         y: int
-        # x, y = random.uniform(min_x, max_x)*random.uniform(min_x, max_x)*random.uniform(min_x, max_x), random.uniform(min_y, max_y)*random.uniform(min_y, max_y)*random.uniform(min_y, max_y)
-        # set_of_points.append(Point(math.sqrt(x), math.sqrt(y)))
-        x, y = np.random.normal(10, 1), np.random.normal(10, 1)
-        set_of_points.append(Point(x, y))
+        x, y = random.uniform(min_x, max_x)*random.uniform(min_x, max_x), random.uniform(min_y, max_y)*random.uniform(min_y, max_y)
+        set_of_points.append(Point(math.sqrt(x), math.sqrt(y)))
     return set_of_points
 
 def calculate_times_and_plot():
@@ -71,11 +69,16 @@ def calculate_times_and_plot():
 
 def run():
     FPS: int = 60
-    SCREEN_MARGIN: int = 0
+    SCREEN_MARGIN: int = 100
     WIDTH: int = 600
     HEIGHT: int = 600
-    number_of_points = 145
-    
+    number_of_points = 25
+
+    set_of_points = generate_random_set_of_points(
+            number_of_points, SCREEN_MARGIN, WIDTH - SCREEN_MARGIN, SCREEN_MARGIN, HEIGHT - SCREEN_MARGIN
+        )
+    algo_vis = AlgorithmVisualization(WIDTH, HEIGHT, SCREEN_MARGIN, FPS)
+    algo_vis.animate_convex_hull("incremental", set_of_points)
 
     
    
