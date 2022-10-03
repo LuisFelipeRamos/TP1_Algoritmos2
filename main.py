@@ -5,3 +5,8 @@ import random
 
 from src.animation import AlgorithmVisualization
 from src.point.point import Point
+
+from src.app import app
+
+if __name__ == "__main__":
+    app.run()
