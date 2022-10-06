@@ -60,6 +60,9 @@ def test_intersects():
     seg4: Segment = Segment(Point(3, 7), Point(5, 8))
     seg5: Segment = Segment(Point(5, 8), Point(9, 9))
 
+    # Compartilham um ponto
+    assert seg4.intersects(seg5)
+
     # Mesmo segmento
     assert seg1.intersects(seg1)
 

@@ -19,10 +19,6 @@ class Segment:
     def __lt__(self, other: Segment) -> bool:
         return not self.is_counter_clockwise(other)
 
-    # Compare pelo y do primeiro ponto na AVL
-    def __gt__(self, other: Segment) -> bool:
-        return self.p0.y > other.p0.y
-
     def cross_product(self, other: Segment) -> float:
         return self.x * other.y - self.y * other.x
 
@@ -35,11 +31,18 @@ class Segment:
         return self.cross_product(other) < 0
 
     def invert(self) -> None:
+        """
+        Inverte os pontos de um segmento
+        Não troca outros membros da classe.
+        """
         temp: Point = self.p0
         self.p0 = self.p1
         self.p1 = temp
 
     def contains(self, p: Point) -> bool:
+        """
+        Confere se um ponto está no intervalo aberto do segmento
+        """
         return (
             p.x < max(self.p0.x, self.p1.x)
             and p.x > min(self.p0.x, self.p1.x)
@@ -48,6 +51,9 @@ class Segment:
         )
 
     def orientation(self, p: Point) -> int:
+        """
+        Checa se um ponto é colinear, está orientado no sentido horário ou anti-horário
+        """
         key: float = (self.p1.y - self.p0.y) * (p.x - self.p1.x) - (
             self.p1.x - self.p0.x
         ) * (p.y - self.p1.y)
@@ -59,23 +65,10 @@ class Segment:
             return 0
 
     def intersects(self, other: Segment) -> bool:
-        # Quando estamos no mesmo polígono, podemos compartilhar um ponto
-        if (
-            self.p0 == other.p0
-            and self.p1 != other.p1
-            or self.p0 == other.p1
-            and self.p1 != other.p0
-        ):
-            return False
-        if (
-            self.p1 == other.p1
-            and self.p0 != other.p0
-            or self.p1 == other.p0
-            and self.p0 != other.p1
-        ):
-            return False
-
-        # Quando o segmento repete ele se intercepta
+        """
+        Confere se um segmento intersecta outro
+        """
+        # Quando o segmento repete ele se intersecta
         if self == other:
             return True
 

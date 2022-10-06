@@ -2,7 +2,14 @@ from __future__ import annotations
 
 from src.segment import Segment
 
+
 class Event:
+    """
+    Esta classe tem dois propósitos:
+        1. Evitar o uso de tuplas, provendo acesso direto aos membros com nomes mais descritivos
+        2. Prover um comparador para os eventos, levando em consideração coordenadas e orientação
+    """
+
     def __init__(self, x: float, y: float, l: bool, s: Segment, i: int = -1) -> None:
         self.x = x
         self.y = y
@@ -29,4 +36,3 @@ class Event:
 
     def __lt__(self, other: Event):
         return self.compare(other) < 0
-
