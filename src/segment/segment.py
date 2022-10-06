@@ -30,6 +30,9 @@ class Segment:
             return self.length < other.length
         return self.cross_product(other) < 0
 
+    def get_inverse(self):
+        return Segment(self.p1, self.p0)
+
     def invert(self) -> None:
         """
         Inverte os pontos de um segmento

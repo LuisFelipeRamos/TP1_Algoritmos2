@@ -15,6 +15,7 @@ WHITE = 255, 255, 255
 BLACK = 0, 0, 0
 BLUE = 0, 0, 255
 RED = 255, 0, 0
+GREEN = 0, 255, 0
 
 class AlgorithmVisualization:
     def __init__(
@@ -31,9 +32,29 @@ class AlgorithmVisualization:
             self.animate_using_gift_wrapping(set_of_points)
         elif alg == "graham_scan":
             self.animate_using_graham_scan(set_of_points)
+        elif alg == "incremental":
+            self.animate_using_incremental_alg(set_of_points)
         else:
             print(
                 "Não temos uma animação pronta para esse algoritmo de envoltória convexa"
+            )
+    
+    def draw_curr_hull(self, screen, set_of_points, curr_hull):
+        for point_to_draw in set_of_points:
+                        pygame.draw.circle(
+                            screen,
+                            WHITE,
+                            (point_to_draw.x, point_to_draw.y),
+                            3,
+                            0,
+                        )
+        for edge in curr_hull:
+            pygame.draw.line(
+                screen,
+                WHITE,
+                (edge.p0.x, edge.p0.y),
+                (edge.p1.x, edge.p1.y),
+                1,
             )
 
     def animate_using_gift_wrapping(self, set_of_points: list[Point]) -> None:
@@ -50,7 +71,7 @@ class AlgorithmVisualization:
                 if event.type == pygame.QUIT:
                     run = False
 
-            anchor: Point = max(set_of_points)
+            anchor: Point = min(set_of_points)
             curr_anchor: Point = anchor
             dst: Point = (
                 set_of_points[0] if set_of_points[0] != anchor else set_of_points[1]
@@ -146,7 +167,7 @@ class AlgorithmVisualization:
                 if event.type == pygame.QUIT:
                     run = False
 
-            anchor: Point = max(set_of_points)
+            anchor: Point = min(set_of_points)
             anchor_to_points_segments: list[Segment] = []
             convex_hull: list[Segment] = []
             for point in set_of_points:
@@ -214,4 +235,135 @@ class AlgorithmVisualization:
             pygame.display.flip()
 
             pygame.time.wait(5000)
+            run = False
+
+    def animate_using_incremental_alg(self, set_of_points):
+        self.SCREEN: pygame.surface.Surface = pygame.display.set_mode(
+        (self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        )
+        pygame.display.set_caption("Incremental Algorithm Convex Hull Algorithm Animation")
+        clock: pygame.time.Clock = pygame.time.Clock()
+        run: bool = True
+
+        while run:
+            clock.tick(self.FPS)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+
+            set_of_points.sort(key=lambda point: (point.x, point.y))
+    
+            lower_hull = []
+            upper_hull = []
+
+            anchor_to_next: Segment = Segment(set_of_points[0], set_of_points[1])
+            anchor_to_next_next: Segment = Segment(set_of_points[0], set_of_points[2])
+            if (anchor_to_next.is_counter_clockwise(anchor_to_next_next)):
+                s0: Segment = Segment(set_of_points[0], set_of_points[2])
+                s1: Segment = Segment(set_of_points[2], set_of_points[1])
+                s2: Segment = Segment(set_of_points[1], set_of_points[0])
+            else:
+                s0: Segment = Segment(set_of_points[0], set_of_points[1])
+                s1: Segment = Segment(set_of_points[1], set_of_points[2])
+                s2: Segment = Segment(set_of_points[2], set_of_points[0])
+            lower_hull.append(s0)
+            upper_hull.append(s1)
+            upper_hull.append(s2)
+            convex_hull = lower_hull + upper_hull
+            hull_farest_right_point = lower_hull[-1].p1
+            for point in set_of_points[3:]:
+
+                self.SCREEN.fill(BLACK)
+               
+                self.draw_curr_hull(self.SCREEN, set_of_points, convex_hull)
+                
+                for edge in convex_hull:
+                    pygame.draw.line(
+                        self.SCREEN,
+                        WHITE,
+                        (edge.p0.x, edge.p0.y),
+                        (edge.p1.x, edge.p1.y),
+                        1,
+                    )
+                    
+                if point.y >= hull_farest_right_point.y:
+                    lower_point: Point = upper_hull[0].p0
+                    upper_point: Point = upper_hull[0].p1
+                    del upper_hull[0]
+                    
+                else:
+                    lower_point: Point = lower_hull[-1].p0
+                    upper_point: Point = lower_hull[-1].p1
+                    del lower_hull[-1]
+
+                lower_hull_new_edge: Segment = Segment(lower_point, point)
+                lower_hull.append(lower_hull_new_edge)
+
+                upper_hull_new_edge = Segment(point, upper_point)
+                upper_hull = [upper_hull_new_edge] + upper_hull
+
+                hull_farest_right_point = lower_hull[-1].p1
+
+                while len(upper_hull) >= 2 and not upper_hull[1].is_counter_clockwise(upper_hull[0]):
+                    self.SCREEN.fill(BLACK)
+                    self.draw_curr_hull(self.SCREEN, set_of_points, convex_hull)
+                    pygame.draw.line(
+                    self.SCREEN,
+                    BLUE,
+                    (lower_hull_new_edge.p0.x, lower_hull_new_edge.p0.y),
+                    (lower_hull_new_edge.p1.x, lower_hull_new_edge.p1.y),
+                    1,
+                    )
+                    pygame.draw.line(
+                    self.SCREEN,
+                    BLUE,
+                    (upper_hull_new_edge.p0.x, upper_hull_new_edge.p0.y),
+                    (upper_hull_new_edge.p1.x, upper_hull_new_edge.p1.y),
+                    1,
+                    )
+                    time.sleep(0.2)
+                    new_edge_p0: Point = upper_hull[0].p0
+                    new_edge_p1: Point = upper_hull[1].p1
+                    del upper_hull[0:2]
+                    upper_hull_new_edge = Segment(new_edge_p0, new_edge_p1)
+                    upper_hull = [upper_hull_new_edge] + upper_hull
+                    convex_hull = lower_hull + upper_hull
+                    pygame.display.flip()
+                    time.sleep(0.2)
+                time.sleep(0.2)
+                while len(lower_hull) >= 2 and not lower_hull[-1].is_counter_clockwise(lower_hull[-2]):
+                    self.SCREEN.fill(BLACK)
+                    self.draw_curr_hull(self.SCREEN, set_of_points, convex_hull)
+                    pygame.draw.line(
+                    self.SCREEN,
+                    BLUE,
+                    (lower_hull_new_edge.p0.x, lower_hull_new_edge.p0.y),
+                    (lower_hull_new_edge.p1.x, lower_hull_new_edge.p1.y),
+                    1,
+                    )
+                    pygame.draw.line(
+                    self.SCREEN,
+                    BLUE,
+                    (upper_hull_new_edge.p0.x, upper_hull_new_edge.p0.y),
+                    (upper_hull_new_edge.p1.x, upper_hull_new_edge.p1.y),
+                    1,
+                    )
+                    time.sleep(0.2)
+                    new_edge_p0: Point = lower_hull[-2].p0
+                    new_edge_p1: Point = lower_hull[-1].p1
+                    del lower_hull[-1:-3:-1]
+                    lower_hull_new_edge = Segment(new_edge_p0, new_edge_p1)
+
+                    lower_hull.append(lower_hull_new_edge)
+                    convex_hull = lower_hull + upper_hull
+                    pygame.display.flip()
+                    time.sleep(0.2)
+
+                pygame.display.flip()
+                convex_hull = lower_hull + upper_hull
+            time.sleep(0.2)
+            self.SCREEN.fill(BLACK)
+            self.draw_curr_hull(self.SCREEN, set_of_points, convex_hull)
+            pygame.display.flip()
+            pygame.time.wait(3000)
             run = False

@@ -1,4 +1,5 @@
 from typing import cast
+import functools
 
 import matplotlib.pyplot as plt
 
@@ -12,11 +13,15 @@ class ConvexHull:
         self.alg = alg
         self.num_of_vertexes = 0
         if (self.alg == 'gift_wrapping'):
-            self.convex_hull = self.generate_throught_gift_wrapping_alg()
+            self.convex_hull = self.generate_through_gift_wrapping_alg()
+        elif (self.alg == 'graham_scan'):
+            self.convex_hull = self.generate_through_graham_scan_alg()
+        elif (self.alg == 'incremental'):
+            self.convex_hull = self.generate_through_incremental_alg()
         else:
-            self.convex_hull = self.generate_throught_graham_scan_alg()
+            print('I don''t know this alg...')
     
-    def generate_throught_gift_wrapping_alg(self) -> list[Segment]:
+    def generate_through_gift_wrapping_alg(self) -> list[Segment]:
         anchor: Point = min(self.set_of_points)
         curr_anchor: Point = anchor
         dst: Point = self.set_of_points[0] if self.set_of_points[0] != anchor else self.set_of_points[1]
@@ -37,7 +42,7 @@ class ConvexHull:
             curr_hull_edge = Segment(curr_anchor, self.set_of_points[0] if self.set_of_points[0] != curr_anchor else self.set_of_points[1])
         return convex_hull
     
-    def generate_throught_graham_scan_alg(self) -> list[Segment]:
+    def generate_through_graham_scan_alg(self) -> list[Segment]:
         anchor: Point = min(self.set_of_points)
         anchor_to_points_segments: list[Segment] = []
         convex_hull: list[Segment] = []
@@ -61,9 +66,61 @@ class ConvexHull:
                 del points_ordered_by_polar_angle[i]
                 i -= 1
         return convex_hull
+    
+    def generate_through_incremental_alg(self):
+        
+        self.set_of_points.sort(key=lambda point: (point.x, point.y))
+    
+        lower_hull = []
+        upper_hull = []
 
-    def plot(self, size: int) -> None:
-        _, ax = plt.subplots(figsize=(size, size))
+        anchor_to_next: Segment = Segment(self.set_of_points[0], self.set_of_points[1])
+        anchor_to_next_next: Segment = Segment(self.set_of_points[0], self.set_of_points[2])
+        if (anchor_to_next.is_counter_clockwise(anchor_to_next_next)):
+            s0: Segment = Segment(self.set_of_points[0], self.set_of_points[2])
+            s1: Segment = Segment(self.set_of_points[2], self.set_of_points[1])
+            s2: Segment = Segment(self.set_of_points[1], self.set_of_points[0])
+        else:
+            s0: Segment = Segment(self.set_of_points[0], self.set_of_points[1])
+            s1: Segment = Segment(self.set_of_points[1], self.set_of_points[2])
+            s2: Segment = Segment(self.set_of_points[2], self.set_of_points[0])
+        lower_hull.append(s0)
+        upper_hull.append(s1)
+        upper_hull.append(s2)
+        hull_farest_right_point = lower_hull[-1].p1
+        for point in self.set_of_points[3:]:
+            
+            hull_farest_right_point_to_new_point = Segment(hull_farest_right_point, point)
+            if hull_farest_right_point_to_new_point.is_counter_clockwise(lower_hull[-1]):
+                lower_point: Point = upper_hull[0].p0
+                upper_point: Point = upper_hull[0].p1
+                del upper_hull[0]
+                
+            else:
+                lower_point: Point = lower_hull[-1].p0
+                upper_point: Point = lower_hull[-1].p1
+                del lower_hull[-1]
+
+            lower_hull.append(Segment(lower_point, point))
+            upper_hull = [Segment(point, upper_point)] + upper_hull
+            hull_farest_right_point = lower_hull[-1].p1
+
+            while len(upper_hull) >= 2 and not upper_hull[1].is_counter_clockwise(upper_hull[0]):
+                new_edge_p0: Point = upper_hull[0].p0
+                new_edge_p1: Point = upper_hull[1].p1
+                del upper_hull[0:2]
+                upper_hull = [Segment(new_edge_p0, new_edge_p1)] + upper_hull
+            while len(lower_hull) >= 2 and not lower_hull[-1].is_counter_clockwise(lower_hull[-2]):
+                new_edge_p0: Point = lower_hull[-2].p0
+                new_edge_p1: Point = lower_hull[-1].p1
+                del lower_hull[-1:-3:-1]
+                lower_hull.append(Segment(new_edge_p0, new_edge_p1))
+
+        convex_hull = lower_hull + upper_hull
+        return convex_hull
+
+    def plot(self) -> None:
+        _, ax = plt.subplots(figsize=(100, 100))
         ax = cast(plt.Axes, ax)
         ax.scatter([point.x for point in self.set_of_points], [point.y for point in self.set_of_points], c=['k'], s=2)
         ax.grid(which='both', color='grey', linewidth=0.5, linestyle='-', alpha=0.2)
