@@ -1,11 +1,12 @@
-from src.convex_hull.convex_hull import ConvexHull
-from src.point.point import Point
-import random
 import math
+import random
 import time
+
 import matplotlib.pyplot as plt
 
 from src.animation import AlgorithmVisualization
+from src.convex_hull.convex_hull import ConvexHull
+from src.point.point import Point
 
 
 def generate_random_set_of_points(
