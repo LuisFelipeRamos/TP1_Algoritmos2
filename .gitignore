@@ -6,6 +6,7 @@ __pycache__
 
 # Cache do Pytest
 src/test/.pytest_cache
+src/.pytest_cache
 
 # Visualizador de gráficos (@Igor)
 src/.jukit
