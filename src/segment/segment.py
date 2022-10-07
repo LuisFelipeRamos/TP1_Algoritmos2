@@ -14,7 +14,7 @@ class Segment:
         self.length = self.p0.get_distance(p1)
 
     def __repr__(self) -> str:
-        return f"<{self.p0}, {self.p1}>"
+        return f"[{self.p0}, {self.p1}]"
 
     def __lt__(self, other: Segment) -> bool:
         return not self.is_counter_clockwise(other)
