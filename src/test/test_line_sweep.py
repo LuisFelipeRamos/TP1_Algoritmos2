@@ -59,6 +59,30 @@ def test_polygons_intersect_pt2():
     assert not L.check_polygons_intersect(sil)
 
 
+def test_polygons_intersect_pt3():
+    L: LineSweep = LineSweep()
+
+    pol1_a = Point(1, 7)
+    pol1_b = Point(3, 1)
+    pol1_c = Point(10, 1)
+    pol1: list[Segment] = [
+        Segment(pol1_a, pol1_b),
+        Segment(pol1_b, pol1_c),
+        Segment(pol1_c, pol1_a),
+    ]
+    pol2_a = Point(6, 8)
+    pol2_b = Point(7, 7)
+    pol2_c = Point(9, 9)
+    pol2: list[Segment] = [
+        Segment(pol2_a, pol2_b),
+        Segment(pol2_b, pol2_c),
+        Segment(pol2_c, pol2_a),
+    ]
+    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
+    sil.extend((seg, 2) for seg in pol2)
+    assert not L.check_polygons_intersect(sil)
+
+
 def test_get_above_and_below():
     L: LineSweep = LineSweep()
     T: AVLTree = AVLTree()
