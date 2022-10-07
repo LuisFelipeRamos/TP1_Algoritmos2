@@ -21,8 +21,8 @@ def test_is_counter_clockwise():
             Segment(points[1], points[2]),
         ]
 
-        assert segments[0].is_counter_clockwise(segments[1]) == False
-        assert segments[1].is_counter_clockwise(segments[0]) == True
+        assert not segments[0].is_counter_clockwise(segments[1])
+        assert segments[1].is_counter_clockwise(segments[0])
 
 
 def test_invert():

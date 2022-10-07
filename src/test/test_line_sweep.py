@@ -1,7 +1,7 @@
-from src.point import Point
-from src.segment import Segment
 from src.line_sweep import LineSweep
 from src.line_sweep.lib.avl_tree import AVLTree
+from src.point import Point
+from src.segment import Segment
 
 
 def test_polygons_intersect():
@@ -81,8 +81,8 @@ def test_get_above_and_below():
     node = T.search(30)
     above, below = L.get_above_and_below(node, T)
 
-    assert above != None
-    assert below != None
+    assert above is not None
+    assert below is not None
     assert above.val == 31
     assert below.val == 28
 
@@ -90,32 +90,32 @@ def test_get_above_and_below():
     node = T.search(25)
     above, below = L.get_above_and_below(node, T)
 
-    assert below == None
-    assert above != None
+    assert below is None
+    assert above is not None
     assert above.val == 28
 
     # Não existe superior, apenas inferior
     node = T.search(50)
     above, below = L.get_above_and_below(node, T)
 
-    assert below != None
+    assert below is not None
     assert below.val == 42
-    assert above == None
+    assert above is None
 
     # Ambas árvores nulas, mas o pai é superior
     node = T.search(38)
     above, below = L.get_above_and_below(node, T)
 
-    assert below == None
-    assert above != None
+    assert below is None
+    assert above is not None
     assert above.val == 40
 
     # Ambas árvores nulas, mas o pai é inferior
     node = T.search(34)
     above, below = L.get_above_and_below(node, T)
 
-    assert above == None
-    assert below != None
+    assert above is None
+    assert below is not None
     assert below.val == 33
 
 

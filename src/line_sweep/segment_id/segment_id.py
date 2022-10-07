@@ -7,7 +7,9 @@ class SegmentId:
     """
     Esta classe tem dois propósitos:
         1. Evitar o uso de tuplas, provendo acesso direto aos membros com nomes mais descritivos
-        2. Prover um comparador para os elementos da AVL, de modo a não interferir com o comparador de segmentos.
+        2. Prover um comparador para os elementos da AVL,
+        não interferindo com o comparador de segmentos.
+
         Isso também evita um erro de execução.
     """
 

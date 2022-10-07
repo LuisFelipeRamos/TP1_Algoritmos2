@@ -10,10 +10,10 @@ class Event:
         2. Prover um comparador para os eventos, levando em consideração coordenadas e orientação
     """
 
-    def __init__(self, x: float, y: float, l: bool, s: Segment, i: int = -1) -> None:
+    def __init__(self, x: float, y: float, left: bool, s: Segment, i: int = -1) -> None:
         self.x = x
         self.y = y
-        self.isLeft = l
+        self.isLeft = left
         self.segment = s
         self.id = i
 
@@ -23,9 +23,9 @@ class Event:
     def compare(self, other: Event):
         if self.x < other.x:
             return -1
-        if self.x == other.x and self.isLeft == True and other.isLeft == False:
+        if self.x == other.x and self.isLeft is True and other.isLeft is False:
             return -1
-        if self.x == other.x and self.isLeft == False and other.isLeft == True:
+        if self.x == other.x and self.isLeft is False and other.isLeft is True:
             return 1
         if self.x == other.x and self.y < other.y:
             return -1
