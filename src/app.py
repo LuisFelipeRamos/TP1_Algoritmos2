@@ -1,7 +1,7 @@
 import math
 import random
 import time
-
+import numpy as np
 import matplotlib.pyplot as plt
 
 from src.animation import AlgorithmVisualization
@@ -16,10 +16,10 @@ def generate_random_set_of_points(
     for _ in range(number_of_points):
         x: float
         y: float
-        x, y = random.uniform(min_x, max_x) * random.uniform(
-            min_x, max_x
-        ), random.uniform(min_y, max_y) * random.uniform(min_y, max_y)
-        set_of_points.append(Point(math.sqrt(x), math.sqrt(y)))
+        x, y = np.random.normal(50, 10) * np.random.normal(
+            50, 10
+        ), np.random.normal(50, 10) * np.random.normal(50, 10)
+        set_of_points.append(Point(x, y))
     return set_of_points
 
 
@@ -82,6 +82,7 @@ def calculate_times_and_plot():
             "Algoritmo incremental",
         ]
     )
+    plt.savefig('filename.png', dpi=1000)
     plt.xlabel("Número de pontos do conjunto")
     plt.ylabel("Tempo de execução do algoritmo")
     plt.title("Comparação de tempo para cada algoritmo de envoltória convexa")
@@ -96,12 +97,5 @@ def run():
     HEIGHT: int = 600
     number_of_points = 25
 
-    set_of_points = generate_random_set_of_points(
-        number_of_points,
-        SCREEN_MARGIN,
-        WIDTH - SCREEN_MARGIN,
-        SCREEN_MARGIN,
-        HEIGHT - SCREEN_MARGIN,
-    )
-    algo_vis = AlgorithmVisualization(WIDTH, HEIGHT, SCREEN_MARGIN, FPS)
-    algo_vis.animate_convex_hull("incremental", set_of_points)
+   
+    calculate_times_and_plot()
