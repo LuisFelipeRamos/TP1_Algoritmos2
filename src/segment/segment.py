@@ -38,9 +38,7 @@ class Segment:
         Inverte os pontos de um segmento
         Não troca outros membros da classe.
         """
-        temp: Point = self.p0
-        self.p0 = self.p1
-        self.p1 = temp
+        self.p0, self.p1 = self.p1, self.p0
 
     def contains(self, p: Point) -> bool:
         """
