@@ -17,12 +17,20 @@ class SegmentId:
         self.seg = seg
         self.id = id
 
-    def __gt__(self, other: SegmentId) -> bool:
+    def compare(self, other: SegmentId) -> int:
         """
         Comparador usado na AVL
-        y do primeiro ponto (ponto da esquerda)
         """
-        return self.seg.p0.y > other.seg.p0.y
+        if self.seg.p0.y < other.seg.p0.y:
+            return -1
+        if self.seg.p0 == other.seg.p0 and self.seg.p1.y < self.seg.p0.y:
+            return -1
+        if self.seg == other.seg:
+            return 0
+        return 1
+
+    def __gt__(self, other: SegmentId) -> bool:
+        return self.compare(other) > 0
 
     def __repr__(self):
         return f"<{self.seg}, {self.id}>"

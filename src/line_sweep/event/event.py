@@ -20,7 +20,7 @@ class Event:
     def __repr__(self) -> str:
         return f"[({self.x}, {self.y}, {self.isLeft})]"
 
-    def compare(self, other: Event):
+    def compare(self, other: Event) -> int:
         if self.x < other.x:
             return -1
         if self.x == other.x and self.isLeft is True and other.isLeft is False:
@@ -34,5 +34,5 @@ class Event:
         else:
             return 1
 
-    def __lt__(self, other: Event):
+    def __lt__(self, other: Event) -> bool:
         return self.compare(other) < 0
