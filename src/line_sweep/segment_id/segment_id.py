@@ -23,7 +23,7 @@ class SegmentId:
         """
         if self.seg.p0.y < other.seg.p0.y:
             return -1
-        if self.seg.p0 == other.seg.p0 and self.seg.p1.y < self.seg.p0.y:
+        if self.seg.p0 == other.seg.p0 and self.seg.p1.y < other.seg.p1.y:
             return -1
         if self.seg == other.seg:
             return 0
