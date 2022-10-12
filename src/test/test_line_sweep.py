@@ -7,29 +7,29 @@ from src.segment import Segment
 def test_polygons_intersect():
     L: LineSweep = LineSweep()
 
-    pol1_a = Point(1, 1)
-    pol1_b = Point(4, 4)
-    pol1_c = Point(3, 2)
+    A = Point(1, 1)
+    B = Point(4, 4)
+    C = Point(3, 2)
     pol1: list[Segment] = [
-        Segment(pol1_a, pol1_b),
-        Segment(pol1_b, pol1_c),
-        Segment(pol1_c, pol1_a),
+        Segment(A, B),
+        Segment(B, C),
+        Segment(C, A),
     ]
-    pol2_a = Point(3, 2.5)
-    pol2_b = Point(6, 3)
-    pol2_c = Point(6.5, 0.5)
+    D = Point(3, 2.5)
+    E = Point(6, 3)
+    F = Point(6.5, 0.5)
     pol2: list[Segment] = [
-        Segment(pol2_a, pol2_b),
-        Segment(pol2_b, pol2_c),
-        Segment(pol2_c, pol2_a),
+        Segment(D, E),
+        Segment(E, F),
+        Segment(F, D),
     ]
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
     sil.extend((seg, 2) for seg in pol2)
     assert L.check_polygons_intersect(sil)
 
     # Ponto em comum em dois "polígonos" diferentes (no caso linhas, para simplificar)
-    pol1 = [Segment(pol1_a, pol1_b)]
-    pol2 = [Segment(pol1_b, pol2_c)]
+    pol1 = [Segment(A, B)]
+    pol2 = [Segment(B, F)]
     sil = [(seg, 1) for seg in pol1]
     sil.extend((seg, 2) for seg in pol2)
     assert L.check_polygons_intersect(sil)
@@ -38,21 +38,21 @@ def test_polygons_intersect():
 def test_polygons_intersect_pt2():
     L: LineSweep = LineSweep()
 
-    pol1_a = Point(1, 1)
-    pol1_b = Point(4, 4)
-    pol1_c = Point(3, 2)
+    A = Point(1, 1)
+    B = Point(4, 4)
+    C = Point(3, 2)
     pol1: list[Segment] = [
-        Segment(pol1_a, pol1_b),
-        Segment(pol1_b, pol1_c),
-        Segment(pol1_c, pol1_a),
+        Segment(A, B),
+        Segment(B, C),
+        Segment(C, A),
     ]
-    pol2_a = Point(3.5, 2.5)
-    pol2_b = Point(6, 3)
-    pol2_c = Point(6.5, 0.5)
+    D = Point(3.5, 2.5)
+    E = Point(6, 3)
+    F = Point(6.5, 0.5)
     pol2: list[Segment] = [
-        Segment(pol2_a, pol2_b),
-        Segment(pol2_b, pol2_c),
-        Segment(pol2_c, pol2_a),
+        Segment(D, E),
+        Segment(E, F),
+        Segment(F, D),
     ]
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
     sil.extend((seg, 2) for seg in pol2)
@@ -62,21 +62,21 @@ def test_polygons_intersect_pt2():
 def test_polygons_intersect_pt3():
     L: LineSweep = LineSweep()
 
-    pol1_a = Point(1, 7)
-    pol1_b = Point(3, 1)
-    pol1_c = Point(10, 1)
+    A = Point(1, 7)
+    B = Point(3, 1)
+    C = Point(10, 1)
     pol1: list[Segment] = [
-        Segment(pol1_a, pol1_b),
-        Segment(pol1_b, pol1_c),
-        Segment(pol1_c, pol1_a),
+        Segment(A, B),
+        Segment(B, C),
+        Segment(C, A),
     ]
-    pol2_a = Point(6, 8)
-    pol2_b = Point(7, 7)
-    pol2_c = Point(9, 9)
+    D = Point(6, 8)
+    E = Point(7, 7)
+    F = Point(9, 9)
     pol2: list[Segment] = [
-        Segment(pol2_a, pol2_b),
-        Segment(pol2_b, pol2_c),
-        Segment(pol2_c, pol2_a),
+        Segment(D, E),
+        Segment(E, F),
+        Segment(F, D),
     ]
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
     sil.extend((seg, 2) for seg in pol2)
@@ -86,20 +86,20 @@ def test_polygons_intersect_pt3():
 def test_polygons_intersect_pt4():
     L: LineSweep = LineSweep()
 
-    pol1_a = Point(9, 7)
-    pol1_b = Point(3, 1)
-    pol1_c = Point(5, 8)
+    A = Point(9, 7)
+    B = Point(3, 1)
+    C = Point(5, 8)
     pol1: list[Segment] = [
-        Segment(pol1_a, pol1_b),
-        Segment(pol1_b, pol1_c),
+        Segment(A, B),
+        Segment(B, C),
     ]
 
-    pol2_a = Point(4, 4)
-    pol2_b = Point(10, 3)
-    pol2_c = Point(9, 4)
+    D = Point(4, 4)
+    E = Point(10, 3)
+    F = Point(9, 4)
     pol2: list[Segment] = [
-        Segment(pol2_a, pol2_b),
-        Segment(pol2_c, pol2_a),
+        Segment(D, E),
+        Segment(F, D),
     ]
 
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
@@ -111,20 +111,20 @@ def test_polygons_intersect_pt4():
 def test_polygons_intersect_pt5():
     L: LineSweep = LineSweep()
 
-    pol1_a = Point(2, 9)
-    pol1_b = Point(9, 10)
-    pol1_c = Point(10, 4)
+    A = Point(2, 9)
+    B = Point(9, 10)
+    C = Point(10, 4)
     pol1: list[Segment] = [
-        Segment(pol1_a, pol1_b),
-        Segment(pol1_b, pol1_c),
+        Segment(A, B),
+        Segment(B, C),
     ]
 
-    pol2_a = Point(4, 2)
-    pol2_b = Point(8, 1)
-    pol2_c = Point(9, 5)
+    D = Point(4, 2)
+    E = Point(8, 1)
+    F = Point(9, 5)
     pol2: list[Segment] = [
-        Segment(pol2_a, pol2_b),
-        Segment(pol2_c, pol2_a),
+        Segment(D, E),
+        Segment(F, D),
     ]
 
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
