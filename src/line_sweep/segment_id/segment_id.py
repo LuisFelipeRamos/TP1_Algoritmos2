@@ -32,5 +32,8 @@ class SegmentId:
     def __gt__(self, other: SegmentId) -> bool:
         return self.compare(other) > 0
 
+    def __eq__(self, other: SegmentId) -> bool:
+        return self.seg == other.seg and self.id == other.id
+
     def __repr__(self):
         return f"<{self.seg}, {self.id}>"
