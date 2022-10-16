@@ -16,9 +16,7 @@ def generate_random_set_of_points(
     for _ in range(number_of_points):
         x: float
         y: float
-        x, y = np.random.normal(50, 10) * np.random.normal(
-            50, 10
-        ), np.random.normal(50, 10) * np.random.normal(50, 10)
+        x, y = random.uniform(min_x, max_x), random.uniform(min_y, max_y)
         set_of_points.append(Point(x, y))
     return set_of_points
 
@@ -96,6 +94,10 @@ def run():
     WIDTH: int = 600
     HEIGHT: int = 600
     number_of_points = 25
-
+    set_of_points = generate_random_set_of_points(number_of_points, 100, 500, 100, 500)
    
-    calculate_times_and_plot()
+    alg_vis = AlgorithmVisualization(WIDTH, HEIGHT, SCREEN_MARGIN, FPS)
+    #alg_vis.animate_using_gift_wrapping(set_of_points)
+    #alg_vis.animate_using_graham_scan(set_of_points)
+    #alg_vis.animate_using_incremental_alg(set_of_points)
+
