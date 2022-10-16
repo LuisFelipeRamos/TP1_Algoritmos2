@@ -41,15 +41,15 @@ class Segment:
         """
         self.p0, self.p1 = self.p1, self.p0
 
-    def contains(self, p: Point) -> bool:
+    def contains(self, point: Point) -> bool:
         """
         Confere se um ponto está no intervalo aberto do segmento
         """
         return (
-            p.x < max(self.p0.x, self.p1.x)
-            and p.x > min(self.p0.x, self.p1.x)
-            and p.y < max(self.p0.y, self.p1.y)
-            and p.y > min(self.p0.y, self.p1.y)
+            point.x <= max(self.p0.x, self.p1.x)
+            and point.x >= min(self.p0.x, self.p1.x)
+            and point.y <= max(self.p0.y, self.p1.y)
+            and point.y >= min(self.p0.y, self.p1.y)
         )
 
     def orientation(self, point: Point) -> int:
@@ -69,10 +69,6 @@ class Segment:
         """
         Confere se um segmento intersecta outro
         """
-        # Quando o segmento repete ele se intersecta
-        if self == other:
-            return True
-
         d_1: int = self.orientation(other.p0)
         d_2: int = self.orientation(other.p1)
         d_3: int = other.orientation(self.p0)
