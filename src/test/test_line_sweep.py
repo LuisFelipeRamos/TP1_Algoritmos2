@@ -138,20 +138,12 @@ def test_polygons_intersect_pt6():
     A = Point(4, 6)
     B = Point(8, 5)
     C = Point(1, 4)
-    pol1: list[Segment] = [
-        Segment(A, B),
-        Segment(A, C),
-        Segment(B, C),
-    ]
+    pol1: list[Segment] = [Segment(A, B), Segment(B, C)]
 
     D = Point(5, 3)
     E = Point(9, 5)
     F = Point(9, 7)
-    pol2: list[Segment] = [
-        Segment(D, E),
-        Segment(E, F),
-        Segment(F, D),
-    ]
+    pol2: list[Segment] = [Segment(D, E), Segment(F, D)]
 
     sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
     sil.extend((seg, 2) for seg in pol2)
