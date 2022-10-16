@@ -1,3 +1,5 @@
+# pylint: skip-file
+# flake8: noqa
 """
 AVL Tree. 
 Balanced Binary Search Tree. Gurantee for balance.

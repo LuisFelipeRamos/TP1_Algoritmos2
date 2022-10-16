@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLTree
 from src.line_sweep.segment_id import SegmentId
@@ -42,12 +43,16 @@ class LineSweep:
                 above, below = self.get_above_and_below(node, tree_segments)
 
                 # Não basta que um segmento intesecte outro,
-                # é necessário que eles sejam de polígonos diferentes
+                # é necessário que eles sejam de polígonos diferentes,
+                # ou seja, é preciso conferir os identificadores
                 if (
                     above is not None
                     and segment.seg.intersects(above.val.seg)
                     and segment.identifier != above.val.identifier
-                    or below is not None
+                ):
+                    return True
+                if (
+                    below is not None
                     and segment.seg.intersects(below.val.seg)
                     and segment.identifier != below.val.identifier
                 ):
