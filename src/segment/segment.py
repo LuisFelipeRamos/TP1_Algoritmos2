@@ -51,19 +51,18 @@ class Segment:
             and p.y > min(self.p0.y, self.p1.y)
         )
 
-    def orientation(self, p: Point) -> int:
+    def orientation(self, point: Point) -> int:
         """
         Checa se um ponto é colinear, está orientado no sentido horário ou anti-horário
         """
-        key: float = (self.p1.y - self.p0.y) * (p.x - self.p1.x) - (
+        key: float = (self.p1.y - self.p0.y) * (point.x - self.p1.x) - (
             self.p1.x - self.p0.x
-        ) * (p.y - self.p1.y)
+        ) * (point.y - self.p1.y)
         if key > 0:
             return 1
-        elif key < 0:
+        if key < 0:
             return -1
-        else:
-            return 0
+        return 0
 
     def intersects(self, other: Segment) -> bool:
         """
@@ -73,24 +72,24 @@ class Segment:
         if self == other:
             return True
 
-        d1: int = self.orientation(other.p0)
-        d2: int = self.orientation(other.p1)
-        d3: int = other.orientation(self.p0)
-        d4: int = other.orientation(self.p1)
+        d_1: int = self.orientation(other.p0)
+        d_2: int = self.orientation(other.p1)
+        d_3: int = other.orientation(self.p0)
+        d_4: int = other.orientation(self.p1)
 
-        if d1 != d2 and d3 != d4:
+        if d_1 != d_2 and d_3 != d_4:
             return True
 
-        if d1 == 0 and self.contains(other.p0):
+        if d_1 == 0 and self.contains(other.p0):
             return True
 
-        if d2 == 0 and self.contains(other.p1):
+        if d_2 == 0 and self.contains(other.p1):
             return True
 
-        if d3 == 0 and other.contains(self.p0):
+        if d_3 == 0 and other.contains(self.p0):
             return True
 
-        if d4 == 0 and other.contains(self.p1):
+        if d_4 == 0 and other.contains(self.p1):
             return True
 
         return False

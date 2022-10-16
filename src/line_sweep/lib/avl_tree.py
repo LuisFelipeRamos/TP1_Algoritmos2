@@ -19,8 +19,8 @@ Reference: https://en.wikipedia.org/wiki/AVL_tree
 Reference: https://github.com/pgrafov/python-avl-tree/blob/master/pyavltree.py
 """
 
-from collections import deque
 import random
+from collections import deque
 
 
 class AVLNode:
@@ -77,14 +77,14 @@ class AVLTree:
         else:
             return -1
 
-    def _findSmallest(self, start_node):
+    def findSmallest(self, start_node):
         assert not start_node is None
         node = start_node
         while node.left:
             node = node.left
         return node
 
-    def _findBiggest(self, start_node):
+    def findBiggest(self, start_node):
         assert not start_node is None
         node = start_node
         while node.right:
@@ -402,7 +402,7 @@ class AVLTree:
             node = node.parent
 
     def _swapWithSuccessorAndRemove(self, node):
-        successor = self._findSmallest(node.right)
+        successor = self.findSmallest(node.right)
         self._swapNodes(node, successor)
         assert node.left is None
         if node.height == 0:

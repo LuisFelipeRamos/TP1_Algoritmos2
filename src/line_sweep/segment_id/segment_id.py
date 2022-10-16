@@ -13,9 +13,9 @@ class SegmentId:
         Isso também evita um erro de execução.
     """
 
-    def __init__(self, seg: Segment, id: int) -> None:
+    def __init__(self, seg: Segment, identifier: int) -> None:
         self.seg = seg
-        self.id = id
+        self.identifier = identifier
 
     def compare(self, other: SegmentId) -> int:
         """
@@ -33,7 +33,7 @@ class SegmentId:
         return self.compare(other) > 0
 
     def __eq__(self, other: SegmentId) -> bool:
-        return self.seg == other.seg and self.id == other.id
+        return self.seg == other.seg and self.identifier == other.identifier
 
     def __repr__(self):
-        return f"<{self.seg}, {self.id}>"
+        return f"<{self.seg}, {self.identifier}>"

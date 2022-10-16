@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring, missing-module-docstring
 from src.point import Point
 from src.segment import Segment
 

@@ -1,3 +1,4 @@
+# pylint: disable=missing-function-docstring, missing-module-docstring
 from src.line_sweep import LineSweep
 from src.line_sweep.lib.avl_tree import AVLTree
 from src.point import Point
@@ -135,25 +136,25 @@ def test_polygons_intersect_pt5():
 
 def test_get_above_and_below():
     L: LineSweep = LineSweep()
-    T: AVLTree = AVLTree()
-    T.insert(35)
+    tree: AVLTree = AVLTree()
+    tree.insert(35)
 
-    T.insert(40)
-    T.insert(30)
+    tree.insert(40)
+    tree.insert(30)
 
-    T.insert(50)
-    T.insert(25)
-    T.insert(33)
-    T.insert(38)
+    tree.insert(50)
+    tree.insert(25)
+    tree.insert(33)
+    tree.insert(38)
 
-    T.insert(28)
-    T.insert(31)
-    T.insert(34)
-    T.insert(42)
+    tree.insert(28)
+    tree.insert(31)
+    tree.insert(34)
+    tree.insert(42)
 
     # Ambas sub-árvores existem
-    node = T.search(30)
-    above, below = L.get_above_and_below(node, T)
+    node = tree.search(30)
+    above, below = L.get_above_and_below(node, tree)
 
     assert above is not None
     assert below is not None
@@ -161,32 +162,32 @@ def test_get_above_and_below():
     assert below.val == 28
 
     # Não existe inferior, apenas superior
-    node = T.search(25)
-    above, below = L.get_above_and_below(node, T)
+    node = tree.search(25)
+    above, below = L.get_above_and_below(node, tree)
 
     assert below is None
     assert above is not None
     assert above.val == 28
 
     # Não existe superior, apenas inferior
-    node = T.search(50)
-    above, below = L.get_above_and_below(node, T)
+    node = tree.search(50)
+    above, below = L.get_above_and_below(node, tree)
 
     assert below is not None
     assert below.val == 42
     assert above is None
 
     # Ambas árvores nulas, mas o pai é superior
-    node = T.search(38)
-    above, below = L.get_above_and_below(node, T)
+    node = tree.search(38)
+    above, below = L.get_above_and_below(node, tree)
 
     assert below is None
     assert above is not None
     assert above.val == 40
 
     # Ambas árvores nulas, mas o pai é inferior
-    node = T.search(34)
-    above, below = L.get_above_and_below(node, T)
+    node = tree.search(34)
+    above, below = L.get_above_and_below(node, tree)
 
     assert above is None
     assert below is not None
