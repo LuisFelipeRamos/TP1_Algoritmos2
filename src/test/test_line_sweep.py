@@ -113,18 +113,43 @@ def test_polygons_intersect_pt5():
     L: LineSweep = LineSweep()
 
     A = Point(2, 9)
-    B = Point(9, 10)
+    B = Point(10, 11)
     C = Point(10, 4)
     pol1: list[Segment] = [
         Segment(A, B),
-        Segment(B, C),
+        Segment(A, C),
     ]
 
     D = Point(4, 2)
-    E = Point(8, 1)
-    F = Point(9, 5)
+    F = Point(9, 6)
+    pol2: list[Segment] = [
+        Segment(F, D),
+    ]
+
+    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
+    sil.extend((seg, 2) for seg in pol2)
+
+    assert L.check_polygons_intersect(sil)
+
+
+def test_polygons_intersect_pt6():
+    L: LineSweep = LineSweep()
+
+    A = Point(4, 6)
+    B = Point(8, 5)
+    C = Point(1, 4)
+    pol1: list[Segment] = [
+        Segment(A, B),
+        Segment(A, C),
+        Segment(B, C),
+    ]
+
+    D = Point(5, 3)
+    E = Point(9, 5)
+    F = Point(9, 7)
     pol2: list[Segment] = [
         Segment(D, E),
+        Segment(E, F),
         Segment(F, D),
     ]
 

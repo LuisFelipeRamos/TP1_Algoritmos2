@@ -17,6 +17,9 @@ class SegmentId:
     def __init__(self, seg: Segment, identifier: int) -> None:
         self.seg = seg
         self.identifier = identifier
+        self.slope = (
+            (seg.p1.y - seg.p0.y) / (seg.p1.x - seg.p0.x) if seg.p1.x != seg.p0.x else 0
+        )
 
     def compare(self, other: SegmentId) -> int:
         """
@@ -24,9 +27,11 @@ class SegmentId:
         """
         if self.seg.p0.y < other.seg.p0.y:
             return -1
-        if self.seg.p0 == other.seg.p0 and self.seg.p1.y < other.seg.p1.y:
+        if self.seg.p0.y == other.seg.p0.y and self.seg.p0.x < other.seg.p0.x:
             return -1
-        if self.seg == other.seg:
+        if self.seg.p0 == other.seg.p0 and self.slope < other.slope:
+            return -1
+        if self.seg.p0 == other.seg.p0 and self.seg.p1 == other.seg.p1:
             return 0
         return 1
 

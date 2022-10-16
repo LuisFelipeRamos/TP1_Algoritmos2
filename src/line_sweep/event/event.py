@@ -24,7 +24,7 @@ class Event:
 
     def compare(self, other: Event) -> int:
         """
-        Compare inicialmente pelo X,
+        Compare inicialmente pelo x,
         use orientação como critério de desempate (esquerda é menor),
         use y como segundo critério de desempate
         """
