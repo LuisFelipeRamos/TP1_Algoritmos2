@@ -169,7 +169,7 @@ def test_get_above_and_below():
     tree.insert(34)
     tree.insert(42)
 
-    # Ambas sub-árvores existem
+    # Ambas subárvores existem
     node = tree.search(30)
     above, below = L.get_above_and_below(node, tree)
 

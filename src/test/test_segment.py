@@ -73,7 +73,7 @@ def test_intersects():
     # Colinearidade
     assert seg2.intersects(seg4)
 
-    # Não há intereseção
+    # Não há interseção
     assert not seg1.intersects(seg3)
 
     # Colinearidade "fora"

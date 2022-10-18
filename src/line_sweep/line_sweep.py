@@ -16,7 +16,7 @@ class LineSweep:
         Confere se um conjunto de polígonos se possui alguma interseção entre pelo menos 2 polígonos
         Cada polígono é uma lista de tuplas (Segmento, ID). Todos os segmentos são buscados
         para verificar a interseção, de modo que a flag ID é usada
-        para descartar intereseções de um polígono com ele mesmo.
+        para descartar interseções de um polígono com ele mesmo.
         """
 
         # Inverte os segmentos para pode inseri-los mais facilmente na lista de eventos
@@ -42,7 +42,7 @@ class LineSweep:
                 node = tree_segments.search(segment)
                 above, below = self.get_above_and_below(node, tree_segments)
 
-                # Não basta que um segmento intesecte outro,
+                # Não basta que um segmento intercepte outro,
                 # é necessário que eles sejam de polígonos diferentes,
                 # ou seja, é preciso conferir os identificadores
                 if (
@@ -78,25 +78,25 @@ class LineSweep:
         ou em baixo (maior menor) de um dado nó em uma árvore
 
         Como essa função só é usada na varredura linear e para evitar alterações na biblioteca,
-        averigou-se adequado manter a função nesta classe
+        averiguou-se adequado manter a função nesta classe
         """
         above = None
         below = None
         if node is not None:
             # Assume-se que os nós de cima e de baixo estão, na subárvore que começa no pai
-            # O segmento que melhor aproxima o atual por BAIXO é o MAIOR da sub-árvore da esquerda
-            # O maior da esquerda é o "menor maior" da sub-árvore
+            # O segmento que melhor aproxima o atual por BAIXO é o MAIOR da subárvore da esquerda
+            # O maior da esquerda é o "menor maior" da subárvore
             if node.left is not None:
                 below = tree.findBiggest(node.left)
-            # O segmento que melhor aproxima o atual por CIMA é o MENOR da sub-árvore da direita
-            # O menor da direita é o "maior menor" da sub-árvore
+            # O segmento que melhor aproxima o atual por CIMA é o MENOR da subárvore da direita
+            # O menor da direita é o "maior menor" da subárvore
             if node.right is not None:
                 above = tree.findSmallest(node.right)
             if node.parent is not None:
                 # Existe a possibilidade de o superior (above) ser nulo
                 # e o nodo em questão ser o filho da esquerda (menor que o pai)
                 #
-                # Como não existe ninguém maior que o nodo na sua sub-árvore da direita
+                # Como não existe ninguém maior que o nodo na sua subárvore da direita
                 # o maior mais próximo é seu pai
                 #
                 #       7
