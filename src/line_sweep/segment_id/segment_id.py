@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
+import src.line_sweep.glob as gb
 from src.segment import Segment
 
 
@@ -22,13 +23,9 @@ class SegmentId:
         """
         Comparador usado na AVL
         """
-        if self.seg.p0.y < other.seg.p0.y:
-            return -1
-        if self.seg.p0.y == other.seg.p0.y and self.seg.slope < other.seg.slope:
-            return -1
-        if self.seg.p0.y == other.seg.p0.y and self.seg.slope == other.seg.slope:
-            return 0
-        return 1
+        y_self = self.seg.slope * gb.xxx + self.seg.linear
+        y_other = other.seg.slope * gb.xxx + other.seg.linear
+        return y_self < y_other
 
     def __gt__(self, other: SegmentId) -> bool:
         return self.compare(other) > 0

@@ -1,4 +1,5 @@
 # pylint: disable=missing-module-docstring
+import src.line_sweep.glob as gb
 from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLNode, AVLTree
 from src.line_sweep.segment_id import SegmentId
@@ -29,6 +30,7 @@ class LineSweep:
         events.sort()
 
         tree_segments: AVLTree = AVLTree()
+        eps = 0.000001
 
         # Alguma variáveis não podem ser tipadas porque a biblioteca de AVL não é tipada
         for event in events:
@@ -38,6 +40,7 @@ class LineSweep:
             segment: SegmentId = SegmentId(event.segment, event.identifier)
 
             if event.is_left:
+                gb.xxx = segment.seg.p0.x + eps
                 tree_segments.insert(segment)
                 node = tree_segments.search(segment)
                 if node is not None:

@@ -194,8 +194,6 @@ def test_polygons_intersect_pt8():
 
 
 def test_polygons_intersect_pt9():
-    # [[(10, 4), (2, 10)], [(9, 7), (10, 4)], [(2, 10), (9, 7)]]
-    # [[(7, 7), (5, 9)], [(10, 10), (7, 7)], [(5, 9), (10, 10)]]
 
     L: LineSweep = LineSweep()
 
@@ -203,8 +201,8 @@ def test_polygons_intersect_pt9():
     B = Point(2, 10)
     C = Point(9, 7)
     pol1: list[Segment] = [
-        Segment(B, C),
         Segment(A, B),
+        Segment(B, C),
     ]
 
     D = Point(7, 7)

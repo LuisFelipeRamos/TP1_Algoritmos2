@@ -18,6 +18,8 @@ class Segment:
             else 0
         )
 
+        self.linear = self.p0.y - self.slope * self.p0.x
+
         self.length = self.p0.get_distance(p1)
 
     def __repr__(self) -> str:
