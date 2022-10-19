@@ -1,9 +1,10 @@
+from ast import arg
 import math
 import random
 import time
 import numpy as np
 import matplotlib.pyplot as plt
-
+import argparse
 
 from src.animation import AlgorithmVisualization
 from src.convex_hull.convex_hull import ConvexHull
@@ -90,6 +91,11 @@ def calculate_times_and_plot():
 
 
 def run():
+    
+    parser = argparse.ArgumentParser(description="Recebe arquivos .dat para checar se são linearmente separáveis")
+    parser.add_argument("--file", dest="file", required=True, type=str, help="arquivo .dat que contêm dados a serem treinados")
+    args = parser.parse_args()
+    
     
     
 
