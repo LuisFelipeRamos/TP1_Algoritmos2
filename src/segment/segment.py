@@ -12,6 +12,12 @@ class Segment:
         self.x = p1.x - p0.x
         self.y = p1.y - p0.y
 
+        self.slope = (
+            (self.p1.y - self.p0.y) / (self.p1.x - self.p0.x)
+            if self.p1.x != self.p0.x
+            else 0
+        )
+
         self.length = self.p0.get_distance(p1)
 
     def __repr__(self) -> str:

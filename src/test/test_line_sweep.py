@@ -151,6 +151,74 @@ def test_polygons_intersect_pt6():
     assert L.check_polygons_intersect(sil)
 
 
+def test_polygons_intersect_pt7():
+    L: LineSweep = LineSweep()
+
+    A = Point(3, 10)
+    B = Point(6, 10)
+    C = Point(8, 5)
+    pol1: list[Segment] = [Segment(A, B), Segment(C, A)]
+
+    D = Point(8, 2)
+    E = Point(10, 5)
+    F = Point(3, 6)
+    pol2: list[Segment] = [Segment(D, F), Segment(F, E)]
+
+    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
+    sil.extend((seg, 2) for seg in pol2)
+
+    assert L.check_polygons_intersect(sil)
+
+
+def test_polygons_intersect_pt8():
+    L: LineSweep = LineSweep()
+
+    A = Point(4, 7)
+    B = Point(7, 1)
+    C = Point(5, 4)
+    pol1: list[Segment] = [
+        Segment(A, B),
+        Segment(A, C),
+    ]
+
+    E = Point(10, 7)
+    F = Point(2, 7)
+    pol2: list[Segment] = [
+        Segment(E, F),
+    ]
+
+    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
+    sil.extend((seg, 2) for seg in pol2)
+
+    assert L.check_polygons_intersect(sil)
+
+
+def test_polygons_intersect_pt9():
+    # [[(10, 4), (2, 10)], [(9, 7), (10, 4)], [(2, 10), (9, 7)]]
+    # [[(7, 7), (5, 9)], [(10, 10), (7, 7)], [(5, 9), (10, 10)]]
+
+    L: LineSweep = LineSweep()
+
+    A = Point(10, 4)
+    B = Point(2, 10)
+    C = Point(9, 7)
+    pol1: list[Segment] = [
+        Segment(B, C),
+        Segment(A, B),
+    ]
+
+    D = Point(7, 7)
+    E = Point(5, 9)
+    pol2: list[Segment] = [
+        Segment(D, E),
+    ]
+
+    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
+    sil.extend((seg, 2) for seg in pol2)
+
+    assert L.check_polygons_intersect(sil)
+
+
 def test_get_above_and_below():
     L: LineSweep = LineSweep()
     tree: AVLTree = AVLTree()
