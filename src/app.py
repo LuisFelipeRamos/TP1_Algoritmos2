@@ -4,6 +4,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 from src.animation import AlgorithmVisualization
 from src.convex_hull.convex_hull import ConvexHull
 from src.point.point import Point
@@ -89,17 +90,8 @@ def calculate_times_and_plot():
 
 
 def run():
-    FPS: int = 60
-    SCREEN_MARGIN: int = 100
-    WIDTH: int = 600
-    HEIGHT: int = 600
-    number_of_points = 25
-    set_of_points = generate_random_set_of_points(number_of_points, 100, 500, 100, 500)
-   
-    #alg_vis = AlgorithmVisualization(WIDTH, HEIGHT, SCREEN_MARGIN, FPS)
-    #alg_vis.animate_using_gift_wrapping(set_of_points)
-    #alg_vis.animate_using_graham_scan(set_of_points)
-    #alg_vis.animate_using_incremental_alg(set_of_points)
+    
+    
 
     
 
