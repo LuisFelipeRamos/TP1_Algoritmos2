@@ -1,6 +1,6 @@
 # pylint: disable=missing-module-docstring
 from src.line_sweep.event import Event
-from src.line_sweep.lib.avl_tree import AVLTree
+from src.line_sweep.lib.avl_tree import AVLNode, AVLTree
 from src.line_sweep.segment_id import SegmentId
 from src.segment import Segment
 
@@ -40,39 +40,41 @@ class LineSweep:
             if event.is_left:
                 tree_segments.insert(segment)
                 node = tree_segments.search(segment)
-                above, below = self.get_above_and_below(node, tree_segments)
+                if node is not None:
+                    above, below = self.get_above_and_below(node, tree_segments)
 
-                # Não basta que um segmento intercepte outro,
-                # é necessário que eles sejam de polígonos diferentes,
-                # ou seja, é preciso conferir os identificadores
-                if (
-                    above is not None
-                    and segment.seg.intersects(above.val.seg)
-                    and segment.identifier != above.val.identifier
-                ):
-                    return True
-                if (
-                    below is not None
-                    and segment.seg.intersects(below.val.seg)
-                    and segment.identifier != below.val.identifier
-                ):
-                    return True
+                    # Não basta que um segmento intercepte outro,
+                    # é necessário que eles sejam de polígonos diferentes,
+                    # ou seja, é preciso conferir os identificadores
+                    if (
+                        above is not None
+                        and segment.seg.intersects(above.val.seg)
+                        and segment.identifier != above.val.identifier
+                    ):
+                        return True
+                    if (
+                        below is not None
+                        and segment.seg.intersects(below.val.seg)
+                        and segment.identifier != below.val.identifier
+                    ):
+                        return True
             else:
                 node = tree_segments.search(segment)
-                above, below = self.get_above_and_below(node, tree_segments)
+                if node is not None:
+                    above, below = self.get_above_and_below(node, tree_segments)
 
-                if (
-                    above is not None
-                    and below is not None
-                    and above.val.seg.intersects(below.val.seg)
-                    and above.val.identifier != below.val.identifier
-                ):
-                    return True
+                    if (
+                        above is not None
+                        and below is not None
+                        and above.val.seg.intersects(below.val.seg)
+                        and above.val.identifier != below.val.identifier
+                    ):
+                        return True
 
                 tree_segments.delete(segment)
         return False
 
-    def get_above_and_below(self, node, tree: AVLTree):
+    def get_above_and_below(self, node: AVLNode, tree: AVLTree):
         """
         Função auxiliar para determinar os nós que estão em cima (menor maior)
         ou em baixo (maior menor) de um dado nó em uma árvore
@@ -82,44 +84,34 @@ class LineSweep:
         """
         above = None
         below = None
-        if node is not None:
-            # Assume-se que os nós de cima e de baixo estão, na subárvore que começa no pai
-            # O segmento que melhor aproxima o atual por BAIXO é o MAIOR da subárvore da esquerda
-            # O maior da esquerda é o "menor maior" da subárvore
-            if node.left is not None:
-                below = tree.findBiggest(node.left)
-            # O segmento que melhor aproxima o atual por CIMA é o MENOR da subárvore da direita
-            # O menor da direita é o "maior menor" da subárvore
-            if node.right is not None:
-                above = tree.findSmallest(node.right)
+        # O segmento que melhor aproxima o atual por BAIXO é o MAIOR da subárvore da esquerda
+        # (quando ela existe)
+        if node.left is not None:
+            below = tree.findBiggest(node.left)
+        # O segmento que melhor aproxima o atual por CIMA é o MENOR da subárvore da direita
+        # (quando ela existe)
+        if node.right is not None:
+            above = tree.findSmallest(node.right)
+        # Caso as subárvores a partir do nó não existam, é necessário olhar os ancestrais
+        value = node.val
+        if below is None:
             if node.parent is not None:
-                # Existe a possibilidade de o superior (above) ser nulo
-                # e o nodo em questão ser o filho da esquerda (menor que o pai)
-                #
-                # Como não existe ninguém maior que o nodo na sua subárvore da direita
-                # o maior mais próximo é seu pai
-                #
-                #       7
-                #      / \
-                #    *4 NULL
-                #    / \
-                #   3 NULL
-                #
-                # Árvore não balanceada a título de ilustração
-                if node.parent.left == node and above is None:
-                    above = node.parent
-                # Similarmente, é possível considerar o caso análogo: inferior (below) ser nulo
-                # e ser o filho da direita (maior que o pai), logo o menor mais próximo é o pai
-                #
-                #       7
-                #      / \
-                #    NULL 9*
-                #        / \
-                #      NULL 11
-                #
-                # Árvore não balanceada a título de ilustração
-                if node.parent.right == node and below is None:
-                    below = node.parent
+                node_iterator = node.parent
+                while node_iterator is not None:
+                    # Procura-se o primeiro ancestral menor para ser o inferior
+                    if value > node_iterator.val:
+                        below = node_iterator
+                        break
+                    node_iterator = node_iterator.parent
+        if above is None:
+            if node.parent is not None:
+                node_iterator = node.parent
+                while node_iterator is not None:
+                    # Procura-se o primeiro ancestral maior para ser o superior
+                    if node_iterator.val > value:
+                        above = node_iterator
+                        break
+                    node_iterator = node_iterator.parent
         return above, below
 
     def invert_segments(self, set_of_segments: list[Segment]) -> None:

@@ -171,42 +171,49 @@ def test_get_above_and_below():
 
     # Ambas subárvores existem
     node = tree.search(30)
+    assert node is not None
     above, below = L.get_above_and_below(node, tree)
 
     assert above is not None
-    assert below is not None
     assert above.val == 31
+    assert below is not None
     assert below.val == 28
 
     # Não existe inferior, apenas superior
     node = tree.search(25)
+    assert node is not None
     above, below = L.get_above_and_below(node, tree)
 
-    assert below is None
     assert above is not None
     assert above.val == 28
+    assert below is None
 
     # Não existe superior, apenas inferior
     node = tree.search(50)
+    assert node is not None
     above, below = L.get_above_and_below(node, tree)
 
+    assert above is None
     assert below is not None
     assert below.val == 42
-    assert above is None
 
     # Ambas árvores nulas, mas o pai é superior
     node = tree.search(38)
+    assert node is not None
     above, below = L.get_above_and_below(node, tree)
 
-    assert below is None
     assert above is not None
     assert above.val == 40
+    assert below is not None
+    assert below.val == 35
 
     # Ambas árvores nulas, mas o pai é inferior
     node = tree.search(34)
+    assert node is not None
     above, below = L.get_above_and_below(node, tree)
 
-    assert above is None
+    assert above is not None
+    assert above.val == 35
     assert below is not None
     assert below.val == 33
 
