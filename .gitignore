@@ -19,3 +19,6 @@ src/demo/*.py
 docs/report/report.*
 !docs/report/report.tex
 !docs/report/report.pdf
+
+# arquivos de treinamento
+src/data_import/data
