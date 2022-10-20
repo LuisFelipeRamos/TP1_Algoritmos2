@@ -10,44 +10,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-# |%%--%%| <ZAFA9kUHdR|ZYYROKu0oG>
-"""°°°
 
-
-#Definindo classe ponto
-°°°"""
-# |%%--%%| <ZYYROKu0oG|khevz5zl1U>
-
-
-class Point:
-    def __init__(self, x: float, y: float) -> None:
-        self.x = x
-        self.y = y
-
-    def __repr__(self) -> str:
-        return f"({self.x}, {self.y})"
-
-    def __lt__(self, other) -> bool:
-        return self.y < other.y if self.y != other.y else self.x < other.x
-
-    def __gt__(self, other) -> bool:
-        return self.y > other.y if self.y != other.y else self.x > other.x
-
-    def __eq__(self, other) -> bool:
-        return self.x == other.x and self.y == other.y
-
-    def __ne__(self, other) -> bool:
-        return self.x != other.x or self.y != other.y
-
-    def get_distance(self, other) -> float:
-        return math.sqrt(math.pow(self.x - other.x, 2) + math.pow(self.y - other.y, 2))
-
-
-# |%%--%%| <khevz5zl1U|itM4UnEzb8>
-"""°°°
 # Importando o banco de dados como um DataFrame pandas
-°°°"""
-# |%%--%%| <itM4UnEzb8|Rm7Ga28mSc>
 
 """ col_names_banana = ['At1', 'At2', 'Class']
 banana=pd.read_csv('./data/banana.dat', names=col_names_banana)
@@ -58,11 +22,8 @@ iris = pd.read_csv("./data/iris.dat", names=col_names_iris)
 print(iris)
 
 
-# |%%--%%| <Rm7Ga28mSc|6JxSjWPUv9>
-"""°°°
+
 # Separando as classes do Dataframe Banana e criando partições de treino e teste dos dados
-°°°"""
-# |%%--%%| <6JxSjWPUv9|BqGFVjq3nL>
 
 bananaclass1 = banana[banana["Class"] == 1]
 bananaclass2 = banana[banana["Class"] == -1]
