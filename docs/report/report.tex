@@ -161,6 +161,16 @@ Todas as animações feitas foram dos três algoritmos de cálculo da envoltóri
 
 Não vamos nos estender muito em realção à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos, além de que deixaremos ao final desta documentação instruções caso queiram rodar as animações localmente.
 
+\subsection{Funções}
+
+\subsubsection{Segmento de menor distância entre vértices das envoltórias}
+
+Para casos em que podemos separar linearmente as envoltórias, devemos seguir, conforme especifica o enunciado do trabalho, alguns passos para facilitar as computações. O primeiro deles é encontrar o segmento que une dois vértices, um de cada envoltória, de modo que a distância entre esses vértices seja a menor possível.
+
+Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem intersecção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
+
+De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Na função em que calculamos o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles comamenor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
+
 \section{Análise experimental dos dados}
 
 \subsection{Processamento dos dados}
