@@ -25,7 +25,9 @@ class LineSweep:
         polygons.extend((segment, 2) for segment in polygon2)
 
         # Inverte os segmentos para pode inseri-los mais facilmente na lista de eventos
-        self.invert_segments([segment for segment, _ in polygons])
+        for segment, _ in polygons:
+            if segment.p0.x > segment.p1.x:
+                segment.invert()
 
         events: list[Event] = [
             Event(segment.p0, True, segment, id) for segment, id in polygons
@@ -120,11 +122,3 @@ class LineSweep:
                         break
                     node_iterator = node_iterator.parent
         return above, below
-
-    def invert_segments(self, set_of_segments: list[Segment]) -> None:
-        """
-        Função auxiliar para inserir os pontos da esquerda do segmento antes
-        """
-        for segment in set_of_segments:
-            if segment.p0.x > segment.p1.x:
-                segment.invert()

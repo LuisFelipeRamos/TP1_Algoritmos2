@@ -273,18 +273,3 @@ def test_get_above_and_below() -> None:
     assert above.val == 35
     assert below is not None
     assert below.val == 33
-
-
-def test_invert_segments() -> None:
-    L: LineSweep = LineSweep()
-    set_of_segments: list[Segment] = [
-        Segment(Point(4, 4), Point(1, 1)),
-        Segment(Point(2, 3), Point(3, 2)),
-    ]
-    L.invert_segments(set_of_segments)
-
-    inverted_segments: list[Segment] = [
-        Segment(Point(1, 1), Point(4, 4)),
-        Segment(Point(2, 3), Point(3, 2)),
-    ]
-    assert [p1 == p2 for p1, p2 in zip(set_of_segments, inverted_segments)]
