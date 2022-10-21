@@ -19,7 +19,7 @@ def generate_random_set_of_points(
     return set_of_points
 
 
-def calculate_times_and_plot():
+def calculate_times_and_plot() -> None:
     l: list[list[float]] = []
     SCREEN_MARGIN: int = 0
     WIDTH: int = 600
