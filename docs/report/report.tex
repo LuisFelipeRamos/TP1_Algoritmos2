@@ -122,7 +122,7 @@ O segundo parâmetro desse construtor define qual o algoritmo que deve ser utili
 	      O algoritmo incremental, assim como o anterior, possui um gargalo de complexidade provido pela ordenação dos pontos do conjunto inicial em relação à sua coordenada \( x \), além de prover grande estabilidade ao código como um todo.
 \end{enumerate}
 
-Abaixo, podemos ver gráficos que demonstram como os diferentes algoritmos se comportaram para pontos gerados aleatoriamente no eixo das coordenadas. A randomicidade dos pontos foi feita por meio da biblioteca \textit{random}, da linguagem Python, e portanto nenhuma distribuição de probabilidade específica afetou esses valores. Geramos, então, para conjuntos variando entre 3 pontos e 100 pontos, 100 envoltórias, e pegamos a média do tempo de geração delas, para cada algoritmo. Tivemos o seguinte gráfico como resultado.
+Abaixo, podemos ver gráficos que demonstram como os diferentes algoritmos se comportaram para pontos gerados aleatoriamente no eixo das coordenadas. A aleatoriedade dos pontos foi feita por meio da biblioteca \textit{random}, da linguagem Python, e portanto nenhuma distribuição de probabilidade específica afetou esses valores. Geramos, então, para conjuntos variando entre 3 pontos e 100 pontos, 100 envoltórias, e pegamos a média do tempo de geração delas, para cada algoritmo. Tivemos o seguinte gráfico como resultado.
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{uniform.png}
@@ -153,13 +153,13 @@ Após essas análises concluímos então que a melhor opção para utilizarmos n
 
 \subsubsection{AlgorithmVisualization}
 
-A classe AlgorithmVisualization não faz parte do escopo do trabalho, e foi feita apenas para que pudessemos visualizar bem como os algoritmos estavam sendo executados, além de auxiliar na correção de bugs encontrados ao longo da execução.
+A classe \texttt{AlgorithmVisualization} não faz parte do escopo do trabalho, e foi feita apenas para que pudéssemos visualizar bem como os algoritmos estavam sendo executados, além de auxiliar na correção de bugs encontrados ao longo da execução.
 
-Utilizamos a biblioteca Pygame, uma biblioteca da inguagem Pyhton destinada à criação de jogos simples, para a criação dessas animações. Optamos em utilizá-la para isso pois alguns integrantes da equipe já tinham familiaridade com a tecnologia e porque sua documentação é bem completa.
+Utilizamos a biblioteca \texttt{pygame}, uma biblioteca da linguagem Python destinada à criação de jogos simples, para a criação dessas animações. Optamos em utilizá-la para isso pois alguns integrantes da equipe já tinham familiaridade com a tecnologia e porque sua documentação é bem completa.
 
-Todas as animações feitas foram dos três algoritmos de cálculo da envoltória convexa citados anteriormente. De forma geral, podemos dizer que ver uma animação da execução dos algoritmos foi crucial para que erros fossem identificados e conseguíssemos corrigir os bugs. 
+Todas as animações feitas foram dos três algoritmos de cálculo da envoltória convexa citados anteriormente. De forma geral, podemos dizer que ver uma animação da execução dos algoritmos foi crucial para que erros fossem identificados e conseguíssemos corrigir os \textit{bugs}.
 
-Não vamos nos estender muito em realção à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos, além de que deixaremos ao final desta documentação instruções caso queiram rodar as animações localmente.
+Não vamos nos estender muito em relação à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos, além de que deixaremos ao final desta documentação instruções caso queiram rodar as animações localmente.
 
 \subsection{Funções}
 
@@ -167,9 +167,9 @@ Não vamos nos estender muito em realção à documentação dessa classe, visto
 
 Para casos em que podemos separar linearmente as envoltórias, devemos seguir, conforme especifica o enunciado do trabalho, alguns passos para facilitar as computações. O primeiro deles é encontrar o segmento que une dois vértices, um de cada envoltória, de modo que a distância entre esses vértices seja a menor possível.
 
-Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem intersecção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
+Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem interseção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
 
-De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Na função em que calculamos o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles comamenor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
+De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Na função em que calculamos o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles com a menor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
 
 \section{Análise experimental dos dados}
 

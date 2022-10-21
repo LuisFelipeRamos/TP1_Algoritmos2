@@ -1,4 +1,4 @@
-# Trabalho prático I - Algoritmos II (2022/2)
+# Trabalho Prático I - Algoritmos II (2022/2)
 
 <!-- TODO -->
 
