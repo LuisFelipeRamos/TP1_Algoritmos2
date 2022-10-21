@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
-import src.line_sweep.line_sweep as ls
+import src.globals as g
 from src.point import Point
 
 
@@ -31,8 +31,8 @@ class Segment:
 
     def __gt__(self, other: Segment) -> bool:
         """Comparador usado na AVL (LineSweep)."""
-        y_self = self.slope * ls.X + self.linear
-        y_other = other.slope * ls.X + other.linear
+        y_self = self.slope * g.X + self.linear
+        y_other = other.slope * g.X + other.linear
         return y_self < y_other
 
     def cross_product(self, other: Segment) -> float:

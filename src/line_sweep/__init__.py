@@ -1,3 +1,3 @@
-from .line_sweep import LineSweep, X
+from .line_sweep import LineSweep
 
-__all__ = ["LineSweep", "X"]
+__all__ = ["LineSweep"]
