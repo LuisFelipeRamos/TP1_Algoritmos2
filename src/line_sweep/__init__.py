@@ -1,4 +1,3 @@
-from .glob import xxx
-from .line_sweep import LineSweep
+from .line_sweep import LineSweep, X
 
-__all__ = ["LineSweep", "xxx"]
+__all__ = ["LineSweep", "X"]

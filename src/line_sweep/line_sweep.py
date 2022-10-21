@@ -1,8 +1,11 @@
 # pylint: disable=missing-module-docstring
-import src.line_sweep.glob as gb
+from math import inf
+
 from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLNode, AVLTree
 from src.segment import Segment
+
+X = -inf
 
 
 class LineSweep:
@@ -39,7 +42,8 @@ class LineSweep:
             segment_id: tuple[Segment, int] = (event.segment, event.identifier)
 
             if event.is_left:
-                gb.xxx = segment_id[0].p0.x + eps
+                global X
+                X = segment_id[0].p0.x + eps
                 tree_segments.insert(segment_id)
                 node = tree_segments.search(segment_id)
                 if node is not None:
