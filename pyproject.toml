@@ -1,0 +1,10 @@
+[tool.pyright]
+include = ["src"]
+exclude = ["**/__pycache__"]
+defineConstant = { DEBUG = true }
+
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+pythonVersion = "3.10"
+pythonPlatform = "Linux"
