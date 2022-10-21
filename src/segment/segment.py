@@ -35,6 +35,14 @@ class Segment:
         y_other = other.slope * g.X + other.linear
         return y_self < y_other
 
+    def __eq__(self, other: Segment) -> bool:
+        y_self = self.slope * g.X + self.linear
+        y_other = other.slope * g.X + other.linear
+        return y_self == y_other
+
+    def __ge__(self, other: Segment) -> bool:
+        return self > other or self == other
+
     def cross_product(self, other: Segment) -> float:
         return self.x * other.y - self.y * other.x
 

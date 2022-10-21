@@ -191,6 +191,23 @@ def test_polygons_intersect_pt9() -> None:
     assert L.do_polygons_intersect(pol1, pol2)
 
 
+def test_polygons_intersect_pt10() -> None:
+    # Polígonos "de um lado só",
+    # colineares e que compartilham o mesmo ponto
+
+    L: LineSweep = LineSweep()
+
+    A: Point = Point(0, 5)
+    B: Point = Point(5, 5)
+    pol1: list[Segment] = [Segment(A, B)]
+
+    D: Point = Point(5, 5)
+    E: Point = Point(10, 5)
+    pol2: list[Segment] = [Segment(D, E)]
+
+    assert L.do_polygons_intersect(pol1, pol2)
+
+
 def test_get_above_and_below() -> None:
     L: LineSweep = LineSweep()
     tree: AVLTree = AVLTree()

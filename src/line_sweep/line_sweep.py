@@ -115,7 +115,7 @@ class LineSweep:
                 node_iterator = node.parent
                 while node_iterator is not None:
                     # Procura-se o primeiro ancestral maior para ser o superior
-                    if node_iterator.val > value:
+                    if node_iterator.val >= value:
                         above = node_iterator
                         break
                     node_iterator = node_iterator.parent
