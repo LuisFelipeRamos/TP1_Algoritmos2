@@ -1,2 +1,3 @@
 from .min_dist_between_conves_hulls_segment import min_dist_between_convex_hulls_segment
 from .get_perpendicular_segment import get_perpendicular_segment
+from .calculate_times_and_plot import generate_random_set_of_points, calculate_times_and_plot
