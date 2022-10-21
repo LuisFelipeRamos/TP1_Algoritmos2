@@ -1,10 +1,11 @@
 import random
 import time
+
 import matplotlib.pyplot as plt
 
 from src.convex_hull.convex_hull import ConvexHull
 from src.point.point import Point
-from src.segment.segment import Segment
+
 
 def generate_random_set_of_points(
     number_of_points: int, min_x: int, max_x: int, min_y: int, max_y: int
@@ -19,67 +20,53 @@ def generate_random_set_of_points(
 
 
 def calculate_times_and_plot():
-    l = []
+    l: list[list[float]] = []
     SCREEN_MARGIN: int = 0
     WIDTH: int = 600
     HEIGHT: int = 600
-    for i in range(3, 100):
-        times = [0.0, 0.0, 0.0]
-        number_of_points = i
+    for number_of_points in range(3, 100):
+        times: list[float] = [0.0, 0.0, 0.0]
+        algorithms: list[str] = ["graham_scan", "gift_wrapping", "incremental"]
         for _ in range(100):
-            set_of_points = generate_random_set_of_points(
-                number_of_points,
-                SCREEN_MARGIN,
-                WIDTH - SCREEN_MARGIN,
-                SCREEN_MARGIN,
-                HEIGHT - SCREEN_MARGIN,
-            )
-            a1 = time.time()
-            convex_hull = ConvexHull(set_of_points, alg="graham_scan")
-            a2 = time.time()
-            times[0] += a2 - a1
+            for j in range(3):
+                set_of_points: list[Point] = generate_random_set_of_points(
+                    number_of_points,
+                    SCREEN_MARGIN,
+                    WIDTH - SCREEN_MARGIN,
+                    SCREEN_MARGIN,
+                    HEIGHT - SCREEN_MARGIN,
+                )
+                a_1: float = time.time()
+                convex_hull: ConvexHull = ConvexHull(set_of_points, alg=algorithms[j])
+                a_2: float = time.time()
+                times[j] += a_2 - a_1
 
-        for _ in range(100):
-            set_of_points = generate_random_set_of_points(
-                number_of_points,
-                SCREEN_MARGIN,
-                WIDTH - SCREEN_MARGIN,
-                SCREEN_MARGIN,
-                HEIGHT - SCREEN_MARGIN,
-            )
-            a1 = time.time()
-            convex_hull = ConvexHull(set_of_points, alg="gift_wrapping")
-            a2 = time.time()
-            times[1] += a2 - a1
-        for _ in range(100):
-            set_of_points = generate_random_set_of_points(
-                number_of_points,
-                SCREEN_MARGIN,
-                WIDTH - SCREEN_MARGIN,
-                SCREEN_MARGIN,
-                HEIGHT - SCREEN_MARGIN,
-            )
-            a1 = time.time()
-            convex_hull = ConvexHull(set_of_points, alg="incremental")
-            a2 = time.time()
-            times[2] += a2 - a1
-        for e in times:
-            e /= 100
+        for k in times:
+            k /= 100
         l.append(times)
 
-    plt.plot([i for i in range(3, 100)], [t[0] for t in l], color="red")
-    plt.plot([i for i in range(3, 100)], [t[1] for t in l], color="blue")
-    plt.plot([i for i in range(3, 100)], [t[2] for t in l], color="green")
-    plt.legend(
-        [
-            "Algoritmo da varredura de Graham",
-            "Algoritmo do embrulho de presente",
-            "Algoritmo incremental",
-        ]
+    plt.plot(
+        list(range(3, 100)),
+        [t[0] for t in l],
+        color="red",
+        label="Varredura de Graham",
     )
-    plt.savefig('filename.png', dpi=1000)
+    plt.plot(
+        list(range(3, 100)),
+        [t[1] for t in l],
+        color="blue",
+        label="Embrulho de Presente",
+    )
+    plt.plot(
+        list(range(3, 100)),
+        [t[2] for t in l],
+        color="green",
+        label="Incremental",
+    )
+    plt.legend()
     plt.xlabel("Número de pontos do conjunto")
     plt.ylabel("Tempo de execução do algoritmo")
     plt.title("Comparação de tempo para cada algoritmo de envoltória convexa")
+    plt.savefig("filename.png", dpi=1000)
     plt.grid(True)
     plt.show()
