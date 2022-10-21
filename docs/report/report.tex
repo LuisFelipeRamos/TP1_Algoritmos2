@@ -40,7 +40,7 @@ Algoritmos II}
 \section{Introdução}
 
 \section{Implementação}
-O trabalho foi feito inteiramente na linguagem de programação Python, versão 3.10.6, no sistema operacional Ubuntu.
+O trabalho foi feito inteiramente na linguagem de programação Python, versão 3.10.6, no sistema operacional Linux.
 
 Uma abordagem orientada a objetos foi feita para a realização do trabalho como um todo, uma vez que isso permite um maior controle sobre as funcionalidades implementadas, além de tornar o código mais organizado e bem distribuído.
 
@@ -75,16 +75,18 @@ Essa definição de pontos de início e fim é importante para definirmos o sent
 	y & = p_1.y - p_0.y
 \end{align*}
 
-Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
+Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{linear}) e o tamanho do segmento. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
 
 \begin{itemize}
-	\item Cálculo do produto vetorial entre duas instâncias de um segmento.
-	\item Checar se um segmento está em um sentido horário ou anti horário em relação ao outro. Aqui, é importante dizer que, para este trabalho em específico, se dois segmentos são colineares, consideramos que aquele com menor norma como em sentido anti horário em relação ao outro.
+	\item Calcular o produto vetorial entre duas instâncias de um segmento.
+	\item Checar se um segmento está em um sentido horário ou anti horário em relação ao outro. Aqui, é importante dizer que, para esta função em específico, se dois segmentos são colineares, consideramos que aquele com menor norma como em sentido anti-horário em relação ao outro.
 	\item Checar se os segmentos são colineares.
 	\item Gerar o segmento inverso do atual, isto é, o segmento com mesma norma, direção, mas sentido inverso.
-	\item Inverter o próprio segmento, segundo o que foi especificado no item anterior.
+	\item Inverter os pontos de um segmento, não alterando os outros membros.
 	\item Checar se um ponto está no intervalo aberto do segmento.
 	\item Checar se um ponto é colinear, está orientado no sentido horário ou anti-horário em relação ao segmento.
+	\item Verificar se um segmento contém um ponto.
+	\item Calcular a orientação de dois segmentos, tratando colinearidade ``normalmente'', isto é, sem considerar o segmento de menor norma como sendo anti-horário.
 	\item Checar se um segmento intersecta outro.
 \end{itemize}
 
@@ -148,6 +150,12 @@ Podemos notar que em todos os casos o algoritmo incremental e o algoritmo da var
 De qualquer modo, podemos notar que eles seguem um padrão exatamente como esperávamos. A varredura de Graham e o algoritmo incremental, ambos com a mesma complexidade \( \Theta(n \log n) \), tiveram tempos de execução semelhantes para os testes feitos, enquanto o algoritmo do embrulho de presente demorou muito mais, dado sua inconsistência e sensibilidade à saída.
 
 Após essas análises concluímos então que a melhor opção para utilizarmos no trabalho prático seria o algoritmo da varredura de Graham, uma vez que ela passou em todos os testes que criamos e apresentou um desempenho eficiente e consistente neles.
+
+\subsubsection{Event}
+
+Um evento, no contexto da varredura linear, é um ponto que pode gerar uma interseção de segmentos. Isto é, não é necessário implementar a varredura linear como uma linha contínua percorrendo o eixo \( x \), mas sim como saltos discretos em pontos específicos: os terminais dos segmentos, sendo necessário saber se são o extremo esquerdo ou direito.
+
+A classe \texttt{Event} implementa essa estrutura. Em particular, cada \texttt{Event} possui 5 atributos: duas coordenadas indicando a posição do evento, um booleano indicando se é um segmento da esquerda ou da direita, um identificador, apontando para o polígono que contém o evento e o segmento associado. Embora a princípio toda essa parafernália possa parecer uma complicação desnecessária, todos os membros tem seu devido propósito (em particular os mais deslocados, vide o próprio segmento). Além dos atributos facilitarem a implementação da varredura linear, essa classe implementa um comparador importante para processar os eventos na ordem correta.
 
 \subsubsection{LineSweep}
 
