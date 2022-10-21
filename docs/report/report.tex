@@ -204,15 +204,15 @@ Buscamos utilizar ao menos 5 bases que continham dados linearmente separáveis. 
 De modo geral, estes foram os conjuntos de dados que utilizamos para nosso trabalho:
 
 \begin{enumerate}
-    \item Iris
-    
+	\item Iris
+
 \end{enumerate}
 
 \subsection{Processamento dos dados}
 
 Para computar todas as métricas definidas pelo escopo do trabalho, precisávamos converter os dados lidos nas bases de dados para tipos que se encaixam em nossa implementação. Para isso, portanto, um primeiro passo para cada conjunto foi transformar os dados no tipo Point, definido nas seções anteriores.
 
-O segundo passo consistiu em dividir os dados obtidos no primeiro passo em duas partes. Uma que continha 70\% dos dados presentes na base de dados, que será utilizada para o treinamento e criação do classificador. Os outros 30\% serão então utilizados para analisar o desempenho do modelo de classificação. Essa separação é feita de forma pseudo aleatória, por meio da biblioteca Pandas, utilizada para leitura dos arquivos que continham os dados. 
+O segundo passo consistiu em dividir os dados obtidos no primeiro passo em duas partes. Uma que continha 70\% dos dados presentes na base de dados, que será utilizada para o treinamento e criação do classificador. Os outros 30\% serão então utilizados para analisar o desempenho do modelo de classificação. Essa separação é feita de forma pseudo aleatória, por meio da biblioteca Pandas, utilizada para leitura dos arquivos que continham os dados.
 
 Alguns dados precisam de processamento adicional para que a gente possa classificar, como o conjunto Íris, que possui mais de duas classes separando suas instâncias. No entanto, acreditamos não ser necessário discorrer aqui sobre como cada uma dessas bases de dados foi processada especificamente.
 
@@ -224,7 +224,7 @@ Nessa seção, vamos falar especificamente sobre como foi o treinamento do class
 
 \subsubsection{Iris}
 
-O conjunto de dados Iris é um conjunto de dados em particular que possui mais de duas classes de separação. Optamos então por separar as classes entre aquelas instâncias que pertencem à 'Iris-Setosa' e aqueles que não. 
+O conjunto de dados Iris é um conjunto de dados em particular que possui mais de duas classes de separação. Optamos então por separar as classes entre aquelas instâncias que pertencem à 'Iris-Setosa' e aqueles que não.
 
 Além disso, cada instância da base de dados possui 4 atributos principais que os definem, sendo eles largura e comprimento de sépalas e pétalas. Para nosso classificador, utilizamos apenas os valores de largura e comprimento de pétalas, podendo assim produzir pontos bidimensionais.
 
