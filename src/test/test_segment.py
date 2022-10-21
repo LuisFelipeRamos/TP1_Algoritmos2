@@ -3,7 +3,7 @@ from src.point import Point
 from src.segment import Segment
 
 
-def test_is_counter_clockwise():
+def test_is_counter_clockwise() -> None:
     data: list[list[int]] = [
         [1, 1, 2, 2, 3, 4],
         [7, 0, 4, 2, 0, 3],
@@ -26,14 +26,14 @@ def test_is_counter_clockwise():
         assert segments[1].is_counter_clockwise(segments[0])
 
 
-def test_invert():
+def test_invert() -> None:
     seg: Segment = Segment(Point(1, 4), Point(2, 3))
     seg.invert()
     assert seg.p0 == Point(2, 3)
     assert seg.p1 == Point(1, 4)
 
 
-def test_contains():
+def test_contains() -> None:
     seg: Segment = Segment(Point(1, 2), Point(3, 4))
     assert seg.contains(Point(2, 3))  # Na linha
     assert not seg.contains(Point(3, 6))  # Acima de um extremo
@@ -41,7 +41,7 @@ def test_contains():
     assert not seg.contains(Point(0, 1))  # Esquerda
 
 
-def test_orientation():
+def test_orientation() -> None:
     seg: Segment = Segment(Point(0, 0), Point(3, 0))
 
     clockwise: int = seg.orientation(Point(5, -3))
@@ -54,7 +54,7 @@ def test_orientation():
     assert colinear == 0
 
 
-def test_intersects():
+def test_intersects() -> None:
     seg1: Segment = Segment(Point(1, 6), Point(5, 7))
     seg2: Segment = Segment(Point(2, 5), Point(4, 9))
     seg3: Segment = Segment(Point(2, 2), Point(4, 6))

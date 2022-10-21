@@ -29,7 +29,7 @@ class LineSweep:
         events.sort()
 
         tree_segments: AVLTree = AVLTree()
-        eps = 0.000001
+        eps: float = 0.000001
 
         # Alguma variáveis não podem ser tipadas porque a biblioteca de AVL não é tipada
         for event in events:

@@ -4,7 +4,7 @@ from src.point import Point
 from src.segment import Segment
 
 
-def test_compare():
+def test_compare() -> None:
     dummy: Segment = Segment(Point(0, 0), Point(0, 0))
 
     i: Event = Event(Point(10, 10), True, dummy)

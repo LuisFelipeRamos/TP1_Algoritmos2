@@ -83,12 +83,12 @@ class ConvexHull:
                 i -= 1
         return convex_hull
 
-    def generate_through_incremental_alg(self):
+    def generate_through_incremental_alg(self) -> list[Segment]:
 
         self.set_of_points.sort(key=lambda point: (point.x, point.y))
 
-        lower_hull = []
-        upper_hull = []
+        lower_hull: list[Segment] = []
+        upper_hull: list[Segment] = []
 
         anchor_to_next: Segment = Segment(self.set_of_points[0], self.set_of_points[1])
         anchor_to_next_next: Segment = Segment(
@@ -105,10 +105,10 @@ class ConvexHull:
         lower_hull.append(s0)
         upper_hull.append(s1)
         upper_hull.append(s2)
-        hull_farest_right_point = lower_hull[-1].p1
+        hull_farest_right_point: Point = lower_hull[-1].p1
         for point in self.set_of_points[3:]:
 
-            hull_farest_right_point_to_new_point = Segment(
+            hull_farest_right_point_to_new_point: Segment = Segment(
                 hull_farest_right_point, point
             )
             if hull_farest_right_point_to_new_point.is_counter_clockwise(
@@ -142,19 +142,19 @@ class ConvexHull:
                 del lower_hull[-1:-3:-1]
                 lower_hull.append(Segment(new_edge_p0, new_edge_p1))
 
-        convex_hull = lower_hull + upper_hull
+        convex_hull: list[Segment] = lower_hull + upper_hull
         return convex_hull
 
     def plot(self) -> None:
-        _, ax = plt.subplots(figsize=(100, 100))
-        ax = cast(plt.Axes, ax)
-        ax.scatter(
+        _, axe = plt.subplots(figsize=(100, 100))
+        axe = cast(plt.Axes, axe)
+        axe.scatter(
             [point.x for point in self.set_of_points],
             [point.y for point in self.set_of_points],
             c=["k"],
             s=2,
         )
-        ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
+        axe.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
         for edge in self.convex_hull:
             plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "k", linewidth=0.5)
         plt.show()

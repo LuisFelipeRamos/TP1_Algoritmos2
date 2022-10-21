@@ -46,7 +46,7 @@ class Segment:
             return self.length < other.length
         return self.cross_product(other) < 0
 
-    def get_inverse(self):
+    def get_inverse(self) -> Segment:
         return Segment(self.p1, self.p0)
 
     def invert(self) -> None:
