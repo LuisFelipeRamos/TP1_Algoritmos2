@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
+import src.line_sweep.glob as gb
 from src.point import Point
 
 
@@ -27,6 +28,12 @@ class Segment:
 
     def __lt__(self, other: Segment) -> bool:
         return not self.is_counter_clockwise(other)
+
+    def __gt__(self, other: Segment) -> bool:
+        """Comparador usado na AVL (LineSweep)."""
+        y_self = self.slope * gb.xxx + self.linear
+        y_other = other.slope * gb.xxx + other.linear
+        return y_self < y_other
 
     def cross_product(self, other: Segment) -> float:
         return self.x * other.y - self.y * other.x

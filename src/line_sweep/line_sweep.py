@@ -2,7 +2,6 @@
 import src.line_sweep.glob as gb
 from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLNode, AVLTree
-from src.line_sweep.segment_id import SegmentId
 from src.segment import Segment
 
 
@@ -37,12 +36,12 @@ class LineSweep:
 
             # O python dá chilique quando se usa pares, então usa-se uma classe
             # para facilitar a comparação
-            segment: SegmentId = SegmentId(event.segment, event.identifier)
+            segment_id: tuple[Segment, int] = (event.segment, event.identifier)
 
             if event.is_left:
-                gb.xxx = segment.seg.p0.x + eps
-                tree_segments.insert(segment)
-                node = tree_segments.search(segment)
+                gb.xxx = segment_id[0].p0.x + eps
+                tree_segments.insert(segment_id)
+                node = tree_segments.search(segment_id)
                 if node is not None:
                     above, below = self.get_above_and_below(node, tree_segments)
 
@@ -51,30 +50,30 @@ class LineSweep:
                     # ou seja, é preciso conferir os identificadores
                     if (
                         above is not None
-                        and segment.seg.intersects(above.val.seg)
-                        and segment.identifier != above.val.identifier
+                        and segment_id[0].intersects(above.val[0])
+                        and segment_id[1] != above.val[1]
                     ):
                         return True
                     if (
                         below is not None
-                        and segment.seg.intersects(below.val.seg)
-                        and segment.identifier != below.val.identifier
+                        and segment_id[0].intersects(below.val[0])
+                        and segment_id[1] != below.val[1]
                     ):
                         return True
             else:
-                node = tree_segments.search(segment)
+                node = tree_segments.search(segment_id)
                 if node is not None:
                     above, below = self.get_above_and_below(node, tree_segments)
 
                     if (
                         above is not None
                         and below is not None
-                        and above.val.seg.intersects(below.val.seg)
-                        and above.val.identifier != below.val.identifier
+                        and above.val[0].intersects(below.val[0])
+                        and above.val[1] != below.val[1]
                     ):
                         return True
 
-                tree_segments.delete(segment)
+                tree_segments.delete(segment_id)
         return False
 
     def get_above_and_below(self, node: AVLNode, tree: AVLTree):
