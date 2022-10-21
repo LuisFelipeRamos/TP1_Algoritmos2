@@ -95,7 +95,6 @@ def check_iris(file):
     plt.ylabel("Petal Width")
     plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {b}")
     plt.legend(loc="lower right")
-    plt.savefig('filename.png', dpi=300)
     plt.show()
 
     # checa se os polígonos se intersectam
