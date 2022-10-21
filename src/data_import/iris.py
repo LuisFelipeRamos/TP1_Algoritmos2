@@ -98,12 +98,11 @@ def check_iris(file):
     plt.show()
 
     # checa se os polígonos se intersectam
-    sl = [(s1, 1) for s1 in ch1.convex_hull]
-    sl.extend([(s2, 2) for s2 in ch2.convex_hull])
-
     line_sweep = LineSweep()
 
-    linear_separable = not line_sweep.check_polygons_intersect(sl)
+    linear_separable = not line_sweep.do_polygons_intersect(
+        ch1.convex_hull, ch2.convex_hull
+    )
 
     if not linear_separable:
         print("Os dados não são linearmente separáveis")

@@ -24,16 +24,12 @@ def test_polygons_intersect() -> None:
         Segment(E, F),
         Segment(F, D),
     ]
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
     # Ponto em comum em dois "polígonos" diferentes (no caso linhas, para simplificar)
     pol1: list[Segment] = [Segment(A, B)]
     pol2: list[Segment] = [Segment(B, F)]
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt2() -> None:
@@ -55,9 +51,7 @@ def test_polygons_intersect_pt2() -> None:
         Segment(E, F),
         Segment(F, D),
     ]
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-    assert not L.check_polygons_intersect(sil)
+    assert not L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt3() -> None:
@@ -79,9 +73,7 @@ def test_polygons_intersect_pt3() -> None:
         Segment(E, F),
         Segment(F, D),
     ]
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-    assert not L.check_polygons_intersect(sil)
+    assert not L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt4() -> None:
@@ -103,10 +95,7 @@ def test_polygons_intersect_pt4() -> None:
         Segment(F, D),
     ]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt5() -> None:
@@ -126,10 +115,7 @@ def test_polygons_intersect_pt5() -> None:
         Segment(F, D),
     ]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt6() -> None:
@@ -145,10 +131,7 @@ def test_polygons_intersect_pt6() -> None:
     F: Point = Point(9, 7)
     pol2: list[Segment] = [Segment(D, E), Segment(F, D)]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt7() -> None:
@@ -164,10 +147,7 @@ def test_polygons_intersect_pt7() -> None:
     F: Point = Point(3, 6)
     pol2: list[Segment] = [Segment(D, F), Segment(F, E)]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt8() -> None:
@@ -187,10 +167,7 @@ def test_polygons_intersect_pt8() -> None:
         Segment(E, F),
     ]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_polygons_intersect_pt9() -> None:
@@ -211,10 +188,7 @@ def test_polygons_intersect_pt9() -> None:
         Segment(D, E),
     ]
 
-    sil: list[tuple[Segment, int]] = [(seg, 1) for seg in pol1]
-    sil.extend((seg, 2) for seg in pol2)
-
-    assert L.check_polygons_intersect(sil)
+    assert L.do_polygons_intersect(pol1, pol2)
 
 
 def test_get_above_and_below() -> None:

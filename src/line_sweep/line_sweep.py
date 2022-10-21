@@ -11,13 +11,18 @@ class LineSweep:
     para buscar pela interseção de dois ou mais polígonos
     """
 
-    def check_polygons_intersect(self, polygons: list[tuple[Segment, int]]) -> bool:
+    def do_polygons_intersect(
+        self, polygon1: list[Segment], polygon2: list[Segment]
+    ) -> bool:
         """
         Confere se um conjunto de polígonos se possui alguma interseção entre pelo menos 2 polígonos
         Cada polígono é uma lista de tuplas (Segmento, ID). Todos os segmentos são buscados
         para verificar a interseção, de modo que a flag ID é usada
         para descartar interseções de um polígono com ele mesmo.
         """
+
+        polygons: list[tuple[Segment, int]] = [(segment, 1) for segment in polygon1]
+        polygons.extend((segment, 2) for segment in polygon2)
 
         # Inverte os segmentos para pode inseri-los mais facilmente na lista de eventos
         self.invert_segments([segment for segment, _ in polygons])
