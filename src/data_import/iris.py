@@ -8,7 +8,6 @@ from src.convex_hull.convex_hull import ConvexHull
 from src.line_sweep.line_sweep import LineSweep
 from src.point.point import Point
 from src.segment.segment import Segment
-from src.utils import min_dist_between_convex_hulls_segment
 
 
 def check_iris(file):
@@ -63,7 +62,7 @@ def check_iris(file):
     sop2 = list_irisclass2_train
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
-    min_dist_segment = min_dist_between_convex_hulls_segment(ch1, ch2)
+    min_dist_segment = ch1.min_dist(ch2)
 
     _, ax = plt.subplots(figsize=(100, 100))
     ax = cast(plt.Axes, ax)

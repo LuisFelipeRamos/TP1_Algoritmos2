@@ -7,7 +7,6 @@ import pandas as pd
 from src.convex_hull.convex_hull import ConvexHull
 from src.line_sweep.line_sweep import LineSweep
 from src.point.point import Point
-from src.utils import min_dist_between_convex_hulls_segment
 
 
 def check_banana(file):
@@ -52,7 +51,7 @@ def check_banana(file):
     sop2 = list_bananaclass2_train
     ch1: ConvexHull = ConvexHull(sop1, alg="graham_scan")
     ch2: ConvexHull = ConvexHull(sop2, alg="graham_scan")
-    min_dist_segment = min_dist_between_convex_hulls_segment(ch1, ch2)
+    min_dist_segment = ch1.min_dist(ch2)
 
     _, ax = plt.subplots(figsize=(100, 100))
     ax = cast(plt.Axes, ax)

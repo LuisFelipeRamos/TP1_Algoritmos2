@@ -169,3 +169,19 @@ class ConvexHull:
         # então para um estar contido no outro basta que um ponto esteja.
         point: Point = other.convex_hull[0].p0
         return point.is_inside(self.convex_hull)
+
+    def min_dist(self, other: ConvexHull) -> Segment:
+        """
+        Retorna o segmento de menor distância entre duas envoltórias convexas.
+        """
+        points_hull_1: list[Point] = [edge.p0 for edge in self.convex_hull]
+        points_hull_2: list[Point] = [edge.p0 for edge in other.convex_hull]
+        min_dist: float = float("inf")
+        min_dist_segment: Segment = Segment(Point(0, 0), Point(0, 0))
+        for p in points_hull_1:
+            for q in points_hull_2:
+                curr_dist: float = p.get_distance(q)
+                if curr_dist < min_dist:
+                    min_dist = curr_dist
+                    min_dist_segment = Segment(p, q)
+        return min_dist_segment
