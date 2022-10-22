@@ -3,6 +3,8 @@ import argparse
 from src.data_import import check_iris
 from src.data_import import check_banana
 from src.data_import import check_magic
+from src.data_import import check_haberman
+from src.data_import import check_wine
 
 
 def run() -> None:
@@ -22,4 +24,4 @@ def run() -> None:
     )
     args: argparse.Namespace = parser.parse_args()
 
-    check_iris(args.file)
+    check_wine(args.file)
