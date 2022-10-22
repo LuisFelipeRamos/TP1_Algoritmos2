@@ -73,7 +73,7 @@ def check_iris(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=2,
-        label="Class Iris-setosa"
+        label="Class Iris-setosa",
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     for edge in ch1.convex_hull:
@@ -84,7 +84,7 @@ def check_iris(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
-        label="Class not Iris-setosa"
+        label="Class not Iris-setosa",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)

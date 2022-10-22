@@ -13,44 +13,63 @@ from src.utils import min_dist_between_convex_hulls_segment
 
 def check_magic(file):
 
-    col_names_magic = ["FLength", "FWidth", "FSize", "FConc", "FConc1", "FAsym", "FM3Long", "FM3Trans", "FAlpha", "FDist", "Class"]
+    col_names_magic = [
+        "FLength",
+        "FWidth",
+        "FSize",
+        "FConc",
+        "FConc1",
+        "FAsym",
+        "FM3Long",
+        "FM3Trans",
+        "FAlpha",
+        "FDist",
+        "Class",
+    ]
     magic = pd.read_csv(file, names=col_names_magic)
 
-    magicclass1=magic[magic['Class']=='g']
-    magicclass2=magic[magic['Class']=='h']
-    magicclass1=magicclass1[['FLength','FWidth']]
-    magicclass2=magicclass2[['FLength','FWidth']]
+    magicclass1 = magic[magic["Class"] == "g"]
+    magicclass2 = magic[magic["Class"] == "h"]
+    magicclass1 = magicclass1[["FLength", "FWidth"]]
+    magicclass2 = magicclass2[["FLength", "FWidth"]]
 
-    magicclass1_train=magicclass1.sample(frac=0.7)
-    magicclass1_test=magicclass1.drop(magicclass1_train.index)
-    magicclass1_train.reset_index(drop=True,inplace=True)
-    magicclass1_test.reset_index(drop=True,inplace=True)
+    magicclass1_train = magicclass1.sample(frac=0.7)
+    magicclass1_test = magicclass1.drop(magicclass1_train.index)
+    magicclass1_train.reset_index(drop=True, inplace=True)
+    magicclass1_test.reset_index(drop=True, inplace=True)
 
-    magicclass2_train=magicclass2.sample(frac=0.7)
-    magicclass2_test=magicclass2.drop(magicclass2_train.index)
-    magicclass2_train.reset_index(drop=True,inplace=True)
-    magicclass2_test.reset_index(drop=True,inplace=True)
+    magicclass2_train = magicclass2.sample(frac=0.7)
+    magicclass2_test = magicclass2.drop(magicclass2_train.index)
+    magicclass2_train.reset_index(drop=True, inplace=True)
+    magicclass2_test.reset_index(drop=True, inplace=True)
 
-    list_magicclass1_train=[]
-    for x in range(magicclass1_train['FLength'].size):
-        temp_point=Point(magicclass1_train['FLength'][x],magicclass1_train['FWidth'][x])
-        list_magicclass1_train.insert(1,temp_point)
+    list_magicclass1_train = []
+    for x in range(magicclass1_train["FLength"].size):
+        temp_point = Point(
+            magicclass1_train["FLength"][x], magicclass1_train["FWidth"][x]
+        )
+        list_magicclass1_train.insert(1, temp_point)
 
-    list_magicclass1_test=[]
-    for x in range(magicclass1_test['FLength'].size):
-        temp_point=Point(magicclass1_test['FLength'][x],magicclass1_test['FWidth'][x])
-        list_magicclass1_test.insert(1,temp_point)
+    list_magicclass1_test = []
+    for x in range(magicclass1_test["FLength"].size):
+        temp_point = Point(
+            magicclass1_test["FLength"][x], magicclass1_test["FWidth"][x]
+        )
+        list_magicclass1_test.insert(1, temp_point)
 
-    list_magicclass2_train=[]
-    for x in range(magicclass2_train['FLength'].size):
-        temp_point=Point(magicclass2_train['FLength'][x],magicclass2_train['FWidth'][x])
-        list_magicclass2_train.insert(1,temp_point)
+    list_magicclass2_train = []
+    for x in range(magicclass2_train["FLength"].size):
+        temp_point = Point(
+            magicclass2_train["FLength"][x], magicclass2_train["FWidth"][x]
+        )
+        list_magicclass2_train.insert(1, temp_point)
 
-    list_magicclass2_test=[]
-    for x in range(magicclass2_test['FLength'].size):
-        temp_point=Point(magicclass2_test['FLength'][x],magicclass2_test['FWidth'][x])
-        list_magicclass2_test.insert(1,temp_point)
-
+    list_magicclass2_test = []
+    for x in range(magicclass2_test["FLength"].size):
+        temp_point = Point(
+            magicclass2_test["FLength"][x], magicclass2_test["FWidth"][x]
+        )
+        list_magicclass2_test.insert(1, temp_point)
 
     sop1 = list_magicclass1_train
     sop2 = list_magicclass2_train
@@ -66,7 +85,7 @@ def check_magic(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=4,
-        label="Class g"
+        label="Class g",
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
 
@@ -78,7 +97,7 @@ def check_magic(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=4,
-        label="Class h"
+        label="Class h",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
@@ -87,7 +106,7 @@ def check_magic(file):
         [min_dist_segment.p0.x, min_dist_segment.p1.x],
         [min_dist_segment.p0.y, min_dist_segment.p1.y],
         "black",
-        linewidth=0.8
+        linewidth=0.8,
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()

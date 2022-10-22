@@ -15,44 +15,43 @@ def check_banana(file):
     col_names_banana = ["At1", "At2", "Class"]
     banana = pd.read_csv(file, names=col_names_banana)
 
-    bananaclass1=banana[banana['Class']==1]
-    bananaclass2=banana[banana['Class']==-1]
+    bananaclass1 = banana[banana["Class"] == 1]
+    bananaclass2 = banana[banana["Class"] == -1]
 
-    bananaclass1_train=bananaclass1.sample(frac=0.7)
-    bananaclass1_test=bananaclass1.drop(bananaclass1_train.index)
-    bananaclass1_train.reset_index(drop=True,inplace=True)
-    bananaclass1_test.reset_index(drop=True,inplace=True)
+    bananaclass1_train = bananaclass1.sample(frac=0.7)
+    bananaclass1_test = bananaclass1.drop(bananaclass1_train.index)
+    bananaclass1_train.reset_index(drop=True, inplace=True)
+    bananaclass1_test.reset_index(drop=True, inplace=True)
 
-    bananaclass2_train=bananaclass2.sample(frac=0.7)
-    bananaclass2_test=bananaclass2.drop(bananaclass2_train.index)
-    bananaclass2_train.reset_index(drop=True,inplace=True)
-    bananaclass2_test.reset_index(drop=True,inplace=True)
+    bananaclass2_train = bananaclass2.sample(frac=0.7)
+    bananaclass2_test = bananaclass2.drop(bananaclass2_train.index)
+    bananaclass2_train.reset_index(drop=True, inplace=True)
+    bananaclass2_test.reset_index(drop=True, inplace=True)
 
-    list_bananaclass1_train=[]
-    for x in range(bananaclass1_train['At1'].size):
-        temp_point=Point(bananaclass1_train['At1'][x],bananaclass1_train['At2'][x])
-        list_bananaclass1_train.insert(1,temp_point)
+    list_bananaclass1_train = []
+    for x in range(bananaclass1_train["At1"].size):
+        temp_point = Point(bananaclass1_train["At1"][x], bananaclass1_train["At2"][x])
+        list_bananaclass1_train.insert(1, temp_point)
 
-    list_bananaclass1_test=[]
-    for x in range(bananaclass1_test['At1'].size):
-        temp_point=Point(bananaclass1_test['At1'][x],bananaclass1_test['At2'][x])
-        list_bananaclass1_test.insert(1,temp_point)
-    
-    list_bananaclass2_train=[]
-    for x in range(bananaclass2_train['At1'].size):
-        temp_point=Point(bananaclass2_train['At1'][x],bananaclass2_train['At2'][x])
-        list_bananaclass2_train.insert(1,temp_point)
+    list_bananaclass1_test = []
+    for x in range(bananaclass1_test["At1"].size):
+        temp_point = Point(bananaclass1_test["At1"][x], bananaclass1_test["At2"][x])
+        list_bananaclass1_test.insert(1, temp_point)
 
-        list_bananaclass2_test=[]
-    for x in range(bananaclass2_test['At1'].size):
-        temp_point=Point(bananaclass2_test['At1'][x],bananaclass2_test['At2'][x])
-        list_bananaclass2_test.insert(1,temp_point)
+    list_bananaclass2_train = []
+    for x in range(bananaclass2_train["At1"].size):
+        temp_point = Point(bananaclass2_train["At1"][x], bananaclass2_train["At2"][x])
+        list_bananaclass2_train.insert(1, temp_point)
 
+    list_bananaclass2_test = []
+    for x in range(bananaclass2_test["At1"].size):
+        temp_point = Point(bananaclass2_test["At1"][x], bananaclass2_test["At2"][x])
+        list_bananaclass2_test.insert(1, temp_point)
 
     sop1 = list_bananaclass1_train
     sop2 = list_bananaclass2_train
-    ch1 = ConvexHull(sop1, alg="graham_scan")
-    ch2 = ConvexHull(sop2, alg="graham_scan")
+    ch1: ConvexHull = ConvexHull(sop1, alg="graham_scan")
+    ch2: ConvexHull = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = min_dist_between_convex_hulls_segment(ch1, ch2)
 
     _, ax = plt.subplots(figsize=(100, 100))
@@ -63,7 +62,7 @@ def check_banana(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=2,
-        label="Class 1"
+        label="Class 1",
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     for edge in ch1.convex_hull:
@@ -74,7 +73,7 @@ def check_banana(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
-        label="Class 2"
+        label="Class 2",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)

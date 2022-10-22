@@ -15,41 +15,49 @@ def check_haberman(file):
 
     col_names_haberman = ["Age", "Year", "Positive", "Survival"]
     haberman = pd.read_csv(file, names=col_names_haberman)
-    
-    habermanclass1=haberman[haberman['Survival']==' positive']
-    habermanclass2=haberman[haberman['Survival']==' negative']
-    habermanclass1=habermanclass1[['Age', 'Positive']]
-    habermanclass2=habermanclass2[['Age', 'Positive']]
-    
-    habermanclass1_train=habermanclass1.sample(frac=0.7)
-    habermanclass1_test=habermanclass1.drop(habermanclass1_train.index)
-    habermanclass1_train.reset_index(drop=True,inplace=True)
-    habermanclass1_test.reset_index(drop=True,inplace=True)
-    
-    habermanclass2_train=habermanclass2.sample(frac=0.7)
-    habermanclass2_test=habermanclass2.drop(habermanclass2_train.index)
-    habermanclass2_train.reset_index(drop=True,inplace=True)
-    habermanclass2_test.reset_index(drop=True,inplace=True)
-    
-    list_habermanclass1_train=[]
-    for x in range(habermanclass1_train['Age'].size):
-        temp_point=Point(habermanclass1_train['Age'][x],habermanclass1_train['Positive'][x])
-        list_habermanclass1_train.insert(1,temp_point)
 
-    list_habermanclass1_test=[]
-    for x in range(habermanclass1_test['Age'].size):
-        temp_point=Point(habermanclass1_test['Age'][x],habermanclass1_test['Positive'][x])
-        list_habermanclass1_test.insert(1,temp_point)
+    habermanclass1 = haberman[haberman["Survival"] == " positive"]
+    habermanclass2 = haberman[haberman["Survival"] == " negative"]
+    habermanclass1 = habermanclass1[["Age", "Positive"]]
+    habermanclass2 = habermanclass2[["Age", "Positive"]]
 
-    list_habermanclass2_train=[]
-    for x in range(habermanclass2_train['Age'].size):
-        temp_point=Point(habermanclass2_train['Age'][x],habermanclass2_train['Positive'][x])
-        list_habermanclass2_train.insert(1,temp_point)
+    habermanclass1_train = habermanclass1.sample(frac=0.7)
+    habermanclass1_test = habermanclass1.drop(habermanclass1_train.index)
+    habermanclass1_train.reset_index(drop=True, inplace=True)
+    habermanclass1_test.reset_index(drop=True, inplace=True)
 
-    list_habermanclass2_test=[]
-    for x in range(habermanclass2_test['Age'].size):
-        temp_point=Point(habermanclass2_test['Age'][x],habermanclass2_test['Positive'][x])
-        list_habermanclass2_test.insert(1,temp_point)
+    habermanclass2_train = habermanclass2.sample(frac=0.7)
+    habermanclass2_test = habermanclass2.drop(habermanclass2_train.index)
+    habermanclass2_train.reset_index(drop=True, inplace=True)
+    habermanclass2_test.reset_index(drop=True, inplace=True)
+
+    list_habermanclass1_train = []
+    for x in range(habermanclass1_train["Age"].size):
+        temp_point = Point(
+            habermanclass1_train["Age"][x], habermanclass1_train["Positive"][x]
+        )
+        list_habermanclass1_train.insert(1, temp_point)
+
+    list_habermanclass1_test = []
+    for x in range(habermanclass1_test["Age"].size):
+        temp_point = Point(
+            habermanclass1_test["Age"][x], habermanclass1_test["Positive"][x]
+        )
+        list_habermanclass1_test.insert(1, temp_point)
+
+    list_habermanclass2_train = []
+    for x in range(habermanclass2_train["Age"].size):
+        temp_point = Point(
+            habermanclass2_train["Age"][x], habermanclass2_train["Positive"][x]
+        )
+        list_habermanclass2_train.insert(1, temp_point)
+
+    list_habermanclass2_test = []
+    for x in range(habermanclass2_test["Age"].size):
+        temp_point = Point(
+            habermanclass2_test["Age"][x], habermanclass2_test["Positive"][x]
+        )
+        list_habermanclass2_test.insert(1, temp_point)
 
     sop1 = list_habermanclass1_train
     sop2 = list_habermanclass2_train
@@ -65,7 +73,7 @@ def check_haberman(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=2,
-        label="Class positive"
+        label="Class positive",
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     for edge in ch1.convex_hull:
@@ -76,7 +84,7 @@ def check_haberman(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
-        label="Class negative"
+        label="Class negative",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
