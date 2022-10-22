@@ -1,7 +1,8 @@
 import argparse
 
-from src.data_import.iris import check_iris
+from src.data_import import check_iris
 from src.data_import import check_banana
+from src.data_import import check_magic
 
 
 def run() -> None:

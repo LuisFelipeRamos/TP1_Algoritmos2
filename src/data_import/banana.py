@@ -55,7 +55,6 @@ def check_banana(file):
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = min_dist_between_convex_hulls_segment(ch1, ch2)
-    print(min_dist_segment)
 
     _, ax = plt.subplots(figsize=(100, 100))
     ax = cast(plt.Axes, ax)
@@ -65,6 +64,7 @@ def check_banana(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=2,
+        label="Class 1"
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     for edge in ch1.convex_hull:
@@ -75,6 +75,7 @@ def check_banana(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
+        label="Class 2"
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
