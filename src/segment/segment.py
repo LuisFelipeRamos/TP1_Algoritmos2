@@ -113,3 +113,11 @@ class Segment:
             return True
 
         return False
+
+    def get_perpendicular_segment(self) -> tuple[float, float, Point]:
+        negative_inverse_slope: float = -1 / self.slope if self.slope != 0 else 0
+        midpoint: Point = Point(
+            (self.p0.x + self.p1.x) / 2, (self.p0.y + self.p1.y) / 2
+        )
+        linear: float = midpoint.y - negative_inverse_slope * midpoint.x
+        return negative_inverse_slope, linear, midpoint

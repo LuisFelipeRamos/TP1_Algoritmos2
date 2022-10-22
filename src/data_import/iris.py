@@ -8,7 +8,7 @@ from src.convex_hull.convex_hull import ConvexHull
 from src.line_sweep.line_sweep import LineSweep
 from src.point.point import Point
 from src.segment.segment import Segment
-from src.utils import get_perpendicular_segment, min_dist_between_convex_hulls_segment
+from src.utils import min_dist_between_convex_hulls_segment
 
 
 def check_iris(file):
@@ -96,7 +96,7 @@ def check_iris(file):
         linewidth=0.8,
     )
 
-    slope, b, midpoint = get_perpendicular_segment(min_dist_segment)
+    slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
     x = np.linspace(1, 4, 100)
     y = slope * x + b
     plt.title("Iris", fontsize=20)

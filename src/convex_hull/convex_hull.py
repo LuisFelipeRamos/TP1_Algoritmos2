@@ -20,7 +20,7 @@ class ConvexHull:
         elif self.alg == "incremental":
             self.convex_hull = self.generate_through_incremental_alg()
         else:
-            print("I don" "t know this alg...")
+            print("I don't know this alg...")
 
     def generate_through_gift_wrapping_alg(self) -> list[Segment]:
         anchor: Point = min(self.set_of_points)
