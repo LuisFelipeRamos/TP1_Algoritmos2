@@ -97,11 +97,13 @@ def check_iris(file):
     slope, b, midpoint = get_perpendicular_segment(min_dist_segment)
     x = np.linspace(1, 4, 100)
     y = slope * x + b
-    plt.title("Iris")
-    plt.xlabel("Petal Length")
-    plt.ylabel("Petal Width")
+    plt.title("Iris", fontsize=20)
+    plt.xlabel("Petal Length", fontsize=20)
+    plt.xticks(fontsize=10)
+    plt.ylabel("Petal Width", fontsize=20)
+    plt.yticks(fontsize=10)
     plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {b}")
-    plt.legend(loc="lower right")
+    plt.legend(loc="lower right", fontsize=15)
     plt.show()
 
     # checa se os polígonos se intersectam
