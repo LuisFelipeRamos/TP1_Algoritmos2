@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import cast
 
 import matplotlib.pyplot as plt
@@ -158,3 +160,12 @@ class ConvexHull:
         for edge in self.convex_hull:
             plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "k", linewidth=0.5)
         plt.show()
+
+    def is_inside(self, other: ConvexHull) -> bool:
+        """
+        Checa se `other` está dentro de `self`, dado que os polígonos não se interceptam
+        """
+        # Se um polígono não intersecta outro,
+        # então para um estar contido no outro basta que um ponto esteja.
+        point: Point = other.convex_hull[0].p0
+        return point.is_inside(self.convex_hull)

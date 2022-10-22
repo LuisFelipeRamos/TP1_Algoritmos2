@@ -102,10 +102,9 @@ def check_banana(file):
     # checa se os polígonos se intersectam
     line_sweep = LineSweep()
 
-    linear_separable = not line_sweep.do_polygons_intersect(
-        ch1.convex_hull, ch2.convex_hull
-    )
+    intersect = line_sweep.do_polygons_intersect(ch1.convex_hull, ch2.convex_hull)
 
-    if not linear_separable:
-        print("Os dados não são linearmente separáveis")
-        return
+    if not intersect:
+        linear_separable = not (ch1.is_inside(ch2) or ch2.is_inside(ch1))
+        if not linear_separable:
+            print("Os dados não são linearmente separáveis")

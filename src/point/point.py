@@ -25,3 +25,14 @@ class Point:
 
     def get_distance(self, other: Point) -> float:
         return math.sqrt(math.pow(self.x - other.x, 2) + math.pow(self.y - other.y, 2))
+
+    def is_inside(self, polygon: list) -> bool:
+        """Confere se um ponto está dentro de um polígono."""
+        crossings: int = 0
+        for edge in polygon:
+            cond1: bool = edge.p0.x <= self.x and self.x < edge.p1.x
+            cond2: bool = edge.p1.x <= self.x and self.x < edge.p0.x
+            above: bool = self.y < (edge.slope * (self.x - edge.p0.x) + edge.p0.y)
+            if (cond1 or cond2) and above:
+                crossings += 1
+        return (crossings % 2) != 0

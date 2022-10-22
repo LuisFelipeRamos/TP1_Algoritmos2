@@ -60,7 +60,7 @@ Na classe, foram implementadas também a sobrecarga de alguns operadores, de mod
 	\item Um ponto é maior que o outro se possuir uma coordenada \( y \) maior e, caso seja igual, consideramos a maior coordenada \( x \).
 \end{itemize}
 
-Também foi implementado um método que calcula a distância euclidiana entre os dois pontos. O cálculo desse valor é importante para implementações no decorrer do trabalho.
+Também foi implementado um método que calcula a distância euclidiana entre os dois pontos. O cálculo desse valor é importante para implementações no decorrer do trabalho. Adicionalmente há uma função que verifica se um ponto contido em uma lista de segmentos (em essência, um polígono)
 
 Tais especificações definem a classe de um modo geral, cuja implementação facilitou muito as manipulações feitas nas outras partes do trabalho.
 
@@ -150,6 +150,8 @@ Podemos notar que em todos os casos o algoritmo incremental e o algoritmo da var
 De qualquer modo, podemos notar que eles seguem um padrão exatamente como esperávamos. A varredura de Graham e o algoritmo incremental, ambos com a mesma complexidade \( \Theta(n \log n) \), tiveram tempos de execução semelhantes para os testes feitos, enquanto o algoritmo do embrulho de presente demorou muito mais, dado sua inconsistência e sensibilidade à saída.
 
 Após essas análises concluímos então que a melhor opção para utilizarmos no trabalho prático seria o algoritmo da varredura de Graham, uma vez que ela passou em todos os testes que criamos e apresentou um desempenho eficiente e consistente neles.
+
+Adicionalmente esta classe possui um método para checar se uma envoltória convexa contém outra, dado que elas não se interceptam. Isso serve como checagem adicional para verificar a separabilidade linear: é possível que duas envoltórias não se interceptem, mas uma esteja dentro da outra, de tal maneira tornando a separação impossível.
 
 \subsubsection{Event}
 
