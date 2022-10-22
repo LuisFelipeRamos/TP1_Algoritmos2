@@ -14,8 +14,8 @@ def check_banana(file):
     col_names_banana = ["At1", "At2", "Class"]
     banana = pd.read_csv(file, names=col_names_banana)
 
-    bananaclass1 = banana[banana["Class"] == 1]
-    bananaclass2 = banana[banana["Class"] == -1]
+    bananaclass1 = banana[banana["Class"] == "1.0"]
+    bananaclass2 = banana[banana["Class"] == "-1.0"]
 
     bananaclass1_train = bananaclass1.sample(frac=0.7)
     bananaclass1_test = bananaclass1.drop(bananaclass1_train.index)
@@ -101,7 +101,8 @@ def check_banana(file):
 
     intersect = line_sweep.do_polygons_intersect(ch1.convex_hull, ch2.convex_hull)
 
+    linear_separable = False
     if not intersect:
         linear_separable = not (ch1.is_inside(ch2) or ch2.is_inside(ch1))
-        if not linear_separable:
-            print("Os dados não são linearmente separáveis")
+    if not linear_separable:
+        print("Os dados não são linearmente separáveis")
