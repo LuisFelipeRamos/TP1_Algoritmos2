@@ -78,6 +78,7 @@ def check_wine(file):
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = ch1.min_dist(ch2)
+    print(min_dist_segment)
 
     _, ax = plt.subplots(figsize=(100, 100))
     ax = cast(plt.Axes, ax)
@@ -87,7 +88,7 @@ def check_wine(file):
         [point.y for point in ch1.set_of_points],
         c=["red"],
         s=2,
-        label="Class positive",
+        label="Class 1",
     )
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     for edge in ch1.convex_hull:
@@ -98,7 +99,7 @@ def check_wine(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
-        label="Class negative",
+        label="Class 3",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
@@ -113,12 +114,12 @@ def check_wine(file):
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
     x = np.linspace(30, 90, 100)
     y = slope * x + b
-    plt.title("Haberman", fontsize=20)
-    plt.xlabel("Petal Length", fontsize=20)
+    plt.title("Wine", fontsize=20)
+    plt.xlabel("Magnesium", fontsize=20)
     plt.xticks(fontsize=10)
-    plt.ylabel("Petal Width", fontsize=20)
+    plt.ylabel("flavanoids", fontsize=20)
     plt.yticks(fontsize=10)
-    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {b}")
+    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
     plt.legend(loc="upper right", fontsize=15)
     plt.show()
 

@@ -103,7 +103,7 @@ def check_haberman(file):
     plt.xticks(fontsize=10)
     plt.ylabel("Petal Width", fontsize=20)
     plt.yticks(fontsize=10)
-    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {b}")
+    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
     plt.legend(loc="upper right", fontsize=15)
     plt.show()
 
