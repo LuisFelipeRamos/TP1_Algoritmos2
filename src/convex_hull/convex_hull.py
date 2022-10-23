@@ -176,8 +176,6 @@ class ConvexHull:
         """
         points_hull_1: list[Point] = [edge.p0 for edge in self.convex_hull]
         points_hull_2: list[Point] = [edge.p0 for edge in other.convex_hull]
-        print(points_hull_1)
-        print(points_hull_2)
         min_dist: float = float("inf")
         min_dist_segment: Segment = Segment(Point(0, 0), Point(0, 0))
         for p in points_hull_1:

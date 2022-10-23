@@ -32,8 +32,8 @@ def check_wine(file):
 
     wineclass1 = wine[wine["Class"] == 1]
     wineclass2 = wine[wine["Class"] == 3]
-    wineclass1 = wineclass1[["Magnesium", "flavanoids"]]
-    wineclass2 = wineclass2[["Magnesium", "flavanoids"]]
+    wineclass1 = wineclass1[["Proline", "flavanoids"]]
+    wineclass2 = wineclass2[["Proline", "flavanoids"]]
 
     wineclass1_train = wineclass1.sample(frac=0.7)
     wineclass1_test = wineclass1.drop(wineclass1_train.index)
@@ -46,30 +46,30 @@ def check_wine(file):
     wineclass2_test.reset_index(drop=True, inplace=True)
 
     list_wineclass1_train = []
-    for x in range(wineclass1_train["Magnesium"].size):
+    for x in range(wineclass1_train["Proline"].size):
         temp_point = Point(
-            wineclass1_train["Magnesium"][x], wineclass1_train["flavanoids"][x]
+            wineclass1_train["Proline"][x], wineclass1_train["flavanoids"][x]
         )
         list_wineclass1_train.insert(1, temp_point)
 
     list_wineclass1_test = []
-    for x in range(wineclass1_test["Magnesium"].size):
+    for x in range(wineclass1_test["Proline"].size):
         temp_point = Point(
-            wineclass1_test["Magnesium"][x], wineclass1_test["flavanoids"][x]
+            wineclass1_test["Proline"][x], wineclass1_test["flavanoids"][x]
         )
         list_wineclass1_test.insert(1, temp_point)
 
     list_wineclass2_train = []
-    for x in range(wineclass2_train["Magnesium"].size):
+    for x in range(wineclass2_train["Proline"].size):
         temp_point = Point(
-            wineclass2_train["Magnesium"][x], wineclass2_train["flavanoids"][x]
+            wineclass2_train["Proline"][x], wineclass2_train["flavanoids"][x]
         )
         list_wineclass2_train.insert(1, temp_point)
 
     list_wineclass2_test = []
-    for x in range(wineclass2_test["Magnesium"].size):
+    for x in range(wineclass2_test["Proline"].size):
         temp_point = Point(
-            wineclass2_test["Magnesium"][x], wineclass2_test["flavanoids"][x]
+            wineclass2_test["Proline"][x], wineclass2_test["flavanoids"][x]
         )
         list_wineclass2_test.insert(1, temp_point)
 
@@ -78,7 +78,6 @@ def check_wine(file):
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = ch1.min_dist(ch2)
-    print(min_dist_segment)
 
     _, ax = plt.subplots(figsize=(100, 100))
     ax = cast(plt.Axes, ax)
@@ -112,15 +111,15 @@ def check_wine(file):
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(30, 90, 100)
+    x = np.linspace(1000, 1100, 100)
     y = slope * x + b
     plt.title("Wine", fontsize=20)
-    plt.xlabel("Magnesium", fontsize=20)
+    plt.xlabel("Proline", fontsize=20)
     plt.xticks(fontsize=10)
     plt.ylabel("flavanoids", fontsize=20)
     plt.yticks(fontsize=10)
     plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
-    plt.legend(loc="upper right", fontsize=15)
+    plt.legend(loc="upper left", fontsize=15)
     plt.show()
 
     # checa se os polígonos se intersectam
