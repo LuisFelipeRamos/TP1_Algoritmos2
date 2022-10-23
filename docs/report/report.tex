@@ -21,6 +21,10 @@
 \usepackage{hyphenat}               % Use hifens corretamente
 \hyphenation{mate-mática recu-perar}
 
+\usepackage[backend=biber, style=authoryear-icomp]{biblatex}
+\addbibresource{bibliography/references.bib}
+\usepackage{csquotes}               % https://tex.stackexchange.com/a/229653
+
 \author{
     Gabriel Rocha Martins
     \and 
@@ -167,7 +171,7 @@ Quanto à especificidade da implementação, a principal função dessa classe, 
 
 Como mencionado na classe \texttt{Event}, o processamento do eixo é dado a partir dos eventos. Em especial, ao inserir um segmento (seu evento da esquerda), é checado se o segmento em questão intercepta seus vizinhos e, ao remover um segmento (evento da direita), é checado se seus vizinhos interceptam um ao outro. Desse modo, se faz necessário inverter o sentido de segmentos que apontam para a esquerda.
 
-Para realizar as inserções e remoções de maneira eficiente, foi usada uma árvore AVL, da biblioteca \texttt{pytrees} (inclusa no código). A comparação dos pontos é feita a partir do \( x \) atual da varredura linear. Além disso, a referência de implementação não considerava que um ponto poderia ser o início de mais de um segmento, o que é incompatível com trabalhar com polígonos. Para diferenciar segmentos que compartilham tal ponto, é usado um \( \epsilon \) na comparação, que permite que um deles se sobreponha sobre o outro.
+Para realizar as inserções e remoções de maneira eficiente, foi usada uma árvore AVL, da biblioteca \texttt{pytrees} (inclusa no código). A comparação dos pontos é feita a partir do \( x \) atual da varredura linear. Além disso, a referência \footcite{SL18} de implementação não considerava que um ponto poderia ser o início de mais de um segmento, o que é incompatível com trabalhar com polígonos. Para diferenciar segmentos que compartilham tal ponto, é usado um \( \epsilon \) na comparação, que permite que um deles se sobreponha sobre o outro.
 
 Outra etapa importante é a função que calcula os vizinhos de um dado nodo. Essa função não estava implementada na biblioteca usada. Quando um nodo tem filhos, o nodo que melhor o aproxima por baixo é o maior da subárvore da esquerda e o que melhor aproxima por cima é o menor da subárvore da direita. Se algum dos filhos não existir, é necessário achar o primeiro ancestral que atenda a condição de ser menor ou maior que o nodo em questão. Apesar de caminhar em todos os níveis da árvore (no pior caso), como ela é balanceada, a complexidade é \( \Theta(\log n) \). Como comentado no código, apesar de essa função fazer mais sentido para uma árvore, averiguou-se adequado deixá-la nesta classe, por simplicidade.
 
@@ -299,7 +303,6 @@ No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Pod
 
 \section{Conclusão}
 
-\section{Referências Bibliográficas}
-
+\printbibliography
 
 \end{document}
