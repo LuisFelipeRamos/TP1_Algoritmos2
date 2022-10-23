@@ -4,8 +4,6 @@
 # Luis Felipe Ramos
 
 
-# pylint: skip-file
-# flake8: noqa
 from __future__ import annotations
 
 import math
@@ -391,17 +389,15 @@ class Event:
 class LineSweep:
     """
     Esta classe implementa uma versão modificada da varredura linear
-    para buscar pela interseção de dois ou mais polígonos
+    para buscar pela interseção de dois polígonos
     """
 
     def do_polygons_intersect(
         self, polygon1: list[Segment], polygon2: list[Segment]
     ) -> bool:
         """
-        Confere se um conjunto de polígonos se possui alguma interseção entre pelo menos 2 polígonos
-        Cada polígono é uma lista de tuplas (Segmento, ID). Todos os segmentos são buscados
-        para verificar a interseção, de modo que a flag ID é usada
-        para descartar interseções de um polígono com ele mesmo.
+        Confere se polygon1 e polygon2 possuem alguma interseção
+        É usada flag ID para descartar interseções de um polígono com ele mesmo.
         """
 
         polygons: list[tuple[Segment, int]] = [(segment, 1) for segment in polygon1]
@@ -429,6 +425,7 @@ class LineSweep:
             segment_id: tuple[Segment, int] = (event.segment, event.identifier)
 
             if event.is_left:
+                global X
                 X = segment_id[0].p0.x + eps
                 tree_segments.insert(segment_id)
                 node = tree_segments.search(segment_id)
@@ -881,8 +878,7 @@ def hull():
         x, y = random.randint(1, 100), random.randint(1, 100)
         set_of_points.append(Point(x, y))
 
-    hull: ConvexHull = ConvexHull(set_of_points, alg="gift_wrapping")
-    return hull
+    return ConvexHull(set_of_points, alg="gift_wrapping")
 
 
 def plot_polygon(polygon: list[Segment], color: str):
@@ -914,8 +910,8 @@ if __name__ == "__main__":
           Para visualizar isso, são geradas duas figuras: envoltória.png e polígonos.png
           É impresso na tela se os polígonos são linearmente separáveis ou não."""
     )
-    convex_hull = hull()
-    convex_hull.plot()
+    ch = hull()
+    ch.plot()
     if separable():
         print("Polígonos são linearmente separáveis")
     else:

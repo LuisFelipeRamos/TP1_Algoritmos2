@@ -8,17 +8,15 @@ from src.segment import Segment
 class LineSweep:
     """
     Esta classe implementa uma versão modificada da varredura linear
-    para buscar pela interseção de dois ou mais polígonos
+    para buscar pela interseção de dois polígonos
     """
 
     def do_polygons_intersect(
         self, polygon1: list[Segment], polygon2: list[Segment]
     ) -> bool:
         """
-        Confere se um conjunto de polígonos se possui alguma interseção entre pelo menos 2 polígonos
-        Cada polígono é uma lista de tuplas (Segmento, ID). Todos os segmentos são buscados
-        para verificar a interseção, de modo que a flag ID é usada
-        para descartar interseções de um polígono com ele mesmo.
+        Confere se polygon1 e polygon2 possuem alguma interseção
+        É usada flag ID para descartar interseções de um polígono com ele mesmo.
         """
 
         polygons: list[tuple[Segment, int]] = [(segment, 1) for segment in polygon1]
