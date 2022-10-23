@@ -1,3 +1,9 @@
+# Grupo:
+# Gabriel Rocha Martins,
+# Igor Lacerda Faria da Silva,
+# Luis Felipe Ramos
+
+
 # pylint: skip-file
 # flake8: noqa
 from __future__ import annotations
@@ -866,6 +872,7 @@ class AVLTree:
             node2.right = node1
             node1.parent = node2
 
+
 def hull():
     set_of_points: list[Point] = []
     for _ in range(100):
@@ -873,9 +880,10 @@ def hull():
         y: int
         x, y = random.randint(1, 100), random.randint(1, 100)
         set_of_points.append(Point(x, y))
-    
+
     hull: ConvexHull = ConvexHull(set_of_points, alg="gift_wrapping")
     return hull
+
 
 def plot_polygon(polygon: list[Segment], color: str):
     """
@@ -883,6 +891,7 @@ def plot_polygon(polygon: list[Segment], color: str):
     """
     for edge in polygon:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], color, linewidth=0.5)
+
 
 def separable():
     polygon_a = hull().convex_hull
@@ -894,17 +903,17 @@ def separable():
     plot_polygon(polygon_b, "green")
     plt.savefig("polígonos.png")
     line_sweeper = LineSweep()
-    return not line_sweeper.do_polygons_intersect(polygon_a,polygon_b)
-
-
+    return not line_sweeper.do_polygons_intersect(polygon_a, polygon_b)
 
 
 if __name__ == "__main__":
-    print("""O programa tem duas funções
+    print(
+        """O programa tem duas funções
           1. A partir de um conjunto de pontos aleatório gerar uma envoltória convexa
           2. Verificar se dois polígonos são linearmente separáveis.
           Para visualizar isso, são geradas duas figuras: envoltória.png e polígonos.png
-          É impresso na tela se os polígonos são linearmente separáveis ou não.""")
+          É impresso na tela se os polígonos são linearmente separáveis ou não."""
+    )
     convex_hull = hull()
     convex_hull.plot()
     if separable():
