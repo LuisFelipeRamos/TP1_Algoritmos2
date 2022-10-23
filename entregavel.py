@@ -890,23 +890,38 @@ def plot_polygon(polygon: list[Segment], color: str):
 
 
 def separable():
-    polygon_a = hull().convex_hull
-    polygon_b = hull().convex_hull
+    hull_a: ConvexHull = hull()
+    hull_b: ConvexHull = hull()
+
+    polygon_a: list[Segment] = hull_a.convex_hull
+    polygon_b: list[Segment] = hull_b.convex_hull
+
     _, ax = plt.subplots()
     ax = cast(plt.Axes, ax)
     ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
     plot_polygon(polygon_a, "blue")
     plot_polygon(polygon_b, "green")
     plt.savefig("polígonos.png")
+
     line_sweeper = LineSweep()
-    return not line_sweeper.do_polygons_intersect(polygon_a, polygon_b)
+    # Se os polígonos se intersectam, eles não são separáveis
+    if line_sweeper.do_polygons_intersect(polygon_a, polygon_b):
+        return 0
+    # Se eles não se intersectam, mas um está contido no outro, também não são separáveis
+    # A checagem de que um estar dentro do outro é fraca:
+    # assume que não possuem interseção
+    if hull_a.is_inside(hull_b) or hull_b.is_inside(hull_a):
+        return 0
+    # Caso contrário, a princípio são separáveis (existem exceções)
+    return 1
 
 
 if __name__ == "__main__":
     print(
         """O programa tem duas funções
-          1. A partir de um conjunto de pontos aleatório gerar uma envoltória convexa
-          2. Verificar se dois polígonos são linearmente separáveis.
+          1. A partir de um conjunto de pontos aleatórios gerar uma envoltória convexa
+          2. Verificar se dois polígonos são linearmente separáveis usando a varredura linear
+          para detectar interseções e também conferir se um polígono está dentro da outro
           Para visualizar isso, são geradas duas figuras: envoltória.png e polígonos.png
           É impresso na tela se os polígonos são linearmente separáveis ou não."""
     )
