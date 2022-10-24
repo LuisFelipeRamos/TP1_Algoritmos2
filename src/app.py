@@ -10,7 +10,6 @@ from src.data_import import check_glass
 from src.convex_hull import ConvexHull
 from src.point import Point
 
-
 def run() -> None:
     """
     Roda o programa principal.
