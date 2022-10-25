@@ -1,4 +1,7 @@
 # pylint: disable=missing-function-docstring, missing-module-docstring
+
+from numpy import Inf
+
 from src.point import Point
 from src.segment import Segment
 
@@ -78,3 +81,25 @@ def test_intersects() -> None:
 
     # Colinearidade "fora"
     assert not seg3.intersects(seg5)
+
+
+def test_perpendicular_segment() -> None:
+
+    seg_simple: Segment = Segment(Point(1, 1), Point(3, 3))
+    slope, coef, midpoint = seg_simple.get_perpendicular_segment()
+
+    assert midpoint == Point(2, 2)
+    assert slope == -1
+    assert coef == 4
+
+    seg_vertical: Segment = Segment(Point(1, 1), Point(1, 3))
+    slope, coef, midpoint = seg_vertical.get_perpendicular_segment()
+    assert midpoint == Point(1, 2)
+    assert slope == 0
+    assert coef == 2
+
+    seg_horizontal: Segment = Segment(Point(1, 1), Point(5, 1))
+    slope, coef, midpoint = seg_horizontal.get_perpendicular_segment()
+    assert midpoint == Point(3, 1)
+    assert slope == Inf
+    assert coef == 3
