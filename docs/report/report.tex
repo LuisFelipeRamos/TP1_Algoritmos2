@@ -83,7 +83,7 @@ Essa definição de pontos de início e fim é importante para definirmos o sent
 	y & = p_1.y - p_0.y
 \end{align*}
 
-Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{linear}) e o tamanho do segmento. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
+Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{coef}) e o tamanho do segmento. Quando a reta é vertical, \textit{slope} se torna infinito e \textit{coef} passa a ser o \( x \) da reta. Possíveis exceções desse separamento de retas verticais e não verticais são tratados ao longo do programa. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
 
 \begin{itemize}
 	\item Calcular o produto vetorial entre duas instâncias de um segmento.
@@ -96,6 +96,7 @@ Esta classe ainda conta com mais 3 membros: as constantes que definem a reta ass
 	\item Verificar se um segmento contém um ponto.
 	\item Calcular a orientação de dois segmentos, tratando colinearidade ``normalmente'', isto é, sem considerar o segmento de menor norma como sendo anti-horário.
 	\item Checar se um segmento intersecta outro.
+	\item Retornar o segmento perpendicular ao atual, que passa pelo seu ponto médio.
 \end{itemize}
 
 Assim como na classe \texttt{Point}, foi feita a sobrecarga de operadores para facilitar as implementações do trabalho. Mais especificamente, sobrecarregamos o comparador de ``menor que'', de modo que um segmento é menor que o outro se este está em sentido horário em relação ao outro.
