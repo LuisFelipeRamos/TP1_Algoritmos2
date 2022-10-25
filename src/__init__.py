@@ -1,3 +1,3 @@
-from .globals import X
+from .globals import X, epsilon
 
-__all__ = ["X"]
+__all__ = ["X", "epsilon"]
