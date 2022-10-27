@@ -83,7 +83,7 @@ Essa definição de pontos de início e fim é importante para definirmos o sent
 	y & = p_1.y - p_0.y
 \end{align*}
 
-Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{coef}) e o tamanho do segmento. Quando a reta é vertical, \textit{slope} se torna infinito e \textit{coef} passa a ser o \( x \) da reta. Possíveis exceções desse separamento de retas verticais e não verticais são tratados ao longo do programa. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
+Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{linear}) e o tamanho do segmento. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
 
 \begin{itemize}
 	\item Calcular o produto vetorial entre duas instâncias de um segmento.
@@ -96,7 +96,6 @@ Esta classe ainda conta com mais 3 membros: as constantes que definem a reta ass
 	\item Verificar se um segmento contém um ponto.
 	\item Calcular a orientação de dois segmentos, tratando colinearidade ``normalmente'', isto é, sem considerar o segmento de menor norma como sendo anti-horário.
 	\item Checar se um segmento intersecta outro.
-	\item Retornar o segmento perpendicular ao atual, que passa pelo seu ponto médio.
 \end{itemize}
 
 Assim como na classe \texttt{Point}, foi feita a sobrecarga de operadores para facilitar as implementações do trabalho. Mais especificamente, sobrecarregamos o comparador de ``menor que'', de modo que um segmento é menor que o outro se este está em sentido horário em relação ao outro.
@@ -162,6 +161,12 @@ Após essas análises concluímos então que a melhor opção para utilizarmos n
 
 Adicionalmente esta classe possui um método para checar se uma envoltória convexa contém outra, dado que elas não se interceptam. Isso serve como checagem adicional para verificar a separabilidade linear: é possível que duas envoltórias não se interceptem, mas uma esteja dentro da outra, de tal maneira tornando a separação impossível.
 
+Por fim, temos um método importante para o trabalho que retorna o segmento de menor tamanho entre o vértice de uma envoltória e um vértice de outra. Mais especificamente, para casos em que podemos separar linearmente as envoltórias, devemos seguir, conforme especifica o enunciado do trabalho, alguns passos para facilitar as computações. O primeiro deles é encontrar o segmento que une dois vértices, um de cada envoltória, de modo que a distância entre esses vértices seja a menor possível.
+
+Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem interseção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
+
+De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Para calcular o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles com a menor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
+
 \subsubsection{Event}
 
 Um evento, no contexto da varredura linear, é um ponto que pode gerar uma interseção de segmentos. Isto é, não é necessário implementar a varredura linear como uma linha contínua percorrendo o eixo \( x \), mas sim como saltos discretos em pontos específicos: os terminais dos segmentos, sendo necessário saber se são o extremo esquerdo ou direito.
@@ -194,15 +199,9 @@ Todas as animações feitas foram dos três algoritmos de cálculo da envoltóri
 
 Não vamos nos estender muito em relação à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos, além de que deixaremos ao final desta documentação instruções caso queiram rodar as animações localmente.
 
-\subsection{Funções}
+\subsubsection{Classifier}
 
-\subsubsection{Segmento de menor distância entre vértices das envoltórias}
-
-Para casos em que podemos separar linearmente as envoltórias, devemos seguir, conforme especifica o enunciado do trabalho, alguns passos para facilitar as computações. O primeiro deles é encontrar o segmento que une dois vértices, um de cada envoltória, de modo que a distância entre esses vértices seja a menor possível.
-
-Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem interseção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
-
-De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Na função em que calculamos o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles com a menor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
+wabba labba dub dub
 
 \section{Análise experimental dos dados}
 
@@ -216,15 +215,15 @@ De modo geral, estes foram os conjuntos de dados que utilizamos para nosso traba
 
 \begin{enumerate}
 	\item Iris
-	\item Adult
-	\item Pima
-	\item Sonar
-	\item Vehicle
-	\item Banana
-	\item Magic
+	\item
+	\item Newtyroid
+	\item Segment
 	\item Haberman
 	\item Wine
 	\item Glass
+	\item Adult
+	\item Banana
+	\item Magic
 
 \end{enumerate}
 
@@ -257,13 +256,43 @@ Ao executar o código após o processamento dos dados, tivemos como resposta que
 
 Podemos ver claramente pela imagem que os dados são de fato separáveis linearmente.
 
-\subsubsection{Adult}
+\subsubsection{Wine}
 
-\subsubsection{Pima}
+\subsubsection{Glass}
 
-\subsubsection{Sonar}
+O conjunto de dados Glass possui uma grande quantidade de atributos para cada instância, as quais são divididas em 7 classes diferentes. De modo a gerarmos um conjunto de dadosque pudesse ser separável que pudéssemos utilizar nssos classificadores, escolhemos especificamente os atributos Na e Mg como coordenadas do nosso sistema de coordenadas, e escolhemos as classes 1 e 3 para serem separadas.
 
-\subsubsection{Vehicle}
+Nosso sistema nos responde que os dados são separáveis, e temos o seguinte gráfico gerado.
+
+\begin{figure} [H]
+	\includegraphics[width=12cm]{glass.png}
+	\centering
+\end{figure}
+
+
+\subsubsection{Newthyroid}
+
+A base de dados Newthyroid tmbém é separável, se escolhermos como coordenadas os atributos Thyroxin e TSH\_value, e como classes as classes 2 e 3. Ao executarmos o código, não identificamos intersecção entre as envoltórias e temos o seguinte gráfico.
+
+\begin{figure} [H]
+	\includegraphics[width=12cm]{newthyroid.png}
+	\centering
+\end{figure}
+
+\subsubsection{Segment}
+
+Mias uma base que pudemos identificar como separável foi o conjunto de dados Segment. Ela possui instâncias com uma grand quantidade de atributos, divididas entre 7 classes. Para garantir a separabilidade, utilizamos os atributos Region-centroid-col e Rawblue-mean como coordenadas do plano cartesiano, e separamos pelas classes 1 e 2.
+
+Nosso sistema nos retornou que nossos dados eram linearmente separáveis, e obtivemos o seguinte gráfico resultante.
+
+\begin{figure} [H]
+	\includegraphics[width=12cm]{newthyroid.png}
+	\centering
+\end{figure}
+
+\subsubsection{sep4}
+
+\subsubsection{sep5}
 
 \subsubsection{Banana}
 
@@ -298,9 +327,9 @@ No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Pod
 	\centering
 \end{figure}
 
-\subsubsection{Wine}
+\subsubsection{sep4}
 
-\subsubsection{Glass}
+\subsubsection{sep5}
 
 \subsection{Análise de métricas}
 
@@ -310,14 +339,15 @@ No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Pod
 
 O Trabalho Prático, de forma geral, foi extremamente importante para compreensão e estudo dos principais conceitos de geometria computacional aprendidos na disciplina.
 
-A implementação de três algoritmos de envoltória convexa permitiu que notássemos as principais diferenças entre eles, principalmente em relação aos tempos de execução. A aplicação das primitivas de geometria computacional nestas implementações também foi consideravelmente importante para compreender o tema de forma geral.
+A implementação de três algoritmos de envoltória convexa permitiu que notássemos as principais diferenças entre eles, principalmente em relação aos tempos de execução. A aplicação das primitivas de geometria computacional nessasimplementações também foi consideravelmente importante para compreender o tema de forma geral.
 
-A varredura linear, por sua vez, tomou um pouco mais de tempo do nosso grupo. A parte mais complicada certamente se refere ao uso de uma AVL no algoritmo, uma vez que muitos casos específicos precisavam ser considerados na hora de analisarmos se um segmento estava acima ou abaixo do outro. No entanto, após vários testes fomos capazes de consertar nosso algoritmo e finalizamos a implementação.
+A varredura linear, por sua vez, tomou um pouco mais de tempo do nosso grupo. A parte mais complicada certamente se refere ao uso de uma AVL no algoritmo, uma vez que muitos casos específicos precisavam ser considerados na hora de analisarmos se um segmento estava acima ou abaixo do outro. No entanto, após vários testes fomos capazes de consertar nosso algoritmo e fianlizamos a implementação.
 
-Após isso, tínhamos como tarefa a implementação do classificador, de modo a criar um sistema simples de aprendizado de máquina. A falta de familiaridade dos nossos membros com alguns conceitos de ciência de dados foi um empecilho no começo, mas com o tempo fomos capazes de aprender os conceitos e aplicá-los ao trabalho.
+Após isso, tínhamos como tarefa a implementação do classificador, de modo a criar um sistema simples de aprendizado de máquina. A falta de familiaridade dos nossos membros com alguns conceitos de ciência de dados foi um empecilho no começo, mas com o tmepo fomos capazes de aprender os conceitos e aplicá-los ao trabalho.
 
-Em resumo, o trabalho foi muito interessante num ponto de vista de aprendizado. Colocar em prática tudo que foi aprendido certamente fez uma grande diferença para assimilar os conceitos.
+Em resumo, o trabalho foi muito interessante num ponto de vista de apendizado. Colocar em prática tudo que foi aprendido certamente fez uma grande diferença para assimilar os conceitos.
 
 \printbibliography
 
 \end{document}
+
