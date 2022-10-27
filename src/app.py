@@ -3,6 +3,7 @@ import argparse
 from src.data_import import check_wine
 from src.data_import import check_glass
 from src.data_import import check_newthyroid
+from src.data_import import check_segment
 
 
 def run() -> None:
@@ -22,4 +23,4 @@ def run() -> None:
     )
     args: argparse.Namespace = parser.parse_args()
 
-    check_glass(args.file)
+    check_segment(args.file)

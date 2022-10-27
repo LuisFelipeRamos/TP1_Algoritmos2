@@ -5,3 +5,5 @@ from .haberman import check_haberman
 from .wine import check_wine
 from .glass import check_glass
 from .newthyroid import check_newthyroid
+from .segment import check_segment
+

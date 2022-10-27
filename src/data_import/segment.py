@@ -10,26 +10,34 @@ from src.point.point import Point
 from src.segment.segment import Segment
 
 
-def check_glass(file):
+def check_segment(file):
 
-    col_names_glass = [Region-centroid-col, 
-    Region-centroid-row, 
-    Region-pixel-count, 
-    Short-line-density-5, 
-    Short-line-density-2, 
-    Vedge-mean, Vegde-sd, 
-    Hedge-mean, Hedge-sd, 
-    Intensity-mean, Rawred-mean, 
-    Rawblue-mean, Rawgreen-mean, 
-    Exred-mean, Exblue-mean, 
-    Exgreen-mean, Value-mean, 
-    Saturatoin-mean, Hue-mean]
-    glass = pd.read_csv(file, names=col_names_glass)
+    col_names_segment = ["Region-centroid-col", 
+    "Region-centroid-row", 
+    "Region-pixel-count", 
+    "Short-line-density-5", 
+    "Short-line-density-2", 
+    "Vedge-mean",
+    "Vegde-sd", 
+    "Hedge-mean",
+    "Hedge-sd", 
+    "Intensity-mean", 
+    "Rawred-mean", 
+    "Rawblue-mean", 
+    "Rawgreen-mean", 
+    "Exred-mean", 
+    "Exblue-mean", 
+    "Exgreen-mean",
+    "Value-mean", 
+    "Saturatoin-mean",
+    "Hue-mean",
+    "Class"]
+    segment = pd.read_csv(file, names=col_names_segment)
 
-    segmentclass1=glass[glass['TypeGlass']==1]
-    segmentclass2=glass[glass['TypeGlass']==6]
-    segmentclass1=segmentclass1[["Na","Mg"]]
-    segmentclass2=segmentclass2[["Na","Mg"]]
+    segmentclass1=segment[segment['Class']==1]
+    segmentclass2=segment[segment['Class']==6]
+    segmentclass1=segmentclass1[["Region-centroid-col","Rawblue-mean"]]
+    segmentclass2=segmentclass2[["Region-centroid-col","Rawblue-mean"]]
 
     segmentclass1_train=segmentclass1.sample(frac=0.7)
     segmentclass1_test=segmentclass1.drop(segmentclass1_train.index)
@@ -42,23 +50,23 @@ def check_glass(file):
     segmentclass2_test.reset_index(drop=True,inplace=True)
 
     list_segmentclass1_train=[]
-    for x in range(segmentclass1_train["Na"].size):
-        temp_point=Point(segmentclass1_train["Na"][x],segmentclass1_train["Mg"][x])
+    for x in range(segmentclass1_train["Region-centroid-col"].size):
+        temp_point=Point(segmentclass1_train["Region-centroid-col"][x],segmentclass1_train["Rawblue-mean"][x])
         list_segmentclass1_train.insert(1,temp_point)
 
     list_segmentclass1_test=[]
-    for x in range(segmentclass1_test["Na"].size):
-        temp_point=Point(segmentclass1_test["Na"][x],segmentclass1_test["Mg"][x])
+    for x in range(segmentclass1_test["Region-centroid-col"].size):
+        temp_point=Point(segmentclass1_test["Region-centroid-col"][x],segmentclass1_test["Rawblue-mean"][x])
         list_segmentclass1_test.insert(1,temp_point)
     
     list_segmentclass2_train=[]
-    for x in range(segmentclass2_train["Na"].size):
-        temp_point=Point(segmentclass2_train["Na"][x],segmentclass2_train["Mg"][x])
+    for x in range(segmentclass2_train["Region-centroid-col"].size):
+        temp_point=Point(segmentclass2_train["Region-centroid-col"][x],segmentclass2_train["Rawblue-mean"][x])
         list_segmentclass2_train.insert(1,temp_point)
 
     list_segmentclass2_test=[]
-    for x in range(segmentclass2_test["Na"].size):
-        temp_point=Point(segmentclass2_test["Na"][x],segmentclass2_test["Mg"][x])
+    for x in range(segmentclass2_test["Region-centroid-col"].size):
+        temp_point=Point(segmentclass2_test["Region-centroid-col"][x],segmentclass2_test["Rawblue-mean"][x])
         list_segmentclass2_test.insert(1,temp_point)
 
     sop1 = list_segmentclass1_train
@@ -99,12 +107,12 @@ def check_glass(file):
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(11, 15, 100)
+    x = np.linspace(8, 10, 100)
     y = slope * x + b
-    plt.title("Glass", fontsize=20)
-    plt.xlabel("Na", fontsize=20)
+    plt.title("Segment", fontsize=20)
+    plt.xlabel("Region-centroid-col", fontsize=20)
     plt.xticks(fontsize=10)
-    plt.ylabel("Mg", fontsize=20)
+    plt.ylabel("Rawblue-mean", fontsize=20)
     plt.yticks(fontsize=10)
     plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
     plt.legend(loc="upper left", fontsize=15)
