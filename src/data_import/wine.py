@@ -75,6 +75,7 @@ def check_wine(file):
 
     sop1 = list_wineclass1_train
     sop2 = list_wineclass2_train
+
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = ch1.min_dist(ch2)
@@ -111,7 +112,7 @@ def check_wine(file):
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(1000, 1100, 100)
+    x = np.linspace(400, 1100, 100)
     y = slope * x + b
     plt.title("Wine", fontsize=20)
     plt.xlabel("Proline", fontsize=20)

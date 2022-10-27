@@ -6,6 +6,7 @@ from src.data_import import check_magic
 from src.data_import import check_haberman
 from src.data_import import check_wine
 from src.data_import import check_glass
+from src.data_import import check_newthyroid
 
 from src.convex_hull import ConvexHull
 from src.point import Point
@@ -27,4 +28,4 @@ def run() -> None:
     )
     args: argparse.Namespace = parser.parse_args()
 
-    check_wine(args.file)
+    check_glass(args.file)

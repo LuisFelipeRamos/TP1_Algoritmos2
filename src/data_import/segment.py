@@ -12,46 +12,57 @@ from src.segment.segment import Segment
 
 def check_glass(file):
 
-    col_names_glass = ["RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "TypeGlass"]
+    col_names_glass = [Region-centroid-col, 
+    Region-centroid-row, 
+    Region-pixel-count, 
+    Short-line-density-5, 
+    Short-line-density-2, 
+    Vedge-mean, Vegde-sd, 
+    Hedge-mean, Hedge-sd, 
+    Intensity-mean, Rawred-mean, 
+    Rawblue-mean, Rawgreen-mean, 
+    Exred-mean, Exblue-mean, 
+    Exgreen-mean, Value-mean, 
+    Saturatoin-mean, Hue-mean]
     glass = pd.read_csv(file, names=col_names_glass)
 
-    glassclass1=glass[glass['TypeGlass']==1]
-    glassclass2=glass[glass['TypeGlass']==6]
-    glassclass1=glassclass1[["Na","Mg"]]
-    glassclass2=glassclass2[["Na","Mg"]]
+    segmentclass1=glass[glass['TypeGlass']==1]
+    segmentclass2=glass[glass['TypeGlass']==6]
+    segmentclass1=segmentclass1[["Na","Mg"]]
+    segmentclass2=segmentclass2[["Na","Mg"]]
 
-    glassclass1_train=glassclass1.sample(frac=0.7)
-    glassclass1_test=glassclass1.drop(glassclass1_train.index)
-    glassclass1_train.reset_index(drop=True,inplace=True)
-    glassclass1_test.reset_index(drop=True,inplace=True)
+    segmentclass1_train=segmentclass1.sample(frac=0.7)
+    segmentclass1_test=segmentclass1.drop(segmentclass1_train.index)
+    segmentclass1_train.reset_index(drop=True,inplace=True)
+    segmentclass1_test.reset_index(drop=True,inplace=True)
 
-    glassclass2_train=glassclass2.sample(frac=0.7)
-    glassclass2_test=glassclass2.drop(glassclass2_train.index)
-    glassclass2_train.reset_index(drop=True,inplace=True)
-    glassclass2_test.reset_index(drop=True,inplace=True)
+    segmentclass2_train=segmentclass2.sample(frac=0.7)
+    segmentclass2_test=segmentclass2.drop(segmentclass2_train.index)
+    segmentclass2_train.reset_index(drop=True,inplace=True)
+    segmentclass2_test.reset_index(drop=True,inplace=True)
 
-    list_glassclass1_train=[]
-    for x in range(glassclass1_train["Na"].size):
-        temp_point=Point(glassclass1_train["Na"][x],glassclass1_train["Mg"][x])
-        list_glassclass1_train.insert(1,temp_point)
+    list_segmentclass1_train=[]
+    for x in range(segmentclass1_train["Na"].size):
+        temp_point=Point(segmentclass1_train["Na"][x],segmentclass1_train["Mg"][x])
+        list_segmentclass1_train.insert(1,temp_point)
 
-    list_glassclass1_test=[]
-    for x in range(glassclass1_test["Na"].size):
-        temp_point=Point(glassclass1_test["Na"][x],glassclass1_test["Mg"][x])
-        list_glassclass1_test.insert(1,temp_point)
+    list_segmentclass1_test=[]
+    for x in range(segmentclass1_test["Na"].size):
+        temp_point=Point(segmentclass1_test["Na"][x],segmentclass1_test["Mg"][x])
+        list_segmentclass1_test.insert(1,temp_point)
     
-    list_glassclass2_train=[]
-    for x in range(glassclass2_train["Na"].size):
-        temp_point=Point(glassclass2_train["Na"][x],glassclass2_train["Mg"][x])
-        list_glassclass2_train.insert(1,temp_point)
+    list_segmentclass2_train=[]
+    for x in range(segmentclass2_train["Na"].size):
+        temp_point=Point(segmentclass2_train["Na"][x],segmentclass2_train["Mg"][x])
+        list_segmentclass2_train.insert(1,temp_point)
 
-    list_glassclass2_test=[]
-    for x in range(glassclass2_test["Na"].size):
-        temp_point=Point(glassclass2_test["Na"][x],glassclass2_test["Mg"][x])
-        list_glassclass2_test.insert(1,temp_point)
+    list_segmentclass2_test=[]
+    for x in range(segmentclass2_test["Na"].size):
+        temp_point=Point(segmentclass2_test["Na"][x],segmentclass2_test["Mg"][x])
+        list_segmentclass2_test.insert(1,temp_point)
 
-    sop1 = list_glassclass1_train
-    sop2 = list_glassclass2_train
+    sop1 = list_segmentclass1_train
+    sop2 = list_segmentclass2_train
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
     min_dist_segment = ch1.min_dist(ch2)
