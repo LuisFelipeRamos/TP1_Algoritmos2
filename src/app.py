@@ -1,15 +1,9 @@
 import argparse
 
-from src.data_import import check_iris
-from src.data_import import check_banana
-from src.data_import import check_magic
-from src.data_import import check_haberman
 from src.data_import import check_wine
 from src.data_import import check_glass
 from src.data_import import check_newthyroid
 
-from src.convex_hull import ConvexHull
-from src.point import Point
 
 def run() -> None:
     """

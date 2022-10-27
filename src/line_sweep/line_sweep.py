@@ -34,7 +34,6 @@ class LineSweep:
         events.sort()
 
         tree_segments: AVLTree = AVLTree()
-        eps: float = 0.000001
 
         # Alguma variáveis não podem ser tipadas porque a biblioteca de AVL não é tipada
         for event in events:
@@ -44,7 +43,7 @@ class LineSweep:
             segment_id: tuple[Segment, int] = (event.segment, event.identifier)
 
             if event.is_left:
-                g.X = segment_id[0].p0.x + eps
+                g.X = segment_id[0].p0.x + g.epsilon
                 tree_segments.insert(segment_id)
                 node = tree_segments.search(segment_id)
                 if node is not None:

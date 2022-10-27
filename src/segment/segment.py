@@ -1,6 +1,8 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
+from numpy import Inf
+
 import src.globals as g
 from src.point import Point
 
@@ -16,10 +18,14 @@ class Segment:
         self.slope = (
             (self.p1.y - self.p0.y) / (self.p1.x - self.p0.x)
             if self.p1.x != self.p0.x
-            else 0
+            else Inf
         )
 
-        self.linear = self.p0.y - self.slope * self.p0.x
+        # Esse coeficiente tanto pode ser usado para ser o b de uma reta y = ax + b
+        # como pode o x = k em uma reta vertical
+        self.coef = (
+            self.p0.y - self.slope * self.p0.x if self.slope != Inf else self.p0.x
+        )
 
         self.length = self.p0.get_distance(p1)
 
@@ -31,13 +37,13 @@ class Segment:
 
     def __gt__(self, other: Segment) -> bool:
         """Comparador usado na AVL (LineSweep)."""
-        y_self = self.slope * g.X + self.linear
-        y_other = other.slope * g.X + other.linear
+        y_self = self.slope * g.X + self.coef
+        y_other = other.slope * g.X + other.coef
         return y_self < y_other
 
     def __eq__(self, other: Segment) -> bool:
-        y_self = self.slope * g.X + self.linear
-        y_other = other.slope * g.X + other.linear
+        y_self = self.slope * g.X + self.coef
+        y_other = other.slope * g.X + other.coef
         return y_self == y_other
 
     def __ge__(self, other: Segment) -> bool:
@@ -115,9 +121,20 @@ class Segment:
         return False
 
     def get_perpendicular_segment(self) -> tuple[float, float, Point]:
-        negative_inverse_slope: float = -1 / self.slope if self.slope != 0 else 0
+        """
+        Retorna o segmento perpendicular, que passa pelo ponto médio.
+        """
+        negative_inverse_slope: float = -1 / self.slope if self.slope != 0 else Inf
+
         midpoint: Point = Point(
             (self.p0.x + self.p1.x) / 2, (self.p0.y + self.p1.y) / 2
         )
-        linear: float = midpoint.y - negative_inverse_slope * midpoint.x
-        return negative_inverse_slope, linear, midpoint
+
+        # Aplique a mesma tática para segmentos verticais usada no construtor
+        # A reta passa a ser identificada por x = coef
+        coef: float = (
+            midpoint.y - negative_inverse_slope * midpoint.x
+            if negative_inverse_slope != Inf
+            else midpoint.x
+        )
+        return negative_inverse_slope, coef, midpoint
