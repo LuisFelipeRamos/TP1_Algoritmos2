@@ -35,7 +35,7 @@ def check_segment(file):
     segment = pd.read_csv(file, names=col_names_segment)
 
     segmentclass1=segment[segment['Class']==1]
-    segmentclass2=segment[segment['Class']==6]
+    segmentclass2=segment[segment['Class']==2]
     segmentclass1=segmentclass1[["Region-centroid-col","Rawblue-mean"]]
     segmentclass2=segmentclass2[["Region-centroid-col","Rawblue-mean"]]
 
@@ -94,7 +94,7 @@ def check_segment(file):
         [point.y for point in ch2.set_of_points],
         c=["blue"],
         s=2,
-        label="Class 6",
+        label="Class 2",
     )
     for edge in ch2.convex_hull:
         plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
@@ -107,7 +107,7 @@ def check_segment(file):
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(8, 10, 100)
+    x = np.linspace(10, 300, 100)
     y = slope * x + b
     plt.title("Segment", fontsize=20)
     plt.xlabel("Region-centroid-col", fontsize=20)
@@ -115,7 +115,7 @@ def check_segment(file):
     plt.ylabel("Rawblue-mean", fontsize=20)
     plt.yticks(fontsize=10)
     plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
-    plt.legend(loc="upper left", fontsize=15)
+    plt.legend(loc="center right", fontsize=15)
     plt.show()
 
     # checa se os polígonos se intersectam
