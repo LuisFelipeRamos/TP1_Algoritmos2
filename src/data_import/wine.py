@@ -1,14 +1,10 @@
-from typing import cast
-
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 from src.convex_hull.convex_hull import ConvexHull
+from src.data_import.data_processor import DataProcessor
 from src.line_sweep.line_sweep import LineSweep
 from src.point.point import Point
-from src.segment.segment import Segment
-from src.classifier import Classifier
+
 
 def check_wine(file):
 
@@ -78,50 +74,10 @@ def check_wine(file):
 
     ch1 = ConvexHull(sop1, alg="graham_scan")
     ch2 = ConvexHull(sop2, alg="graham_scan")
-    min_dist_segment = ch1.min_dist(ch2)
 
-    _, ax = plt.subplots(figsize=(100, 100))
-    ax = cast(plt.Axes, ax)
+    D: DataProcessor = DataProcessor(("1", "3"), "Wine", ("TotalPhenols", "flavanoids"))
 
-    ax.scatter(
-        [point.x for point in ch1.set_of_points],
-        [point.y for point in ch1.set_of_points],
-        c=["red"],
-        s=2,
-        label="Class 1",
-    )
-    ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
-    for edge in ch1.convex_hull:
-        plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "red", linewidth=0.5)
-
-    ax.scatter(
-        [point.x for point in ch2.set_of_points],
-        [point.y for point in ch2.set_of_points],
-        c=["blue"],
-        s=2,
-        label="Class 3",
-    )
-    for edge in ch2.convex_hull:
-        plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
-
-    plt.plot(
-        [min_dist_segment.p0.x, min_dist_segment.p1.x],
-        [min_dist_segment.p0.y, min_dist_segment.p1.y],
-        "black",
-        linewidth=0.8,
-    )
-
-    slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(0, 4, 100)
-    y = slope * x + b
-    plt.title("Wine", fontsize=20)
-    plt.xlabel("TotalPhenols", fontsize=20)
-    plt.xticks(fontsize=10)
-    plt.ylabel("flavanoids", fontsize=20)
-    plt.yticks(fontsize=10)
-    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
-    plt.legend(loc="upper left", fontsize=15)
-    plt.show()
+    D.plot(ch1, ch2, (0, 4))
 
     # checa se os polígonos se intersectam
     line_sweep = LineSweep()
@@ -132,7 +88,3 @@ def check_wine(file):
 
     if not linear_separable:
         print("Os dados não são linearmente separáveis")
-        return
-
-
-    

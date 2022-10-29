@@ -1,10 +1,7 @@
-from typing import cast
-
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
 from src.convex_hull.convex_hull import ConvexHull
+from src.data_import.data_processor import DataProcessor
 from src.line_sweep.line_sweep import LineSweep
 from src.point.point import Point
 
@@ -14,8 +11,8 @@ def check_banana(file):
     col_names_banana = ["At1", "At2", "Class"]
     banana = pd.read_csv(file, names=col_names_banana)
 
-    bananaclass1 = banana[banana["Class"] == "1.0"]
-    bananaclass2 = banana[banana["Class"] == "-1.0"]
+    bananaclass1 = banana[banana["Class"] == 1.0]
+    bananaclass2 = banana[banana["Class"] == -1.0]
 
     bananaclass1_train = bananaclass1.sample(frac=0.7)
     bananaclass1_test = bananaclass1.drop(bananaclass1_train.index)
@@ -51,50 +48,10 @@ def check_banana(file):
     sop2 = list_bananaclass2_train
     ch1: ConvexHull = ConvexHull(sop1, alg="graham_scan")
     ch2: ConvexHull = ConvexHull(sop2, alg="graham_scan")
-    min_dist_segment = ch1.min_dist(ch2)
 
-    _, ax = plt.subplots(figsize=(100, 100))
-    ax = cast(plt.Axes, ax)
+    D: DataProcessor = DataProcessor(("1", "2"), "Banana", ("At1", "At2"))
 
-    ax.scatter(
-        [point.x for point in ch1.set_of_points],
-        [point.y for point in ch1.set_of_points],
-        c=["red"],
-        s=2,
-        label="Class 1",
-    )
-    ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
-    for edge in ch1.convex_hull:
-        plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "red", linewidth=0.5)
-
-    ax.scatter(
-        [point.x for point in ch2.set_of_points],
-        [point.y for point in ch2.set_of_points],
-        c=["blue"],
-        s=2,
-        label="Class 2",
-    )
-    for edge in ch2.convex_hull:
-        plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "blue", linewidth=0.5)
-
-    plt.plot(
-        [min_dist_segment.p0.x, min_dist_segment.p1.x],
-        [min_dist_segment.p0.y, min_dist_segment.p1.y],
-        "black",
-        linewidth=0.8,
-    )
-
-    slope, b, _ = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(-2, 2, 100)
-    y = slope * x + b
-    plt.title("Banana", fontsize=20)
-    plt.xlabel("At1", fontsize=20)
-    plt.xticks(fontsize=10)
-    plt.ylabel("At2", fontsize=20)
-    plt.yticks(fontsize=10)
-    plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
-    plt.legend(loc="upper left", fontsize=15)
-    plt.show()
+    D.plot(ch1, ch2, (-3, 3))
 
     # checa se os polígonos se intersectam
     line_sweep = LineSweep()
