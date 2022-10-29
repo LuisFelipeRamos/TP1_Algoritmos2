@@ -2,7 +2,7 @@
 
 # Dependências
 
-Para rodar o programa principal necessário ter as bibliotecas `matplotlib`, `numpy` e `pandas`. Para rodar os testes, é necessário usar a biblioteca `pytest`.
+Para rodar o programa principal necessário ter as bibliotecas `matplotlib`, `numpy`, `pandas` e `scikit-learn`. Para rodar os testes, é necessário usar a biblioteca `pytest`.
 
 # Execução
 

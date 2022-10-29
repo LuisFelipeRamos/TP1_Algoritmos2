@@ -2,12 +2,15 @@ from typing import cast
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 from src.convex_hull import ConvexHull
+from src.point import Point
 from src.segment import Segment
 
 
-class DataProcessor(object):
+class DataProcessor:
     """Abstrai atvidades comuns no processamento de dados."""
 
     def __init__(
@@ -21,7 +24,35 @@ class DataProcessor(object):
         self.x_axes = axes[0]
         self.y_axes = axes[1]
 
-    def plot(self, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]):
+    def split_df(self, df: pd.DataFrame) -> tuple:
+        """Divide um dataframe `df` em dados de treino e de teste."""
+        train, test = train_test_split(df, test_size=0.3)
+        return train, test
+
+    def create_point_list(self, df: pd.DataFrame) -> list[Point]:
+        """Cria uma lista de pontos com base nos eixos escolhidos"""
+        point_list: list[Point] = []
+        for _, j in df.iterrows():
+            aux: Point = Point(j[self.x_axes], j[self.y_axes])
+            point_list.append(aux)
+        return point_list
+
+    def process(
+        self, first_class: pd.DataFrame, second_class: pd.DataFrame
+    ) -> tuple[ConvexHull, ConvexHull]:
+        """Transforma dataframes com as colunas desejadas em envoltórias convexas."""
+        class1_train, _ = self.split_df(first_class)
+        class2_train, _ = self.split_df(second_class)
+
+        point1_train: list[Point] = self.create_point_list(class1_train)
+        point2_train: list[Point] = self.create_point_list(class2_train)
+
+        hull_1: ConvexHull = ConvexHull(point1_train, alg="graham_scan")
+        hull_2: ConvexHull = ConvexHull(point2_train, alg="graham_scan")
+
+        return hull_1, hull_2
+
+    def plot(self, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]) -> None:
         """Imprime conjunto de dados em arquivo `self.title`"""
         min_dist_segment: Segment = ch1.min_dist(ch2)
 
