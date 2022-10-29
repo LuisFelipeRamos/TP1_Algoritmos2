@@ -32,8 +32,8 @@ def check_wine(file):
 
     wineclass1 = wine[wine["Class"] == 1]
     wineclass2 = wine[wine["Class"] == 3]
-    wineclass1 = wineclass1[["Proline", "flavanoids"]]
-    wineclass2 = wineclass2[["Proline", "flavanoids"]]
+    wineclass1 = wineclass1[["TotalPhenols", "flavanoids"]]
+    wineclass2 = wineclass2[["TotalPhenols", "flavanoids"]]
 
     wineclass1_train = wineclass1.sample(frac=0.7)
     wineclass1_test = wineclass1.drop(wineclass1_train.index)
@@ -46,30 +46,30 @@ def check_wine(file):
     wineclass2_test.reset_index(drop=True, inplace=True)
 
     list_wineclass1_train = []
-    for x in range(wineclass1_train["Proline"].size):
+    for x in range(wineclass1_train["TotalPhenols"].size):
         temp_point = Point(
-            wineclass1_train["Proline"][x], wineclass1_train["flavanoids"][x]
+            wineclass1_train["TotalPhenols"][x], wineclass1_train["flavanoids"][x]
         )
         list_wineclass1_train.insert(1, temp_point)
 
     list_wineclass1_test = []
-    for x in range(wineclass1_test["Proline"].size):
+    for x in range(wineclass1_test["TotalPhenols"].size):
         temp_point = Point(
-            wineclass1_test["Proline"][x], wineclass1_test["flavanoids"][x]
+            wineclass1_test["TotalPhenols"][x], wineclass1_test["flavanoids"][x]
         )
         list_wineclass1_test.insert(1, temp_point)
 
     list_wineclass2_train = []
-    for x in range(wineclass2_train["Proline"].size):
+    for x in range(wineclass2_train["TotalPhenols"].size):
         temp_point = Point(
-            wineclass2_train["Proline"][x], wineclass2_train["flavanoids"][x]
+            wineclass2_train["TotalPhenols"][x], wineclass2_train["flavanoids"][x]
         )
         list_wineclass2_train.insert(1, temp_point)
 
     list_wineclass2_test = []
-    for x in range(wineclass2_test["Proline"].size):
+    for x in range(wineclass2_test["TotalPhenols"].size):
         temp_point = Point(
-            wineclass2_test["Proline"][x], wineclass2_test["flavanoids"][x]
+            wineclass2_test["TotalPhenols"][x], wineclass2_test["flavanoids"][x]
         )
         list_wineclass2_test.insert(1, temp_point)
 
@@ -112,10 +112,10 @@ def check_wine(file):
     )
 
     slope, b, midpoint = min_dist_segment.get_perpendicular_segment()
-    x = np.linspace(400, 1100, 100)
+    x = np.linspace(0, 4, 100)
     y = slope * x + b
     plt.title("Wine", fontsize=20)
-    plt.xlabel("Proline", fontsize=20)
+    plt.xlabel("TotalPhenols", fontsize=20)
     plt.xticks(fontsize=10)
     plt.ylabel("flavanoids", fontsize=20)
     plt.yticks(fontsize=10)

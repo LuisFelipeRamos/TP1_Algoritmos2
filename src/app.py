@@ -1,9 +1,6 @@
 import argparse
 
-from src.data_import import check_wine
-from src.data_import import check_glass
-from src.data_import import check_newthyroid
-from src.data_import import check_segment
+from src.data_import import *
 
 
 def run() -> None:
@@ -22,5 +19,3 @@ def run() -> None:
         help="arquivo .dat que contêm dados a serem treinados",
     )
     args: argparse.Namespace = parser.parse_args()
-
-    check_segment(args.file)

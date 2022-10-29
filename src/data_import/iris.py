@@ -117,18 +117,3 @@ def check_iris(file):
     if not linear_separable:
         print("Os dados não são linearmente separáveis")
         return
-
-    aux_segment = Segment(midpoint, Point(midpoint.x + 1, (midpoint.x + 1) * slope + b))
-
-    class_1_seg = Segment(midpoint, list_irisclass1_train[0])
-
-    class_1_side = class_1_seg.is_counter_clockwise(aux_segment)
-    class_2_side = not class_1_side
-
-    c = 0
-    for point in list_irisclass2_test:
-        new_seg = Segment(midpoint, point)
-        if new_seg.is_counter_clockwise(aux_segment) == class_2_side:
-            c += 1
-        else:
-            continue

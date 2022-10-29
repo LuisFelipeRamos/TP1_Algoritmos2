@@ -201,7 +201,20 @@ Não vamos nos estender muito em relação à documentação dessa classe, visto
 
 \subsubsection{Classifier}
 
-wabba labba dub dub
+A classe Classifier é a responsável pela criação do modelo de classificador proposto. Ao ser criada ela
+recebe dois vetores de pontos, da classe Point, que representam os dados de das classes, tendo um
+vetor os pontos de uma classe e o outro os pontos de outra classe. O objetivo final dessa classe é
+receber um ponto e classificá-lo de acordo com a reta proposta pelo modelo. Tendo em vista esse bjetivo, a classe possui três funções:
+
+{\begin{itemize}
+    \item Função inicializadora que recebe duas listas do tipo Point
+e atribui os valores a serem guardados na classe de acordo com esses dados. Para isso, ela utiliza da função fit() para atribuir os valores da reta do modelo(função a ser abordada abaixo), além de atribuir os dados das listas para dentro da classe usando as listas internas class1 e class2 e salvar, por meio das varáveis class\_gt e class\_lt, qual subplano representa qual classe modelada.
+    
+    \item A função fit() é responsável por criar a reta do modelo. Ela procura os dois pontos que tem a menor distância euclidiana dentre os dados recebidos, com a restrição de que esses dois pontos devem ser de classes diferentes. Encontrados esses pontos, encontra-se, a partir da função get\_perpendicular\_segment() da classe Segment, o segmento de reta perpendicular ao segmento de reta que liga esses dois pontos e que passa pelo seu ponto médio, criando assim a reta do modelo. Por fim, a função retorna os coeficientes angular e linear da reta criada além do ponto médio usado para criá-la que representa um ponto da reta.]
+
+    \item A função test é a funçao responsável por atingir o objetivo final da classe, para isso ela recebe um vetor do tipo Point e retorna a previsão da classe desses pontos de acordo com a reta modelada, ou seja, utiliza da coordenada x do ponto e dos coeficientes angular e linear da reta modelada para retorna qual a classe do ponto recebido, faz isso para todos os dados do tipo Point da lista recebida e retorna uma lista qual as classes respectivas a cada ponto.
+
+\end{itemize}}
 
 \section{Análise experimental dos dados}
 
@@ -215,13 +228,13 @@ De modo geral, estes foram os conjuntos de dados que utilizamos para nosso traba
 
 \begin{enumerate}
 	\item Iris
-	\item
+	\item Glass
+	\item Wine
 	\item Newtyroid
 	\item Segment
 	\item Haberman
-	\item Wine
-	\item Glass
-	\item Adult
+	\item Tianic
+	\item Mammographic
 	\item Banana
 	\item Magic
 
@@ -258,6 +271,15 @@ Podemos ver claramente pela imagem que os dados são de fato separáveis linearm
 
 \subsubsection{Wine}
 
+A base de dados Wine possui separabilidde quando escolhemos as classes 1 e 3 no conjunto de dados, e utilizamos os atributos TotalPhenols e flavanoids como as coordenadas dos pontos que serão gerados.
+
+Nosso código, portanto, nos etorna que os dados são linearmente eparáveis e temos o seguinte gráfico gerado.
+
+\begin{figure} [H]
+	\includegraphics[width=12cm]{wine.png}
+	\centering
+\end{figure}
+
 \subsubsection{Glass}
 
 O conjunto de dados Glass possui uma grande quantidade de atributos para cada instância, as quais são divididas em 7 classes diferentes. De modo a gerarmos um conjunto de dadosque pudesse ser separável que pudéssemos utilizar nssos classificadores, escolhemos especificamente os atributos Na e Mg como coordenadas do nosso sistema de coordenadas, e escolhemos as classes 1 e 3 para serem separadas.
@@ -290,15 +312,27 @@ Nosso sistema nos retornou que nossos dados eram linearmente separáveis, e obti
 	\centering
 \end{figure}
 
+\subsubsection{Titanic}
+
+O conjunto de dados Titanic, por sua vez, não era separável. Qualquer escolha de seus atributos como coordenadas dos pontos não permitia uma separação linear entre as envoltórias criadas. Nossa implementação, portanto, sempre retornava que os dados não podiam ser separados.
+
+Obtivemos o seguinte gráfico gerado, utilizando os atributos Class e Age como as cordenadas.
 
 \begin{figure} [H]
-	\includegraphics[width=12cm]{newthyroid.png}
+	\includegraphics[width=12cm]{titanic.png}
 	\centering
 \end{figure}
 
-\subsubsection{sep4}
+\subsubsection{Mammographic}
 
-\subsubsection{sep5}
+A base de dados Mammographic é mais uma que não possui separbailidade linear dos dados, independente das escolhas de atrbutos como coordenadas dos pontos. Para demonstrar isso visualmente aqui, escolhemos Age e Density como as coordenadas, pois nesse caso temos uma situação especial em que as duas envoltórias compartilham vértices.
+
+Obtivemos, então, o seguinte gráfico.
+
+\begin{figure} [H]
+	\includegraphics[width=12cm]{mammographic.png}
+	\centering
+\end{figure}
 
 \subsubsection{Banana}
 
@@ -333,13 +367,11 @@ No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Pod
 	\centering
 \end{figure}
 
-\subsubsection{sep4}
-
-\subsubsection{sep5}
-
 \subsection{Análise de métricas}
 
-\subsection{Resultados}
+Após gerarmos os gráficos e analisarmos os 10 conjuntos de dados escolhidos, necesitávamos analisar as métricas de separação linear, utilizando a biblioteca Scikit-Learn da linguagem Python.
+
+Para cada base
 
 \section{Conclusão}
 
@@ -356,4 +388,3 @@ Em resumo, o trabalho foi muito interessante num ponto de vista de apendizado. C
 \printbibliography
 
 \end{document}
-
