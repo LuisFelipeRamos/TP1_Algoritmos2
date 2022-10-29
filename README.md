@@ -1,10 +1,8 @@
 # Trabalho Prático I - Algoritmos II (2022/2)
 
-<!-- TODO -->
-
 # Dependências
 
-Para rodar o programa principal necessário ter as bibliotecas `matplotlib` (gráficos) e `pygame` (animações) instaladas. Para rodar os testes, é necessário ter a biblioteca `pytest` instalada.
+Para rodar o programa principal necessário ter as bibliotecas `matplotlib`, `numpy` e `pandas`. Para rodar os testes, é necessário usar a biblioteca `pytest`.
 
 # Execução
 
