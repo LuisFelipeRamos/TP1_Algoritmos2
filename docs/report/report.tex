@@ -201,18 +201,14 @@ Não vamos nos estender muito em relação à documentação dessa classe, visto
 
 \subsubsection{Classifier}
 
-A classe Classifier é a responsável pela criação do modelo de classificador proposto. Ao ser criada ela
-recebe dois vetores de pontos, da classe Point, que representam os dados de das classes, tendo um
-vetor os pontos de uma classe e o outro os pontos de outra classe. O objetivo final dessa classe é
-receber um ponto e classificá-lo de acordo com a reta proposta pelo modelo. Tendo em vista esse bjetivo, a classe possui três funções:
+A classe \texttt{Classifier} é a responsável pela criação do modelo de classificador proposto. Ao ser criada ela recebe dois vetores de pontos, da classe \texttt{Point}, que representam os dados de das classes, tendo um vetor os pontos de uma classe e o outro os pontos de outra classe. O objetivo final dessa classe é receber um ponto e classificá-lo de acordo com a reta proposta pelo modelo. Tendo em vista esse objetivo, a classe possui três funções:
 
 {\begin{itemize}
-    \item Função inicializadora que recebe duas listas do tipo Point
-e atribui os valores a serem guardados na classe de acordo com esses dados. Para isso, ela utiliza da função fit() para atribuir os valores da reta do modelo(função a ser abordada abaixo), além de atribuir os dados das listas para dentro da classe usando as listas internas class1 e class2 e salvar, por meio das varáveis class\_gt e class\_lt, qual subplano representa qual classe modelada.
-    
-    \item A função fit() é responsável por criar a reta do modelo. Ela procura os dois pontos que tem a menor distância euclidiana dentre os dados recebidos, com a restrição de que esses dois pontos devem ser de classes diferentes. Encontrados esses pontos, encontra-se, a partir da função get\_perpendicular\_segment() da classe Segment, o segmento de reta perpendicular ao segmento de reta que liga esses dois pontos e que passa pelo seu ponto médio, criando assim a reta do modelo. Por fim, a função retorna os coeficientes angular e linear da reta criada além do ponto médio usado para criá-la que representa um ponto da reta.]
+	\item Função inicializadora que recebe duas listas do tipo \texttt{Point} e atribui os valores a serem guardados na classe de acordo com esses dados. Para isso, ela utiliza da função \texttt{fit()} para atribuir os valores da reta do modelo (função a ser abordada abaixo), além de atribuir os dados das listas para dentro da classe usando as listas internas \textit{class1} e \textit{class2} e salvar, por meio das varáveis class\_gt e class\_lt, qual subplano representa qual classe modelada.
 
-    \item A função test é a funçao responsável por atingir o objetivo final da classe, para isso ela recebe um vetor do tipo Point e retorna a previsão da classe desses pontos de acordo com a reta modelada, ou seja, utiliza da coordenada x do ponto e dos coeficientes angular e linear da reta modelada para retorna qual a classe do ponto recebido, faz isso para todos os dados do tipo Point da lista recebida e retorna uma lista qual as classes respectivas a cada ponto.
+	\item A função \texttt{fit()} é responsável por criar a reta do modelo. Ela procura os dois pontos que tem a menor distância euclidiana dentre os dados recebidos, com a restrição de que esses dois pontos devem ser de classes diferentes. Encontrados esses pontos, encontra-se, a partir da função \texttt{get\_perpendicular\_segment()} da classe \texttt{Segment}, o segmento de reta perpendicular ao segmento que liga esses dois pontos e que passa pelo seu ponto médio, criando assim a reta do modelo. Por fim, a função retorna os coeficientes angular e linear da reta criada além do ponto médio usado para criá-la que representa um ponto da reta.
+
+	\item A função \texttt{test} é a função responsável por atingir o objetivo final da classe, para isso ela recebe um vetor do tipo \texttt{Point} e retorna a previsão da classe desses pontos de acordo com a reta modelada, ou seja, utiliza da coordenada \( x \) do ponto e dos coeficientes angular e linear da reta modelada para retornar qual a classe do ponto recebido, faz isso para todos os dados do tipo Point da lista recebida e retorna uma lista qual as classes respectivas a cada ponto.
 
 \end{itemize}}
 
@@ -230,10 +226,10 @@ De modo geral, estes foram os conjuntos de dados que utilizamos para nosso traba
 	\item Iris
 	\item Glass
 	\item Wine
-	\item Newtyroid
+	\item Newthyroid
 	\item Segment
 	\item Haberman
-	\item Tianic
+	\item Titanic
 	\item Mammographic
 	\item Banana
 	\item Magic
@@ -244,7 +240,7 @@ De modo geral, estes foram os conjuntos de dados que utilizamos para nosso traba
 
 Para computar todas as métricas definidas pelo escopo do trabalho, precisávamos converter os dados lidos nas bases de dados para tipos que se encaixam em nossa implementação. Para isso, portanto, um primeiro passo para cada conjunto foi transformar os dados no tipo Point, definido nas seções anteriores.
 
-O segundo passo consistiu em dividir os dados obtidos no primeiro passo em duas partes. Uma que continha 70\% dos dados presentes na base de dados, que será utilizada para o treinamento e criação do classificador. Os outros 30\% serão então utilizados para analisar o desempenho do modelo de classificação. Essa separação é feita de forma pseudo aleatória, por meio da biblioteca Pandas, utilizada para leitura dos arquivos que continham os dados.
+O segundo passo consistiu em dividir os dados obtidos no primeiro passo em duas partes. Uma que continha 70\% dos dados presentes na base de dados, que será utilizada para o treinamento e criação do classificador. Os outros 30\% serão então utilizados para analisar o desempenho do modelo de classificação. Essa separação é feita de forma pseudo aleatória, por meio da biblioteca \texttt{Pandas}, utilizada para leitura dos arquivos que continham os dados.
 
 Alguns dados precisam de processamento adicional para que a gente possa classificar, como o conjunto Íris, que possui mais de duas classes separando suas instâncias. No entanto, acreditamos não ser necessário discorrer aqui sobre como cada uma dessas bases de dados foi processada especificamente.
 
@@ -271,9 +267,9 @@ Podemos ver claramente pela imagem que os dados são de fato separáveis linearm
 
 \subsubsection{Wine}
 
-A base de dados Wine possui separabilidde quando escolhemos as classes 1 e 3 no conjunto de dados, e utilizamos os atributos TotalPhenols e flavanoids como as coordenadas dos pontos que serão gerados.
+A base de dados Wine possui separabilidade quando escolhemos as classes 1 e 3 no conjunto de dados, e utilizamos os atributos \textit{TotalPhenols} e \textit{flavanoids} como as coordenadas dos pontos que serão gerados.
 
-Nosso código, portanto, nos etorna que os dados são linearmente eparáveis e temos o seguinte gráfico gerado.
+Nosso código, portanto, nos retorna que os dados são linearmente separáveis e temos o seguinte gráfico gerado:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{wine.png}
@@ -282,9 +278,9 @@ Nosso código, portanto, nos etorna que os dados são linearmente eparáveis e t
 
 \subsubsection{Glass}
 
-O conjunto de dados Glass possui uma grande quantidade de atributos para cada instância, as quais são divididas em 7 classes diferentes. De modo a gerarmos um conjunto de dadosque pudesse ser separável que pudéssemos utilizar nssos classificadores, escolhemos especificamente os atributos Na e Mg como coordenadas do nosso sistema de coordenadas, e escolhemos as classes 1 e 3 para serem separadas.
+O conjunto de dados Glass possui uma grande quantidade de atributos para cada instância, as quais são divididas em 7 classes diferentes. De modo a gerarmos um conjunto de dados que pudesse ser separável que pudéssemos utilizar nossos classificadores, escolhemos especificamente os atributos Na e Mg como eixos do nosso sistema de coordenadas, e escolhemos as classes 1 e 3 para serem separadas.
 
-Nosso sistema nos responde que os dados são separáveis, e temos o seguinte gráfico gerado.
+Nosso sistema nos responde que os dados são separáveis, e temos o seguinte gráfico gerado:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{glass.png}
@@ -294,7 +290,7 @@ Nosso sistema nos responde que os dados são separáveis, e temos o seguinte gr�
 
 \subsubsection{Newthyroid}
 
-A base de dados Newthyroid tmbém é separável, se escolhermos como coordenadas os atributos Thyroxin e TSH\_value, e como classes as classes 2 e 3. Ao executarmos o código, não identificamos intersecção entre as envoltórias e temos o seguinte gráfico.
+A base de dados \textit{Newthyroid} também é separável, se escolhermos como coordenadas os atributos \textit{Thyroxin} e \textit{TSH\_value}, e como classes as classes 2 e 3. Ao executarmos o código, não identificamos intersecção entre as envoltórias e temos o seguinte gráfico:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{newthyroid.png}
@@ -303,9 +299,9 @@ A base de dados Newthyroid tmbém é separável, se escolhermos como coordenadas
 
 \subsubsection{Segment}
 
-Mais uma base que pudemos identificar como separável foi o conjunto de dados Segment. Ela possui instâncias com uma grande quantidade de atributos, divididas entre 7 classes. Para garantir a separabilidade, utilizamos os atributos Region-centroid-col e Rawblue-mean como coordenadas do plano cartesiano, e separamos pelas classes 1 e 2.
+Mais uma base que pudemos identificar como separável foi o conjunto de dados Segment. Ela possui instâncias com uma grande quantidade de atributos, divididas entre 7 classes. Para garantir a separabilidade, utilizamos os atributos \textit{Region-centroid-col} e \textit{Rawblue-mean} como coordenadas do plano cartesiano, e separamos pelas classes 1 e 2.
 
-Nosso sistema nos retornou que nossos dados eram linearmente separáveis, e obtivemos o seguinte gráfico resultante.
+Nosso sistema nos retornou que nossos dados eram linearmente separáveis, e obtivemos o seguinte gráfico resultante:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{segment.png}
@@ -316,7 +312,7 @@ Nosso sistema nos retornou que nossos dados eram linearmente separáveis, e obti
 
 O conjunto de dados Titanic, por sua vez, não era separável. Qualquer escolha de seus atributos como coordenadas dos pontos não permitia uma separação linear entre as envoltórias criadas. Nossa implementação, portanto, sempre retornava que os dados não podiam ser separados.
 
-Obtivemos o seguinte gráfico gerado, utilizando os atributos Class e Age como as cordenadas.
+Obtivemos o seguinte gráfico gerado, utilizando os atributos \textit{Class} e \textit{Age} como as coordenadas:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{titanic.png}
@@ -325,9 +321,9 @@ Obtivemos o seguinte gráfico gerado, utilizando os atributos Class e Age como a
 
 \subsubsection{Mammographic}
 
-A base de dados Mammographic é mais uma que não possui separbailidade linear dos dados, independente das escolhas de atrbutos como coordenadas dos pontos. Para demonstrar isso visualmente aqui, escolhemos Age e Density como as coordenadas, pois nesse caso temos uma situação especial em que as duas envoltórias compartilham vértices.
+A base de dados Mammographic é mais uma que não possui separabilidade linear dos dados, independente das escolhas de atributos como coordenadas dos pontos. Para demonstrar isso visualmente aqui, escolhemos \textit{Age} e \textit{Density} como as coordenadas, pois nesse caso temos uma situação especial em que as duas envoltórias compartilham vértices.
 
-Obtivemos, então, o seguinte gráfico.
+Obtivemos, então, o seguinte gráfico:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{mammographic.png}
@@ -347,9 +343,9 @@ Ao executar o código, nossa implementação nos respondeu que os dados não era
 
 \subsubsection{Magic}
 
-O conjunto de dados Magic é bem confuso e possuía grande quantidade de atributos. Por ser mais fácil de compreender e manipular, escolher os atributos FLenght e FWidth como as coordenadas de nossos pontos no plano cartesiano. A base de dados é separada em duas classes, g e f, o que facilitou a checagem das separações.
+O conjunto de dados Magic é bem confuso e possuía grande quantidade de atributos. Por ser mais fácil de compreender e manipular, escolher os atributos \textit{FLenght} e \textit{FWidth} como as coordenadas de nossos pontos no plano cartesiano. A base de dados é separada em duas classes, g e h, o que facilitou a checagem das separações.
 
-Com a execução do código, tivemos a resposta de que os dados não são linearmente separáveis, e podemos ver isso no seguinte gráfico.
+Com a execução do código, tivemos a resposta de que os dados não são linearmente separáveis, e podemos ver isso no seguinte gráfico:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{magic.png}
@@ -360,7 +356,7 @@ Com a execução do código, tivemos a resposta de que os dados não são linear
 
 O conjunto de dados Haberman apresenta duas classes, sendo elas Positive ou Negative, assim como três atributos. Testamos para todas as três combinações de atributo como coordenadas de pontos e em todos os casos os dados continuaram não sendo linearmente separáveis, segundo nosso algoritmo.
 
-No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Podemos ver de forma clara que as envoltórias de cada classe se interceptam, o que implica que os dados não são separáveis linearmente.
+No gráfico abaixo, utilizamos os atributos \textit{Age} e \textit{Positive} como coordenadas. Podemos ver de forma clara que as envoltórias de cada classe se interceptam, o que implica que os dados não são separáveis linearmente.
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{haberman.png}
@@ -369,7 +365,7 @@ No gráfico abaixo, utilizamos os atributos Age e Positive como coordenadas. Pod
 
 \subsection{Análise de métricas}
 
-Após gerarmos os gráficos e analisarmos os 10 conjuntos de dados escolhidos, necesitávamos analisar as métricas de separação linear, utilizando a biblioteca Scikit-Learn da linguagem Python.
+Após gerarmos os gráficos e analisarmos os 10 conjuntos de dados escolhidos, necessitávamos analisar as métricas de separação linear, utilizando a biblioteca Scikit-Learn da linguagem Python.
 
 Para cada base
 
@@ -377,9 +373,9 @@ Para cada base
 
 O Trabalho Prático, de forma geral, foi extremamente importante para compreensão e estudo dos principais conceitos de geometria computacional aprendidos na disciplina.
 
-A implementação de três algoritmos de envoltória convexa permitiu que notássemos as principais diferenças entre eles, principalmente em relação aos tempos de execução. A aplicação das primitivas de geometria computacional nessasimplementações também foi consideravelmente importante para compreender o tema de forma geral.
+A implementação de três algoritmos de envoltória convexa permitiu que notássemos as principais diferenças entre eles, principalmente em relação aos tempos de execução. A aplicação das primitivas de geometria computacional nessas implementações também foi consideravelmente importante para compreender o tema de forma geral.
 
-A varredura linear, por sua vez, tomou um pouco mais de tempo do nosso grupo. A parte mais complicada certamente se refere ao uso de uma AVL no algoritmo, uma vez que muitos casos específicos precisavam ser considerados na hora de analisarmos se um segmento estava acima ou abaixo do outro. No entanto, após vários testes fomos capazes de consertar nosso algoritmo e fianlizamos a implementação.
+A varredura linear, por sua vez, tomou um pouco mais de tempo do nosso grupo. A parte mais complicada certamente se refere ao uso de uma AVL no algoritmo, uma vez que muitos casos específicos precisavam ser considerados na hora de analisarmos se um segmento estava acima ou abaixo do outro. No entanto, após vários testes fomos capazes de consertar nosso algoritmo e finalizamos a implementação.
 
 Após isso, tínhamos como tarefa a implementação do classificador, de modo a criar um sistema simples de aprendizado de máquina. A falta de familiaridade dos nossos membros com alguns conceitos de ciência de dados foi um empecilho no começo, mas com o tmepo fomos capazes de aprender os conceitos e aplicá-los ao trabalho.
 
