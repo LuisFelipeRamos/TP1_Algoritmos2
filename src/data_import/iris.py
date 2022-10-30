@@ -32,7 +32,7 @@ def check_iris(file) -> None:
 
     D.plot(hull1, hull2, (1, 4))
 
-    if not D.is_separable(hull1, hull2):
+    if D.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     else:
         classify_iris(D, class1, class2)

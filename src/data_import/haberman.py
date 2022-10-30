@@ -22,6 +22,6 @@ def check_haberman(file):
 
     D.plot(hull1, hull2, (30, 90))
 
-    if not D.is_separable(hull1, hull2):
+    if D.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

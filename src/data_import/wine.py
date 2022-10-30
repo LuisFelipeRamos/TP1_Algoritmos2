@@ -45,7 +45,7 @@ def check_wine(file) -> None:
 
     D.plot(hull1, hull2, (0, 4))
 
-    if not D.is_separable(hull1, hull2):
+    if D.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     else:
         classify_wine(D, class1, class2)

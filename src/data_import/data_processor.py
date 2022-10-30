@@ -69,12 +69,12 @@ class DataProcessor:
         # Imprima as estatísitcas
         classifier.get_statistics(actual, prediction)
 
-    def is_separable(self, hull1: ConvexHull, hull2: ConvexHull) -> bool:
+    def has_intersection(self, hull1: ConvexHull, hull2: ConvexHull) -> bool:
         line_sweep = LineSweep()
-        linear_separable = not line_sweep.do_polygons_intersect(
+        intersects = line_sweep.do_polygons_intersect(
             hull1.convex_hull, hull2.convex_hull
         )
-        return linear_separable
+        return intersects
 
     def process(
         self, first_class: pd.DataFrame, second_class: pd.DataFrame

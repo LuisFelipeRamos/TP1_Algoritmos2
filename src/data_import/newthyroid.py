@@ -39,7 +39,7 @@ def check_newthyroid(file) -> None:
 
     D.plot(hull1, hull2, (0, 10))
 
-    if not D.is_separable(hull1, hull2):
+    if D.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     else:
         classify_newthyroid(D, class1, class2)

@@ -20,9 +20,9 @@ def check_banana(file):
 
     # Aqui, a título de exemplo, é checado se uma envoltória está dentro da outra
     # Como esse caso geralmente não acontece, essa checagem foi omitida em outros datasets
-    linear_separable = False
-    if not D.is_separable(hull1, hull2):
-        linear_separable = not (hull1.is_inside(hull2) or hull2.is_inside(hull1))
-    if not linear_separable:
-        print("Os dados não são linearmente separáveis")
+    contained = hull1.is_inside(hull2) or hull2.is_inside(hull1)
+    if D.has_intersection(hull1, hull2):
+        print("Os dados não são linearmente separáveis (intereseção)")
+    elif contained:
+        print("Os dados não são linearmente separáveis (contenção)")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.
