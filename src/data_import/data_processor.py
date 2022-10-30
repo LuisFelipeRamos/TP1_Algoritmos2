@@ -145,4 +145,4 @@ class DataProcessor:
         plt.ylabel(self.y_axes, color="black")
         plt.yticks()
         plt.legend(loc="upper right", labelcolor="black")
-        plt.savefig(self.title.lower() + ".png")
+        plt.savefig("images/" + self.title.lower() + ".png")

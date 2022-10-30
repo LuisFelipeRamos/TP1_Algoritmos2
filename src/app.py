@@ -17,8 +17,8 @@ from src.data_import import (
 
 def run() -> None:
     """
-    Roda o programa principal: analisa um dataset imprimindo suas métricas
-    se for separável ou imprimindo que não é separável
+    Roda o programa principal: analisa um dataset, gerando seu gráfico (em ./images)
+    e imprimindo suas métricas se for separável ou imprimindo que não é separável
     """
 
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
