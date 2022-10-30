@@ -67,4 +67,4 @@ class Classifier:
         f_1 = f1_score(actual, prediction)
         precision = precision_score(actual, prediction)
         recall = recall_score(actual, prediction)
-        print(f_1, precision, recall)
+        print(f"precisão: {precision}, revocação: {recall}, f1-escore: {f_1}")
