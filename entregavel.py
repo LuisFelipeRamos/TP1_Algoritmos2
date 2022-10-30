@@ -1,3 +1,4 @@
+# Esta foi nossa entrega parcial, mantida aqui para fins de avaliação
 # Grupo:
 # Gabriel Rocha Martins,
 # Igor Lacerda Faria da Silva,
