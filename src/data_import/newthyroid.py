@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def pre_process_newthyroid(file) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -39,25 +38,18 @@ def check_newthyroid(file) -> None:
 
     D.plot(hull1, hull2, (0, 10))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull1.convex_hull, hull2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    else:
+        classify_newthyroid(D, class1, class2)
 
 
-def classify_newthyroid(file) -> None:
+def classify_newthyroid(
+    D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame
+) -> None:
     """
-    Simule uma classificação dos dados de `newthyroid`.
+    Simule uma classificação dos dados de `newthyroid`, imprimindo estatísticas no final.
     """
-    class1, class2 = pre_process_newthyroid(file)
-
-    D: DataProcessor = DataProcessor(
-        ("2", "3"), "Newthyroid", ("Thyroxin", "TSH_value")
-    )
-
     test_data = D.create_test_data(class1, class2)
 
     actual: list[int] = []

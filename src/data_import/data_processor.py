@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 
 from src.classifier import Classifier
 from src.convex_hull import ConvexHull
+from src.line_sweep import LineSweep
 from src.point import Point
 from src.segment import Segment
 
@@ -17,8 +18,8 @@ class DataProcessor:
     def __init__(
         self, classes: tuple[str, str], title: str, axes: tuple[str, str]
     ) -> None:
-        self.class_1 = classes[0]
-        self.class_2 = classes[1]
+        self.class1 = classes[0]
+        self.class2 = classes[1]
 
         self.title = title
 
@@ -58,8 +59,8 @@ class DataProcessor:
         actual: list[int],
         test_data: pd.DataFrame,
     ) -> None:
-        hull_1, hull_2 = self.process(first_class, second_class)
-        classifier = Classifier(hull_1, hull_2)
+        hull1, hull_2 = self.process(first_class, second_class)
+        classifier = Classifier(hull1, hull_2)
         test_points: list[Point] = self.create_point_list(test_data)
 
         # Tente prever usando o classificador
@@ -67,6 +68,13 @@ class DataProcessor:
 
         # Imprima as estatísitcas
         classifier.get_statistics(actual, prediction)
+
+    def is_separable(self, hull1: ConvexHull, hull2: ConvexHull) -> bool:
+        line_sweep = LineSweep()
+        linear_separable = not line_sweep.do_polygons_intersect(
+            hull1.convex_hull, hull2.convex_hull
+        )
+        return linear_separable
 
     def process(
         self, first_class: pd.DataFrame, second_class: pd.DataFrame
@@ -78,10 +86,10 @@ class DataProcessor:
         point1_train: list[Point] = self.create_point_list(class1_train)
         point2_train: list[Point] = self.create_point_list(class2_train)
 
-        hull_1: ConvexHull = ConvexHull(point1_train, alg="graham_scan")
-        hull_2: ConvexHull = ConvexHull(point2_train, alg="graham_scan")
+        hull1: ConvexHull = ConvexHull(point1_train, alg="graham_scan")
+        hull2: ConvexHull = ConvexHull(point2_train, alg="graham_scan")
 
-        return hull_1, hull_2
+        return hull1, hull2
 
     def plot(self, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]) -> None:
         """Imprime conjunto de dados em arquivo `self.title`"""
@@ -95,7 +103,7 @@ class DataProcessor:
             [point.y for point in ch1.set_of_points],
             c=["red"],
             s=2,
-            label="Class " + self.class_1,
+            label="Class " + self.class1,
         )
         ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
         for edge in ch1.convex_hull:
@@ -108,7 +116,7 @@ class DataProcessor:
             [point.y for point in ch2.set_of_points],
             c=["blue"],
             s=2,
-            label="Class " + self.class_2,
+            label="Class " + self.class2,
         )
         for edge in ch2.convex_hull:
             plt.plot(

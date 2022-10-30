@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def pre_process_wine(file) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -45,24 +44,17 @@ def check_wine(file) -> None:
 
     D.plot(hull1, hull2, (0, 4))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull1.convex_hull, hull2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    else:
+        classify_wine(D, class1, class2)
 
 
-def classify_wine(file):
+def classify_wine(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
     """
-    Simule uma classificação dos dados de `wine`.
+    Simule uma classificação dos dados de `wine`, imprimindo estatísticas no final.
     """
-    class1, class2 = pre_process_wine(file)
-
-    D: DataProcessor = DataProcessor(("1", "3"), "Wine", ("TotalPhenols", "flavanoids"))
-
-    test_data = D.create_test_data(class1, class2)
+    test_data: pd.DataFrame = D.create_test_data(class1, class2)
 
     actual: list[int] = []
     for _, row in test_data.iterrows():

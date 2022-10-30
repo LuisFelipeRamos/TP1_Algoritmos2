@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def pre_process_glass(file) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -20,7 +19,7 @@ def pre_process_glass(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     return class1, class2
 
 
-def check_glass(file):
+def check_glass(file) -> None:
     """Checa se o dataset `glass` é separável."""
 
     D: DataProcessor = DataProcessor(("1", "6"), "Glass", ("Na", "Mg"))
@@ -31,23 +30,18 @@ def check_glass(file):
 
     D.plot(hull1, hull2, (11, 15))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull1.convex_hull, hull2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    else:
+        classify_glass(D, class1, class2)
 
 
-def classify_glass(file):
+def classify_glass(
+    D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame
+) -> None:
     """
-    Simule uma classificação dos dados de `glass`.
+    Simule uma classificação dos dados de `glass`, imprimindo estatísticas no final.
     """
-    class1, class2 = pre_process_glass(file)
-
-    D: DataProcessor = DataProcessor(("1", "6"), "Glass", ("Na", "Mg"))
-
     test_data = D.create_test_data(class1, class2)
 
     actual: list[int] = []

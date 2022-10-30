@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -19,7 +18,7 @@ def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     return class1, class2
 
 
-def check_iris(file):
+def check_iris(file) -> None:
     """Checa se o dataset `iris` é separável."""
 
     D: DataProcessor = DataProcessor(
@@ -32,26 +31,17 @@ def check_iris(file):
 
     D.plot(hull1, hull2, (1, 4))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull1.convex_hull, hull2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    else:
+        classify_iris(D, class1, class2)
 
 
-def classify_iris(file):
+def classify_iris(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
     """
-    Simule uma classificação dos dados de `iris`.
+    Simule uma classificação dos dados de `iris`, imprimindo estatísticas no final.
     """
-    class1, class2 = pre_process_iris(file)
-
-    D: DataProcessor = DataProcessor(
-        ("Iris-setosa", "not Iris-setosa"), "Iris", ("PetalLength", "PetalWidth")
-    )
-
-    test_data = D.create_test_data(class1, class2)
+    test_data: pd.DataFrame = D.create_test_data(class1, class2)
 
     # Faz a classificação "correta" dos dados
     actual: list[int] = []
