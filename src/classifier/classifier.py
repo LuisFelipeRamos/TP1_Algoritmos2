@@ -1,35 +1,70 @@
+from numpy import Inf
+from sklearn.metrics import f1_score, precision_score, recall_score
+
 from src.convex_hull import ConvexHull
+from src.point.point import Point
 from src.segment import Segment
 
 
 class Classifier:
-    def __init__(self, class1: list, class2: list):
+    def __init__(self, class1: ConvexHull, class2: ConvexHull):
         self.class1 = class1
         self.class2 = class2
 
-        self.slope, self.linear, self.mid_point = self.fit()
+        self.slope, self.coef, self.mid_point = self.fit()
 
-        if class1[0].y > (class1[0].x * self.slope + self.linear):
-            self.class_gt = 1
-            self.class_lt = 2
+        if self.slope != Inf:
+            # Se o primeiro ponto da classe 1 estiver em cima da reta, a classe 1 que é maior
+            if class1.set_of_points[0].y > (
+                class1.set_of_points[0].x * self.slope + self.coef
+            ):
+                self.class_gt = 1
+                self.class_lt = 2
+            else:
+                self.class_gt = 2
+                self.class_lt = 1
         else:
-            self.class_gt = 2
-            self.class_lt = 1
+            # Quando a reta é vertical, quem está mais a direita é maior
+            if class1.set_of_points[0].x > self.coef:
+                self.class_gt = 1
+                self.class_lt = 2
+            else:
+                self.class_gt = 2
+                self.class_lt = 1
 
     def __repr__(self) -> str:
         return f"[{self.fit()}]"
 
     def fit(self):
-        convex_hull_1: ConvexHull = ConvexHull(self.class1, alg="graham_scan")
-        convex_hull_2: ConvexHull = ConvexHull(self.class2, alg="graham_scan")
-        min_dist_segment: Segment = convex_hull_1.min_dist(convex_hull_2)
+        """
+        Pegue a reta de classificação.
+        """
+        min_dist_segment: Segment = self.class1.min_dist(self.class2)
         return min_dist_segment.get_perpendicular_segment()
 
-    def test(self, data: list):
+    def test(self, data: list[Point]) -> list[int]:
+        """
+        Classifique um conjunto de pontos.
+        """
         result = []
-        for i in range(len(data)):
-            if data[i].y > data[i].x * self.slope + self.linear:
-                result.append(self.class_gt)
+        for i in data:
+            if self.slope != Inf:
+                if i.y > i.x * self.slope + self.coef:
+                    result.append(self.class_gt)
+                else:
+                    result.append(self.class_lt)
             else:
-                result.append(self.class_lt)
+                if i.x > self.coef:
+                    result.append(self.class_gt)
+                else:
+                    result.append(self.class_lt)
         return result
+
+    def get_statistics(self, actual: list[int], prediction: list[int]) -> None:
+        """
+        Colete as estatísticas a partir de dois conjuntos de dados.
+        """
+        f_1 = f1_score(actual, prediction)
+        precision = precision_score(actual, prediction)
+        recall = recall_score(actual, prediction)
+        print(f_1, precision, recall)

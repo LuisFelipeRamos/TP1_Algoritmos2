@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from src.classifier import Classifier
 from src.convex_hull import ConvexHull
 from src.point import Point
 from src.segment import Segment
@@ -36,6 +37,36 @@ class DataProcessor:
             aux: Point = Point(j[self.x_axes], j[self.y_axes])
             point_list.append(aux)
         return point_list
+
+    def create_test_data(
+        self, first_class: pd.DataFrame, second_class: pd.DataFrame
+    ) -> pd.DataFrame:
+        # Faz a classificação "correta" dos dados
+        # Aqui é importante treinar em cima das duas classes que o sistema tenta prever
+        # Levar em consideração todos os dados seria problemático
+        _, test1 = self.split_df(first_class)
+        _, test2 = self.split_df(second_class)
+        frames: list[pd.DataFrame] = [test1, test2]
+
+        test_data = pd.concat(frames)
+        return test_data
+
+    def classify(
+        self,
+        first_class: pd.DataFrame,
+        second_class: pd.DataFrame,
+        actual: list[int],
+        test_data: pd.DataFrame,
+    ) -> None:
+        hull_1, hull_2 = self.process(first_class, second_class)
+        classifier = Classifier(hull_1, hull_2)
+        test_points: list[Point] = self.create_point_list(test_data)
+
+        # Tente prever usando o classificador
+        prediction = classifier.test(test_points)
+
+        # Imprima as estatísitcas
+        classifier.get_statistics(actual, prediction)
 
     def process(
         self, first_class: pd.DataFrame, second_class: pd.DataFrame
