@@ -5,7 +5,7 @@ from src.data_import.data_processor import DataProcessor
 
 def pre_process_wine(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pré-processa os dados da `wine`, os dividindo em classes (separáveis).
+    Preprocessa os dados da `wine`, os dividindo em classes (separáveis).
     """
     col_names_wine = [
         "Alcohol",
@@ -34,7 +34,8 @@ def pre_process_wine(file) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def check_wine(file) -> None:
-    """Checa se o dataset `wine` é separável."""
+    """Checa se o dataset `wine` é separável.
+    Se for, suas estatísticas são impressas na tela."""
 
     D: DataProcessor = DataProcessor(("1", "3"), "Wine", ("TotalPhenols", "flavanoids"))
 

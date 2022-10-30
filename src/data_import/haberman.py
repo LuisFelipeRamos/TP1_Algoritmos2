@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def check_haberman(file):
@@ -10,23 +9,19 @@ def check_haberman(file):
     col_names_haberman = ["Age", "Year", "Positive", "Survival"]
     haberman = pd.read_csv(file, names=col_names_haberman)
 
-    habermanclass1 = haberman[haberman["Survival"] == " positive"]
-    habermanclass2 = haberman[haberman["Survival"] == " negative"]
-    habermanclass1 = habermanclass1[["Age", "Positive"]]
-    habermanclass2 = habermanclass2[["Age", "Positive"]]
+    class1 = haberman[haberman["Survival"] == " positive"]
+    class2 = haberman[haberman["Survival"] == " negative"]
+    class1 = class1[["Age", "Positive"]]
+    class2 = class2[["Age", "Positive"]]
 
     D: DataProcessor = DataProcessor(
         ("Positive", "Negative"), "Haberman", ("Age", "Positive")
     )
 
-    hull_1, hull_2 = D.process(habermanclass1, habermanclass2)
+    hull1, hull2 = D.process(class1, class2)
 
-    D.plot(hull_1, hull_2, (30, 90))
+    D.plot(hull1, hull2, (30, 90))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull_1.convex_hull, hull_2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def check_titanic(file):
@@ -15,23 +14,19 @@ def check_titanic(file):
     ]
     wine = pd.read_csv(file, names=col_names_titanic)
 
-    titanicclass1 = wine[wine["Survived"] == 1]
-    titanicclass2 = wine[wine["Survived"] == -1]
-    titanicclass1 = titanicclass1[["Class", "Age"]]
-    titanicclass2 = titanicclass2[["Class", "Age"]]
+    class1 = wine[wine["Survived"] == 1]
+    class2 = wine[wine["Survived"] == -1]
+    class1 = class1[["Class", "Age"]]
+    class2 = class2[["Class", "Age"]]
 
     D: DataProcessor = DataProcessor(
         ("Survived", "Didn't Survive"), "Titanic", ("Class", "Age")
     )
 
-    hull_1, hull_2 = D.process(titanicclass1, titanicclass2)
+    hull1, hull2 = D.process(class1, class2)
 
-    D.plot(hull_1, hull_2, (-2, 2))
+    D.plot(hull1, hull2, (-2, 2))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull_1.convex_hull, hull_2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

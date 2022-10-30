@@ -5,7 +5,7 @@ from src.data_import.data_processor import DataProcessor
 
 def pre_process_newthyroid(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pré-processa os dados de `newthyroid`, os dividindo em classes (separáveis).
+    Preprocessa os dados de `newthyroid`, os dividindo em classes (separáveis).
     """
     col_names_newthyroid = [
         "T3resin",
@@ -26,7 +26,8 @@ def pre_process_newthyroid(file) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def check_newthyroid(file) -> None:
-    """Checa se o dataset `newthyroid` é separável."""
+    """Checa se o dataset `newthyroid` é separável.
+    Se for, suas estatísticas são impressas na tela."""
 
     D: DataProcessor = DataProcessor(
         ("2", "3"), "Newthyroid", ("Thyroxin", "TSH_value")

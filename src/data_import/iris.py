@@ -5,7 +5,7 @@ from src.data_import.data_processor import DataProcessor
 
 def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pré-processa os dados da `iris`, os dividindo em classes (separáveis).
+    Preprocessa os dados da `iris`, os dividindo em classes (separáveis).
     """
     col_names_iris = ["SepalLength", "SepalWidth", "PetalLength", "PetalWidth", "Class"]
     iris = pd.read_csv(file, names=col_names_iris)
@@ -19,7 +19,8 @@ def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def check_iris(file) -> None:
-    """Checa se o dataset `iris` é separável."""
+    """Checa se o dataset `iris` é separável.
+    Se for, suas estatísticas são impressas na tela."""
 
     D: DataProcessor = DataProcessor(
         ("Iris-setosa", "not Iris-setosa"), "Iris", ("PetalLength", "PetalWidth")

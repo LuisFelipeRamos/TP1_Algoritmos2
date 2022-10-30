@@ -5,7 +5,7 @@ from src.data_import.data_processor import DataProcessor
 
 def pre_process_segment(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pré-processa os dados de `segment`, os dividindo em classes (separáveis).
+    Preprocessa os dados de `segment`, os dividindo em classes (separáveis).
     """
     col_names_segment = [
         "Region-centroid-col",
@@ -40,7 +40,8 @@ def pre_process_segment(file) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def check_segment(file) -> None:
-    """Checa se o dataset `segment` é separável."""
+    """Checa se o dataset `segment` é separável.
+    Se for, suas estatísticas são impressas na tela."""
 
     D: DataProcessor = DataProcessor(
         ("1", "2"), "Segment", ("Region-centroid-col", "Rawblue-mean")

@@ -1,7 +1,6 @@
 import pandas as pd
 
 from src.data_import.data_processor import DataProcessor
-from src.line_sweep.line_sweep import LineSweep
 
 
 def check_mammographic(file):
@@ -17,21 +16,17 @@ def check_mammographic(file):
     ]
     mammographic = pd.read_csv(file, names=col_names_mammographic)
 
-    mammographicclass1 = mammographic[mammographic["Severity"] == 0]
-    mammographicclass2 = mammographic[mammographic["Severity"] == 1]
-    mammographicclass1 = mammographicclass1[["Age", "Density"]]
-    mammographicclass2 = mammographicclass2[["Age", "Density"]]
+    class1 = mammographic[mammographic["Severity"] == 0]
+    class2 = mammographic[mammographic["Severity"] == 1]
+    class1 = class1[["Age", "Density"]]
+    class2 = class2[["Age", "Density"]]
 
     D: DataProcessor = DataProcessor(("1", "2"), "Mammographic", ("Age", "Density"))
 
-    hull_1, hull_2 = D.process(mammographicclass1, mammographicclass2)
+    hull1, hull2 = D.process(class1, class2)
 
-    D.plot(hull_1, hull_2, (11, 15))
+    D.plot(hull1, hull2, (11, 15))
 
-    line_sweep = LineSweep()
-    linear_separable = not line_sweep.do_polygons_intersect(
-        hull_1.convex_hull, hull_2.convex_hull
-    )
-
-    if not linear_separable:
+    if not D.is_separable(hull1, hull2):
         print("Os dados não são linearmente separáveis")
+    # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

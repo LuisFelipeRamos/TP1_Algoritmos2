@@ -5,7 +5,7 @@ from src.data_import.data_processor import DataProcessor
 
 def pre_process_glass(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Pré-processa os dados da `glass`, os dividindo em classes (separáveis).
+    Preprocessa os dados da `glass`, os dividindo em classes (separáveis).
     """
 
     col_names_glass = ["RI", "Na", "Mg", "Al", "Si", "K", "Ca", "Ba", "Fe", "TypeGlass"]
@@ -20,7 +20,8 @@ def pre_process_glass(file) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def check_glass(file) -> None:
-    """Checa se o dataset `glass` é separável."""
+    """Checa se o dataset `glass` é separável.
+    Se for, suas estatísticas são impressas na tela."""
 
     D: DataProcessor = DataProcessor(("1", "6"), "Glass", ("Na", "Mg"))
 
