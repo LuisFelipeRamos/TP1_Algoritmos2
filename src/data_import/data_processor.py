@@ -13,7 +13,7 @@ from src.segment import Segment
 
 
 class DataProcessor:
-    """Abstrai atvidades comuns no processamento de dados."""
+    """Abstrai atividades comuns no processamento de dados."""
 
     def __init__(
         self, classes: tuple[str, str], title: str, axes: tuple[str, str]
@@ -66,7 +66,7 @@ class DataProcessor:
         # Tente prever usando o classificador
         prediction = classifier.test(test_points)
 
-        # Imprima as estatísitcas
+        # Imprima as estatísticas
         classifier.get_statistics(actual, prediction)
 
     def has_intersection(self, hull1: ConvexHull, hull2: ConvexHull) -> bool:
@@ -92,7 +92,7 @@ class DataProcessor:
         return hull1, hull2
 
     def plot(self, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]) -> None:
-        """Imprime conjunto de dados em arquivo `self.title`"""
+        """Imprime conjunto de dados em arquivo images/`self.title`"""
         min_dist_segment: Segment = ch1.min_dist(ch2)
 
         _, ax = plt.subplots()

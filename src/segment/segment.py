@@ -72,7 +72,7 @@ class Segment:
 
     def contains(self, point: Point) -> bool:
         """
-        Confere se um ponto está no intervalo aberto do segmento
+        Confere se um ponto está no intervalo fechado do segmento
         """
         return (
             point.x <= max(self.p0.x, self.p1.x)

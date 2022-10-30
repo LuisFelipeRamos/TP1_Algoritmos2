@@ -83,22 +83,21 @@ Essa definição de pontos de início e fim é importante para definirmos o sent
 	y & = p_1.y - p_0.y
 \end{align*}
 
-Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{linear}) e o tamanho do segmento. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
+Esta classe ainda conta com mais 3 membros: as constantes que definem a reta associada (\textit{slope} e \textit{coef}) e o tamanho do segmento. Quando a reta é vertical, \textit{slope} se torna infinito e \textit{coef} passa a ser o \( x \) da reta. Possíveis exceções desse separamento de retas verticais e não verticais são tratados ao longo do programa. Em relação às funcionalidades auxiliares, foram implementados métodos para as seguintes utilidades na classe:
 
 \begin{itemize}
 	\item Calcular o produto vetorial entre duas instâncias de um segmento.
-	\item Checar se um segmento está em um sentido horário ou anti horário em relação ao outro. Aqui, é importante dizer que, para esta função em específico, se dois segmentos são colineares, consideramos que aquele com menor norma como em sentido anti-horário em relação ao outro.
 	\item Checar se os segmentos são colineares.
+	\item Checar se um segmento está em um sentido horário ou anti horário em relação ao outro. Aqui, é importante dizer que, para esta função em específico, se dois segmentos são colineares, consideramos que aquele com menor norma como em sentido anti-horário em relação ao outro.
 	\item Gerar o segmento inverso do atual, isto é, o segmento com mesma norma, direção, mas sentido inverso.
 	\item Inverter os pontos de um segmento, não alterando os outros membros.
-	\item Checar se um ponto está no intervalo aberto do segmento.
+	\item Checar se um ponto está no intervalo fechado do segmento.
 	\item Checar se um ponto é colinear, está orientado no sentido horário ou anti-horário em relação ao segmento.
-	\item Verificar se um segmento contém um ponto.
-	\item Calcular a orientação de dois segmentos, tratando colinearidade ``normalmente'', isto é, sem considerar o segmento de menor norma como sendo anti-horário.
 	\item Checar se um segmento intersecta outro.
+	\item Retornar o segmento perpendicular ao atual, que passa pelo seu ponto médio.
 \end{itemize}
 
-Assim como na classe \texttt{Point}, foi feita a sobrecarga de operadores para facilitar as implementações do trabalho. Mais especificamente, sobrecarregamos o comparador de ``menor que'', de modo que um segmento é menor que o outro se este está em sentido horário em relação ao outro.
+Assim como na classe \texttt{Point}, foi feita a sobrecarga de operadores para facilitar as implementações do trabalho. Mais especificamente, sobrecarregamos o comparador de ``menor que'', de modo que um segmento é menor que o outro se este está em sentido horário em relação ao outro e os comparadores de ``maior que'' e ``igual'' para comparação na AVL (parte da varredura linear).
 
 \subsubsection{ConvexHull}
 
@@ -106,7 +105,7 @@ A implementação do cálculo da envoltória convexa foi, de forma geral, talvez
 
 Para computarmos, então, a envoltória convexa de um conjunto de pontos, levando em consideração as especificações do trabalho, foi criada uma classe chamada \texttt{ConvexHull}, a qual o construtor demanda um conjunto de pontos cuja envoltória convexa deve ser encontrada.
 
-O segundo parâmetro desse construtor define qual o algoritmo que deve ser utilizado para o cálculo da envoltória. Para este trabalho, implementamos o algoritmo de embrulho de presente, de R.A. Jarvis, o algoritmo da varredura de Graham, de Ronald Graham, e o algoritmo incremental. Efetivamente para o restante do trabalho, utilizamos a varredura de Graham. Nesta seção, apresentaremos as principais diferenças entre as duas abordagens, focando principalmente nas diferenças de tempo de execução notadas para conjuntos de pontos gerados aleatoriamente pela biblioteca \texttt{random} da linguagem Python e para o conjunto de dados utilizados no trabalho.
+O segundo parâmetro desse construtor define qual o algoritmo que deve ser utilizado para o cálculo da envoltória. Para este trabalho, implementamos o algoritmo de embrulho de presente, de R.A. Jarvis, o algoritmo da varredura de Graham, de Ronald Graham, e o algoritmo incremental. Efetivamente para o restante do trabalho, utilizamos a varredura de Graham. Nesta seção, apresentaremos as principais diferenças entre as três abordagens, focando principalmente nas diferenças de tempo de execução notadas para conjuntos de pontos gerados aleatoriamente pela biblioteca \texttt{random} da linguagem Python.
 
 \begin{enumerate}
 	\item \textbf{Algoritmo de embrulho de presente}
@@ -132,7 +131,7 @@ O segundo parâmetro desse construtor define qual o algoritmo que deve ser utili
 	      O algoritmo incremental, assim como o anterior, possui um gargalo de complexidade provido pela ordenação dos pontos do conjunto inicial em relação à sua coordenada \( x \), além de prover grande estabilidade ao código como um todo.
 \end{enumerate}
 
-Abaixo, podemos ver gráficos que demonstram como os diferentes algoritmos se comportaram para pontos gerados aleatoriamente no eixo das coordenadas. A aleatoriedade dos pontos foi feita por meio da biblioteca \textit{random}, da linguagem Python, e portanto nenhuma distribuição de probabilidade específica afetou esses valores. Geramos, então, para conjuntos variando entre 3 pontos e 100 pontos, 100 envoltórias, e pegamos a média do tempo de geração delas, para cada algoritmo. Tivemos o seguinte gráfico como resultado.
+Abaixo, podemos ver gráficos que demonstram como os diferentes algoritmos se comportaram para pontos gerados aleatoriamente no eixo das coordenadas. A aleatoriedade dos pontos foi feita por meio da biblioteca \texttt{random}, da linguagem Python, e portanto nenhuma distribuição de probabilidade específica afetou esses valores. Geramos, então, para conjuntos variando entre 3 pontos e 100 pontos, 100 envoltórias, e pegamos a média do tempo de geração delas, para cada algoritmo. Tivemos o seguinte gráfico como resultado:
 
 \begin{figure} [H]
 	\includegraphics[width=12cm]{uniform.png}
@@ -159,11 +158,11 @@ De qualquer modo, podemos notar que eles seguem um padrão exatamente como esper
 
 Após essas análises concluímos então que a melhor opção para utilizarmos no trabalho prático seria o algoritmo da varredura de Graham, uma vez que ela passou em todos os testes que criamos e apresentou um desempenho eficiente e consistente neles.
 
-Adicionalmente esta classe possui um método para checar se uma envoltória convexa contém outra, dado que elas não se interceptam. Isso serve como checagem adicional para verificar a separabilidade linear: é possível que duas envoltórias não se interceptem, mas uma esteja dentro da outra, de tal maneira tornando a separação impossível.
+Adicionalmente esta classe possui um método para checar se uma envoltória convexa contém outra, dado que elas não se interceptam. Isso serve como checagem adicional para verificar a separabilidade linear: é possível que duas envoltórias não se interceptem, mas uma esteja dentro da outra, de tal maneira tornando a separação impossível. Como esse caso é extremamente patológico (não tende a acontecer na vida real), apenas um dos datasets levou isso em consideração (a título de exemplo).
 
 Por fim, temos um método importante para o trabalho que retorna o segmento de menor tamanho entre o vértice de uma envoltória e um vértice de outra. Mais especificamente, para casos em que podemos separar linearmente as envoltórias, devemos seguir, conforme especifica o enunciado do trabalho, alguns passos para facilitar as computações. O primeiro deles é encontrar o segmento que une dois vértices, um de cada envoltória, de modo que a distância entre esses vértices seja a menor possível.
 
-Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem interseção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que daria muito mais trabalho.
+Sem nos alongarmos muito nesse quesito, mesmo quando as envoltórias não possuem interseção entre si, essa reta pode nos indicar que não podemos separar os dados linearmente segundo nossas especificações. Isso por quê estamos pegando a menor distância entre dois vértices e não a menor distância entre as envoltórias como um todo, o que seria mais trabalhoso.
 
 De qualquer modo, abordamos a estratégia mais ingênua possível para encontrar essa reta. Para calcular o segmento supracitado, comparamos todos os pontos da envoltória 1 com todos os pontos da envoltória 2, de modo a encontrar aqueles com a menor distância. Com esses pontos encontrados, basta criarmos a instância de segmento que é formada pelos dois e retornarmos na função.
 
@@ -175,42 +174,60 @@ A classe \texttt{Event} implementa essa estrutura. Em particular, cada \texttt{E
 
 \subsubsection{LineSweep}
 
-A varredura linear é um procedimento que, percorrendo um conjunto de segmentos a partir de um dado eixo, consegue identificar interseções entre os segmentos de forma eficiente (a depender das estruturas de dados). Nesta implementação, o conjunto de segmentos consiste nos segmentos que compõem os polígonos que formam as envoltórias convexas apresentadas anteriormente. É usado o eixo \( x \), percorrido da esquerda para a direita.
+A varredura linear é um procedimento que, percorrendo um conjunto de segmentos a partir de um dado eixo, consegue identificar interseções entre os segmentos de forma eficiente (a depender das estruturas de dados). Nesta implementação, o conjunto de segmentos consiste nas arestas dos polígonos que formam as envoltórias convexas apresentadas anteriormente. É usado o eixo \( x \), percorrido da esquerda para a direita.
 
 Quanto à especificidade da implementação, a principal função dessa classe, \texttt{do\_polygons\_intersect()}, recebe como parâmetros os dois polígonos e usa a varredura linear para verificar se eles possuem interseção. Naturalmente que, possíveis interseções dentro de um mesmo polígono não são consideradas interseções neste contexto. Para isso, os polígonos recebem identificadores para diferenciar se ocorreu um cruzamento dentro do próprio polígono.
 
 Como mencionado na classe \texttt{Event}, o processamento do eixo é dado a partir dos eventos. Em especial, ao inserir um segmento (seu evento da esquerda), é checado se o segmento em questão intercepta seus vizinhos e, ao remover um segmento (evento da direita), é checado se seus vizinhos interceptam um ao outro. Desse modo, se faz necessário inverter o sentido de segmentos que apontam para a esquerda.
 
-Para realizar as inserções e remoções de maneira eficiente, foi usada uma árvore AVL, da biblioteca \texttt{pytrees} (inclusa no código). A comparação dos pontos é feita a partir do \( x \) atual da varredura linear. Além disso, a referência \footcite{SL18} de implementação não considerava que um ponto poderia ser o início de mais de um segmento, o que é incompatível com trabalhar com polígonos. Para diferenciar segmentos que compartilham tal ponto, é usado um \( \epsilon \) na comparação, que permite que um deles se sobreponha sobre o outro.
+Para realizar as inserções e remoções de maneira eficiente, foi usada uma árvore AVL, da biblioteca \texttt{pytrees} (inclusa no código). A comparação dos pontos é feita a partir do \( x \) atual da varredura linear. Além disso, a referência \footcite{SL18} de implementação não considerava que um ponto poderia ser o início de mais de um segmento, o que é incompatível com trabalhar com polígonos. Para diferenciar segmentos que compartilham tal ponto, é usado um \( \epsilon \) na comparação e as retas associadas aos segmentos.
 
 Outra etapa importante é a função que calcula os vizinhos de um dado nodo. Essa função não estava implementada na biblioteca usada. Quando um nodo tem filhos, o nodo que melhor o aproxima por baixo é o maior da subárvore da esquerda e o que melhor aproxima por cima é o menor da subárvore da direita. Se algum dos filhos não existir, é necessário achar o primeiro ancestral que atenda a condição de ser menor ou maior que o nodo em questão. Apesar de caminhar em todos os níveis da árvore (no pior caso), como ela é balanceada, a complexidade é \( \Theta(\log n) \). Como comentado no código, apesar de essa função fazer mais sentido para uma árvore, averiguou-se adequado deixá-la nesta classe, por simplicidade.
 
 Em relação ao custo geral do algoritmo, existem algumas operações lineares na soma do número de segmentos, como a criação do objeto \texttt{polygons} com os segmentos, a inversão e a população da lista de eventos. Mas no final, o gargalo é o laço principal, que para cada evento executa operações com, no máximo, custo logarítmico. Portanto a complexidade é \( \Theta(n \log n) \) no número de eventos (dobro da soma de segmentos).
 
-Apesar de que um algoritmo mais simples pudesse ter sido desenvolvido dado que os segmentos em questão são originados a partir de dois polígonos convexos, optou-se por escrever um algoritmo mais genérico, que resolva (quase) todo tipo de interseção entre conjuntos de segmentos com identificadores.
+Apesar de que um algoritmo mais simples pudesse ter sido desenvolvido, dado que os segmentos em questão são originados a partir de dois polígonos convexos, optou-se por escrever um algoritmo mais genérico, que resolva (quase) todo tipo de interseção entre conjuntos de segmentos com identificadores.
 
 \subsubsection{AlgorithmVisualization}
 
-A classe \texttt{AlgorithmVisualization} não faz parte do escopo do trabalho, e foi feita apenas para que pudéssemos visualizar bem como os algoritmos estavam sendo executados, além de auxiliar na correção de bugs encontrados ao longo da execução.
+A classe \texttt{AlgorithmVisualization} não faz parte do escopo do trabalho, e foi feita apenas para que pudéssemos visualizar bem como os algoritmos estavam sendo executados, além de auxiliar na correção de \textit{bugs} encontrados ao longo da execução.
 
 Utilizamos a biblioteca \texttt{pygame}, uma biblioteca da linguagem Python destinada à criação de jogos simples, para a criação dessas animações. Optamos em utilizá-la para isso pois alguns integrantes da equipe já tinham familiaridade com a tecnologia e porque sua documentação é bem completa.
 
 Todas as animações feitas foram dos três algoritmos de cálculo da envoltória convexa citados anteriormente. De forma geral, podemos dizer que ver uma animação da execução dos algoritmos foi crucial para que erros fossem identificados e conseguíssemos corrigir os \textit{bugs}.
 
-Não vamos nos estender muito em relação à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos, além de que deixaremos ao final desta documentação instruções caso queiram rodar as animações localmente.
+Não vamos nos estender muito em relação à documentação dessa classe, visto que ela não fazia parte das definições no enunciado do trabalho. No entanto, deixaremos anexo à esta documentação um vídeo gravado por um de nossos integrantes demonstrando a visualização da execução dos algoritmos.
 
 \subsubsection{Classifier}
 
-A classe \texttt{Classifier} é a responsável pela criação do modelo de classificador proposto. Ao ser criada ela recebe dois vetores de pontos, da classe \texttt{Point}, que representam os dados de das classes, tendo um vetor os pontos de uma classe e o outro os pontos de outra classe. O objetivo final dessa classe é receber um ponto e classificá-lo de acordo com a reta proposta pelo modelo. Tendo em vista esse objetivo, a classe possui três funções:
+A classe \texttt{Classifier} é a responsável pela criação do modelo de classificador proposto. Ao ser criada ela recebe duas envoltórias convexas, que representam os dados das classes. O objetivo final dessa classe é receber um conjunto de pontos e classificá-los de acordo com a reta proposta pelo modelo. Tendo em vista esse objetivo, a classe possui quatro funções:
 
-{\begin{itemize}
-	\item Função inicializadora que recebe duas listas do tipo \texttt{Point} e atribui os valores a serem guardados na classe de acordo com esses dados. Para isso, ela utiliza da função \texttt{fit()} para atribuir os valores da reta do modelo (função a ser abordada abaixo), além de atribuir os dados das listas para dentro da classe usando as listas internas \textit{class1} e \textit{class2} e salvar, por meio das varáveis class\_gt e class\_lt, qual subplano representa qual classe modelada.
+\begin{itemize}
+	\item Função inicializadora que recebe duas envoltórias convexas e atribui os valores a serem guardados nas classes de acordo com esses dados. Para isso, ela utiliza da função \texttt{fit()} para atribuir os valores da reta do modelo (função a ser abordada abaixo), além de atribuir os dados das listas para dentro da classe usando os membros \textit{class1} e \textit{class2} e salvar, por meio das varáveis class\_gt e class\_lt, qual subplano representa qual classe modelada.
 
-	\item A função \texttt{fit()} é responsável por criar a reta do modelo. Ela procura os dois pontos que tem a menor distância euclidiana dentre os dados recebidos, com a restrição de que esses dois pontos devem ser de classes diferentes. Encontrados esses pontos, encontra-se, a partir da função \texttt{get\_perpendicular\_segment()} da classe \texttt{Segment}, o segmento de reta perpendicular ao segmento que liga esses dois pontos e que passa pelo seu ponto médio, criando assim a reta do modelo. Por fim, a função retorna os coeficientes angular e linear da reta criada além do ponto médio usado para criá-la que representa um ponto da reta.
+	\item A função \texttt{fit()} é responsável por criar a reta do modelo. Ela procura os dois pontos que tem a menor distância euclidiana dentre os dados recebidos, com a restrição de que esses dois pontos devem ser de classes diferentes. Encontrados esses pontos, calcula-se, a partir da função \texttt{get\_perpendicular\_segment()} da classe \texttt{Segment}, o segmento de reta perpendicular ao segmento que liga esses dois pontos e que passa pelo seu ponto médio, criando assim a reta do modelo. Por fim, a função retorna os coeficientes angular e linear da reta criada além do ponto médio usado para criá-la que representa um ponto da reta. É também tratado o caso em que a reta é vertical (inclinação infinita).
 
-	\item A função \texttt{test} é a função responsável por atingir o objetivo final da classe, para isso ela recebe um vetor do tipo \texttt{Point} e retorna a previsão da classe desses pontos de acordo com a reta modelada, ou seja, utiliza da coordenada \( x \) do ponto e dos coeficientes angular e linear da reta modelada para retornar qual a classe do ponto recebido, faz isso para todos os dados do tipo Point da lista recebida e retorna uma lista qual as classes respectivas a cada ponto.
+	\item A função \texttt{test()} é a função responsável por atingir o objetivo final da classe. Para isso ela recebe uma lista do tipo \texttt{Point} e retorna a previsão da classe desses pontos de acordo com a reta modelada, ou seja, utiliza das coordenadas do ponto e dos coeficientes da reta modelada para retornar qual a classe do ponto recebido. Ao final, retorna uma lista qual as classes respectivas a cada ponto.
 
-\end{itemize}}
+	\item A função \texttt{get\_statistics()} agrega as métricas da classificação a partir de duas listas: os dados verdadeiros e a previsão do modelo.
+
+\end{itemize}
+
+\subsubsection{DataProcessor}
+
+Cada dataset possui suas especificidades: o nome de suas colunas, sua classificação (quais linhas vão para quais categorias) e o espaço a ser considerado no \textit{plot} do gráfico. Para lidar com essas especificidades, cada dataset é associada a, pelo menos, uma função (no caso de datasets separáveis, três funções).
+
+As atividades comuns, no entanto, são agregadas na classe \texttt{DataProcessor}. Essas atividades consistem na integração do classificador com o restante do trabalho: imprimir os gráficos, checar se os dados são separáveis, e, caso sejam, imprimir suas métricas. Para isso, a classe recebe três parâmetros, com as especificidades dos datasets: um par (classe,classe), o nome do dataset e um par (coluna eixo \( x \), coluna eixo \( y \)).
+
+São implementadas três funções auxiliares: dividir os dados em treino e teste usando a biblioteca \texttt{scikit-learn}, transformar um \texttt{DataFrame} em uma lista de pontos usando os eixos da classe e criar os dados de teste usando as duas classes e a função que divide em dados de teste. Outra abstração simples é a função \texttt{has\_intersection()}, que usa a varredura linear para saber se as classes possuem interseção.
+
+Além disso, a função \texttt{plot()} imprime os gráficos das envoltórias, permitindo customização do espaço da reta (qual intervalo do eixo \( x \) a reta de separação estará contida). Os gráficos são salvos no diretório ``images''.
+
+Em termos de processamento bruto, a função \texttt{process()} usa os métodos auxiliares para construir envoltórias e a função \texttt{classify()} usa da classificação individual de cada dataset, das envoltórias e de outras funções auxiliares para prever os dados de treino e analisar as estatísticas, as imprimindo na tela.
+
+\subsection{Programa Principal}
+
+O programa principal consiste na seleção de um dos datasets, que é checado se separável usando sua função associada e a classe \texttt{DataProcessor}. Seu gráfico é salvo, e se os dados forem separáveis, suas estatísticas são retornadas.
 
 \section{Análise experimental dos dados}
 
