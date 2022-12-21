@@ -3,9 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def check_titanic(file):
+def check_titanic(file: str) -> None:
     """Checa se o dataset `titanic` é separável."""
-
     col_names_titanic = [
         "Class",
         "Age",
@@ -19,14 +18,14 @@ def check_titanic(file):
     class1 = class1[["Class", "Age"]]
     class2 = class2[["Class", "Age"]]
 
-    D: DataProcessor = DataProcessor(
+    d: DataProcessor = DataProcessor(
         ("Survived", "Didn't Survive"), "Titanic", ("Class", "Age")
     )
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (-2, 2))
+    d.plot(hull1, hull2, (-2, 2))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

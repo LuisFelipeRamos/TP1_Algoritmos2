@@ -3,10 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def pre_process_wine(file) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Preprocessa os dados da `wine`, os dividindo em classes (separáveis).
-    """
+def pre_process_wine(file: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Preprocessa os dados da `wine`, os dividindo em classes (separáveis)."""
     col_names_wine = [
         "Alcohol",
         "MalicAcid",
@@ -33,29 +31,29 @@ def pre_process_wine(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     return class1, class2
 
 
-def check_wine(file) -> None:
-    """Checa se o dataset `wine` é separável.
-    Se for, suas estatísticas são impressas na tela."""
+def check_wine(file: str) -> None:
+    """
+    Checa se o dataset `wine` é separável.
 
-    D: DataProcessor = DataProcessor(("1", "3"), "Wine", ("TotalPhenols", "flavanoids"))
+    Se for, suas estatísticas são impressas na tela.
+    """
+    d: DataProcessor = DataProcessor(("1", "3"), "Wine", ("TotalPhenols", "flavanoids"))
 
     class1, class2 = pre_process_wine(file)
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (0, 4))
+    d.plot(hull1, hull2, (0, 4))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     else:
-        classify_wine(D, class1, class2)
+        classify_wine(d, class1, class2)
 
 
-def classify_wine(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
-    """
-    Simule uma classificação dos dados de `wine`, imprimindo estatísticas no final.
-    """
-    test_data: pd.DataFrame = D.create_test_data(class1, class2)
+def classify_wine(d: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
+    """Simule uma classificação dos dados de `wine`, imprimindo estatísticas no final."""
+    test_data: pd.DataFrame = d.create_test_data(class1, class2)
 
     actual: list[int] = []
     for _, row in test_data.iterrows():
@@ -64,4 +62,4 @@ def classify_wine(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) 
         elif row["Class"] == 3:
             actual.append(2)
 
-    D.classify(class1, class2, actual, test_data)
+    d.classify(class1, class2, actual, test_data)

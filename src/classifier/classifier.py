@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from numpy import Inf
 from sklearn.metrics import f1_score, precision_score, recall_score
 
@@ -7,7 +9,7 @@ from src.segment import Segment
 
 
 class Classifier:
-    def __init__(self, class1: ConvexHull, class2: ConvexHull):
+    def __init__(self: Classifier, class1: ConvexHull, class2: ConvexHull) -> None:
         self.class1 = class1
         self.class2 = class2
 
@@ -32,20 +34,16 @@ class Classifier:
                 self.class_gt = 2
                 self.class_lt = 1
 
-    def __repr__(self) -> str:
+    def __repr__(self: Classifier) -> str:
         return f"[{self.fit()}]"
 
-    def fit(self):
-        """
-        Pegue a reta de classificação.
-        """
+    def fit(self: Classifier) -> tuple[float, float, Point]:
+        """Pegue a reta de classificação."""
         min_dist_segment: Segment = self.class1.min_dist(self.class2)
         return min_dist_segment.get_perpendicular_segment()
 
-    def test(self, data: list[Point]) -> list[int]:
-        """
-        Classifique um conjunto de pontos.
-        """
+    def test(self: Classifier, data: list[Point]) -> list[int]:
+        """Classifique um conjunto de pontos."""
         result = []
         for i in data:
             if self.slope != Inf:
@@ -60,10 +58,10 @@ class Classifier:
                     result.append(self.class_lt)
         return result
 
-    def get_statistics(self, actual: list[int], prediction: list[int]) -> None:
-        """
-        Colete as estatísticas a partir de dois conjuntos de dados.
-        """
+    def get_statistics(
+        self: Classifier, actual: list[int], prediction: list[int]
+    ) -> None:
+        """Colete as estatísticas a partir de dois conjuntos de dados."""
         f_1 = f1_score(actual, prediction)
         precision = precision_score(actual, prediction)
         recall = recall_score(actual, prediction)

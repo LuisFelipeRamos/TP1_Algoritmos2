@@ -37,7 +37,7 @@ def calculate_times_and_plot() -> None:
                     HEIGHT - SCREEN_MARGIN,
                 )
                 a_1: float = time.time()
-                convex_hull: ConvexHull = ConvexHull(set_of_points, alg=algorithms[j])
+                ConvexHull(set_of_points, alg=algorithms[j])
                 a_2: float = time.time()
                 times[j] += a_2 - a_1
 

@@ -3,9 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def check_haberman(file):
+def check_haberman(file: str) -> None:
     """Checa se o dataset `haberman` é separável."""
-
     col_names_haberman = ["Age", "Year", "Positive", "Survival"]
     haberman = pd.read_csv(file, names=col_names_haberman)
 
@@ -14,14 +13,14 @@ def check_haberman(file):
     class1 = class1[["Age", "Positive"]]
     class2 = class2[["Age", "Positive"]]
 
-    D: DataProcessor = DataProcessor(
+    d: DataProcessor = DataProcessor(
         ("Positive", "Negative"), "Haberman", ("Age", "Positive")
     )
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (30, 90))
+    d.plot(hull1, hull2, (30, 90))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

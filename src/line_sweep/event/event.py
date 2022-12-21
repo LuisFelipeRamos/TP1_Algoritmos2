@@ -6,27 +6,28 @@ from src.segment import Segment
 
 
 class Event:
-    """
-    Esta classe tem dois propósitos:
-        1. Evitar o uso de tuplas, provendo acesso direto aos membros com nomes mais descritivos
-        2. Prover um comparador para os eventos, levando em consideração coordenadas e orientação
+    """Esta classe tem dois propósitos:
+    1. Evitar o uso de tuplas, provendo acesso direto aos membros com nomes mais descritivos
+    2. Prover um comparador para os eventos, levando em consideração coordenadas e orientação.
     """
 
-    def __init__(self, point: Point, left: bool, seg: Segment, i: int = -1) -> None:
+    def __init__(
+        self: Event, point: Point, left: bool, seg: Segment, i: int = -1
+    ) -> None:
         self.x = point.x
         self.y = point.y
         self.is_left = left
         self.segment = seg
         self.identifier = i
 
-    def __repr__(self) -> str:
+    def __repr__(self: Event) -> str:
         return f"[({self.x}, {self.y}, {self.is_left})]"
 
-    def compare(self, other: Event) -> int:
+    def compare(self: Event, other: Event) -> int:
         """
-        Compare inicialmente pelo x,
-        use orientação como critério de desempate (esquerda é menor),
-        use y como segundo critério de desempate
+        Compare inicialmente pelo x, use orientação como critério de desempate (esquerda é menor).
+
+        Use y como segundo critério de desempate.
         """
         if self.x < other.x:
             return -1
@@ -40,5 +41,5 @@ class Event:
             return 0
         return 1
 
-    def __lt__(self, other: Event) -> bool:
+    def __lt__(self: Event, other: Event) -> bool:
         return self.compare(other) < 0

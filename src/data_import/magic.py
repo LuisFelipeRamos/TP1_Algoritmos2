@@ -3,9 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def check_magic(file):
+def check_magic(file: str) -> None:
     """Checa se o dataset `magic` é separável."""
-
     col_names_magic = [
         "FLength",
         "FWidth",
@@ -26,12 +25,12 @@ def check_magic(file):
     class1 = class1[["FLength", "FWidth"]]
     class2 = class2[["FLength", "FWidth"]]
 
-    D: DataProcessor = DataProcessor(("g", "h"), "Magic", ("FLength", "FWidth"))
+    d: DataProcessor = DataProcessor(("g", "h"), "Magic", ("FLength", "FWidth"))
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (0, 300))
+    d.plot(hull1, hull2, (0, 300))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

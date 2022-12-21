@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import cast
 
 import matplotlib.pyplot as plt
@@ -16,7 +18,7 @@ class DataProcessor:
     """Abstrai atividades comuns no processamento de dados."""
 
     def __init__(
-        self, classes: tuple[str, str], title: str, axes: tuple[str, str]
+        self: DataProcessor, classes: tuple[str, str], title: str, axes: tuple[str, str]
     ) -> None:
         self.class1 = classes[0]
         self.class2 = classes[1]
@@ -26,13 +28,13 @@ class DataProcessor:
         self.x_axes = axes[0]
         self.y_axes = axes[1]
 
-    def split_df(self, df: pd.DataFrame) -> tuple:
+    def split_df(self: DataProcessor, df: pd.DataFrame) -> tuple:
         """Divide um dataframe `df` em dados de treino e de teste."""
         train, test = train_test_split(df, test_size=0.3)
         return train, test
 
-    def create_point_list(self, df: pd.DataFrame) -> list[Point]:
-        """Cria uma lista de pontos com base nos eixos escolhidos"""
+    def create_point_list(self: DataProcessor, df: pd.DataFrame) -> list[Point]:
+        """Cria uma lista de pontos com base nos eixos escolhidos."""
         point_list: list[Point] = []
         for _, j in df.iterrows():
             aux: Point = Point(j[self.x_axes], j[self.y_axes])
@@ -40,7 +42,7 @@ class DataProcessor:
         return point_list
 
     def create_test_data(
-        self, first_class: pd.DataFrame, second_class: pd.DataFrame
+        self: DataProcessor, first_class: pd.DataFrame, second_class: pd.DataFrame
     ) -> pd.DataFrame:
         # Faz a classificação "correta" dos dados
         # Aqui é importante treinar em cima das duas classes que o sistema tenta prever
@@ -49,11 +51,10 @@ class DataProcessor:
         _, test2 = self.split_df(second_class)
         frames: list[pd.DataFrame] = [test1, test2]
 
-        test_data = pd.concat(frames)
-        return test_data
+        return pd.concat(frames)
 
     def classify(
-        self,
+        self: DataProcessor,
         first_class: pd.DataFrame,
         second_class: pd.DataFrame,
         actual: list[int],
@@ -69,15 +70,14 @@ class DataProcessor:
         # Imprima as estatísticas
         classifier.get_statistics(actual, prediction)
 
-    def has_intersection(self, hull1: ConvexHull, hull2: ConvexHull) -> bool:
+    def has_intersection(
+        self: DataProcessor, hull1: ConvexHull, hull2: ConvexHull
+    ) -> bool:
         line_sweep = LineSweep()
-        intersects = line_sweep.do_polygons_intersect(
-            hull1.convex_hull, hull2.convex_hull
-        )
-        return intersects
+        return line_sweep.do_polygons_intersect(hull1.convex_hull, hull2.convex_hull)
 
     def process(
-        self, first_class: pd.DataFrame, second_class: pd.DataFrame
+        self: DataProcessor, first_class: pd.DataFrame, second_class: pd.DataFrame
     ) -> tuple[ConvexHull, ConvexHull]:
         """Transforma dataframes com as colunas desejadas em envoltórias convexas."""
         class1_train, _ = self.split_df(first_class)
@@ -91,8 +91,10 @@ class DataProcessor:
 
         return hull1, hull2
 
-    def plot(self, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]) -> None:
-        """Imprime conjunto de dados em arquivo images/`self.title`"""
+    def plot(
+        self: DataProcessor, ch1: ConvexHull, ch2: ConvexHull, space: tuple[int, int]
+    ) -> None:
+        """Imprime conjunto de dados em arquivo images/`self.title`."""
         min_dist_segment: Segment = ch1.min_dist(ch2)
 
         _, ax = plt.subplots()
@@ -107,9 +109,7 @@ class DataProcessor:
         )
         ax.grid(which="both", color="grey", linewidth=0.5, linestyle="-", alpha=0.2)
         for edge in ch1.convex_hull:
-            plt.plot(
-                [edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "red", linewidth=0.5
-            )
+            plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "red", linewidth=0.5)
 
         ax.scatter(
             [point.x for point in ch2.set_of_points],
@@ -134,9 +134,7 @@ class DataProcessor:
         x = np.linspace(space[0], space[1], 100)
         if slope != np.Inf:
             y = slope * x + b
-            plt.plot(
-                x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}"
-            )
+            plt.plot(x, y, color="green", label=f"y = {round(slope, 2)}x + {round(b, 2)}")
         else:
             plt.axvline(x=b, color="green", label=f"x = {round(b,2)}")
         plt.title(self.title, color="black")

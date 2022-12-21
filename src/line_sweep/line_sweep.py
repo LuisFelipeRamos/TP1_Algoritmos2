@@ -1,4 +1,5 @@
-# pylint: disable=missing-module-docstring
+from __future__ import annotations
+
 import src.globals as g
 from src.line_sweep.event import Event
 from src.line_sweep.lib.avl_tree import AVLNode, AVLTree
@@ -6,19 +7,16 @@ from src.segment import Segment
 
 
 class LineSweep:
-    """
-    Esta classe implementa uma versão modificada da varredura linear
-    para buscar pela interseção de dois polígonos
-    """
+    """Versão modificada da varredura linear para buscar pela interseção de dois polígonos."""
 
     def do_polygons_intersect(
-        self, polygon1: list[Segment], polygon2: list[Segment]
+        self: LineSweep, polygon1: list[Segment], polygon2: list[Segment]
     ) -> bool:
         """
-        Confere se polygon1 e polygon2 possuem alguma interseção
-        É usada flag ID para descartar interseções de um polígono com ele mesmo.
-        """
+        Confere se polygon1 e polygon2 possuem alguma interseção.
 
+        É usada uma flag para descartar interseções de um polígono com ele mesmo.
+        """
         polygons: list[tuple[Segment, int]] = [(segment, 1) for segment in polygon1]
         polygons.extend((segment, 2) for segment in polygon2)
 
@@ -28,9 +26,9 @@ class LineSweep:
                 segment.invert()
 
         events: list[Event] = [
-            Event(segment.p0, True, segment, id) for segment, id in polygons
+            Event(segment.p0, True, segment, idf) for segment, idf in polygons
         ]
-        events.extend(Event(segment.p1, False, segment, id) for segment, id in polygons)
+        events.extend(Event(segment.p1, False, segment, idf) for segment, idf in polygons)
         events.sort()
 
         tree_segments: AVLTree = AVLTree()
@@ -47,7 +45,7 @@ class LineSweep:
                 tree_segments.insert(segment_id)
                 node = tree_segments.search(segment_id)
                 if node is not None:
-                    above, below = self.get_above_and_below(node, tree_segments)
+                    above, below = self._get_above_and_below(node, tree_segments)
 
                     # Não basta que um segmento intercepte outro,
                     # é necessário que eles sejam de polígonos diferentes,
@@ -67,7 +65,7 @@ class LineSweep:
             else:
                 node = tree_segments.search(segment_id)
                 if node is not None:
-                    above, below = self.get_above_and_below(node, tree_segments)
+                    above, below = self._get_above_and_below(node, tree_segments)
 
                     if (
                         above is not None
@@ -80,13 +78,12 @@ class LineSweep:
                 tree_segments.delete(segment_id)
         return False
 
-    def get_above_and_below(self, node: AVLNode, tree: AVLTree):
+    def _get_above_and_below(self: LineSweep, node: AVLNode, tree: AVLTree):
         """
-        Função auxiliar para determinar os nós que estão em cima (menor maior)
-        ou em baixo (maior menor) de um dado nó em uma árvore
+        Função auxiliar para determinar os nós que estão em cima (menor maior) ou em baixo (maior menor) de um dado nó em uma árvore.
 
-        Como essa função só é usada na varredura linear e para evitar alterações na biblioteca,
-        averiguou-se adequado manter a função nesta classe
+        Como essa função só é usada na varredura linear e para evitar alterações
+        na biblioteca, averiguou-se adequado manter a função nesta classe
         """
         above = None
         below = None

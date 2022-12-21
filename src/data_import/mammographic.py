@@ -3,9 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def check_mammographic(file):
+def check_mammographic(file: str) -> None:
     """Checa se o dataset `mammographic` é separável."""
-
     col_names_mammographic = [
         "BI-RADS",
         "Age",
@@ -21,12 +20,12 @@ def check_mammographic(file):
     class1 = class1[["Age", "Density"]]
     class2 = class2[["Age", "Density"]]
 
-    D: DataProcessor = DataProcessor(("1", "2"), "Mammographic", ("Age", "Density"))
+    d: DataProcessor = DataProcessor(("1", "2"), "Mammographic", ("Age", "Density"))
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (11, 15))
+    d.plot(hull1, hull2, (11, 15))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     # Esses dados não são separáveis. Então não tratamos o caso de eles serem.

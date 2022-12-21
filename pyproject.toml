@@ -1,10 +1,39 @@
-[tool.pyright]
-include = ["src"]
-exclude = ["**/__pycache__"]
-defineConstant = { DEBUG = true }
+[tool.black]
+line-length = 90
 
-reportMissingImports = true
-reportMissingTypeStubs = false
+[tool.ruff]
+line-length = 90
 
-pythonVersion = "3.10"
-pythonPlatform = "Linux"
+select = [
+    "F",
+    "E",
+    "W",
+    "C90",
+    "I",
+    "D",
+    "UP",
+    "N",
+    "ANN",
+    "BLE",
+    "FBT",
+    "B",
+    "A",
+    "C4",
+    "T10",
+    "ICN",
+    "Q",
+    "RET",
+    "TID",
+    "ARG",
+    "ERA",
+    "PLC",
+    "PLE",
+    "PLR",
+    "PLW",
+    "RUF",
+]
+ignore = ["D212", "D203"]
+
+[[tool.mypy.overrides]]
+module = ["scipy.*"]
+ignore_missing_imports = true

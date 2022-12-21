@@ -3,10 +3,8 @@ import pandas as pd
 from src.data_import.data_processor import DataProcessor
 
 
-def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Preprocessa os dados da `iris`, os dividindo em classes (separáveis).
-    """
+def pre_process_iris(file: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Preprocessa os dados da `iris`, os dividindo em classes (separáveis)."""
     col_names_iris = ["SepalLength", "SepalWidth", "PetalLength", "PetalWidth", "Class"]
     iris = pd.read_csv(file, names=col_names_iris)
 
@@ -18,31 +16,31 @@ def pre_process_iris(file) -> tuple[pd.DataFrame, pd.DataFrame]:
     return class1, class2
 
 
-def check_iris(file) -> None:
-    """Checa se o dataset `iris` é separável.
-    Se for, suas estatísticas são impressas na tela."""
+def check_iris(file: str) -> None:
+    """
+    Checa se o dataset `iris` é separável.
 
-    D: DataProcessor = DataProcessor(
+    Se for, suas estatísticas são impressas na tela.
+    """
+    d: DataProcessor = DataProcessor(
         ("Iris-setosa", "not Iris-setosa"), "Iris", ("PetalLength", "PetalWidth")
     )
 
     class1, class2 = pre_process_iris(file)
 
-    hull1, hull2 = D.process(class1, class2)
+    hull1, hull2 = d.process(class1, class2)
 
-    D.plot(hull1, hull2, (1, 4))
+    d.plot(hull1, hull2, (1, 4))
 
-    if D.has_intersection(hull1, hull2):
+    if d.has_intersection(hull1, hull2):
         print("Os dados não são linearmente separáveis")
     else:
-        classify_iris(D, class1, class2)
+        classify_iris(d, class1, class2)
 
 
-def classify_iris(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
-    """
-    Simule uma classificação dos dados de `iris`, imprimindo estatísticas no final.
-    """
-    test_data: pd.DataFrame = D.create_test_data(class1, class2)
+def classify_iris(d: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) -> None:
+    """Simule uma classificação dos dados de `iris`, imprimindo estatísticas no final."""
+    test_data: pd.DataFrame = d.create_test_data(class1, class2)
 
     # Faz a classificação "correta" dos dados
     actual: list[int] = []
@@ -52,4 +50,4 @@ def classify_iris(D: DataProcessor, class1: pd.DataFrame, class2: pd.DataFrame) 
         else:
             actual.append(1)
 
-    D.classify(class1, class2, actual, test_data)
+    d.classify(class1, class2, actual, test_data)

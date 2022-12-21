@@ -9,7 +9,7 @@ from src.segment import Segment
 
 
 class ConvexHull:
-    def __init__(self, set_of_points: list[Point], alg: str) -> None:
+    def __init__(self: ConvexHull, set_of_points: list[Point], alg: str) -> None:
         self.set_of_points = set_of_points
         self.alg = alg
         self.num_of_vertexes = 0
@@ -22,7 +22,7 @@ class ConvexHull:
         else:
             print("I don't know this alg...")
 
-    def generate_through_gift_wrapping_alg(self) -> list[Segment]:
+    def generate_through_gift_wrapping_alg(self: ConvexHull) -> list[Segment]:
         anchor: Point = min(self.set_of_points)
         curr_anchor: Point = anchor
         dst: Point = (
@@ -56,7 +56,7 @@ class ConvexHull:
             )
         return convex_hull
 
-    def generate_through_graham_scan_alg(self) -> list[Segment]:
+    def generate_through_graham_scan_alg(self: ConvexHull) -> list[Segment]:
         anchor: Point = min(self.set_of_points)
         anchor_to_points_segments: list[Segment] = []
         convex_hull: list[Segment] = []
@@ -85,7 +85,7 @@ class ConvexHull:
                 i -= 1
         return convex_hull
 
-    def generate_through_incremental_alg(self) -> list[Segment]:
+    def generate_through_incremental_alg(self: ConvexHull) -> list[Segment]:
 
         self.set_of_points.sort(key=lambda point: (point.x, point.y))
 
@@ -96,14 +96,17 @@ class ConvexHull:
         anchor_to_next_next: Segment = Segment(
             self.set_of_points[0], self.set_of_points[2]
         )
+        s0: Segment
+        s1: Segment
+        s2: Segment
         if anchor_to_next.is_counter_clockwise(anchor_to_next_next):
-            s0: Segment = Segment(self.set_of_points[0], self.set_of_points[2])
-            s1: Segment = Segment(self.set_of_points[2], self.set_of_points[1])
-            s2: Segment = Segment(self.set_of_points[1], self.set_of_points[0])
+            s0 = Segment(self.set_of_points[0], self.set_of_points[2])
+            s1 = Segment(self.set_of_points[2], self.set_of_points[1])
+            s2 = Segment(self.set_of_points[1], self.set_of_points[0])
         else:
-            s0: Segment = Segment(self.set_of_points[0], self.set_of_points[1])
-            s1: Segment = Segment(self.set_of_points[1], self.set_of_points[2])
-            s2: Segment = Segment(self.set_of_points[2], self.set_of_points[0])
+            s0 = Segment(self.set_of_points[0], self.set_of_points[1])
+            s1 = Segment(self.set_of_points[1], self.set_of_points[2])
+            s2 = Segment(self.set_of_points[2], self.set_of_points[0])
         lower_hull.append(s0)
         upper_hull.append(s1)
         upper_hull.append(s2)
@@ -113,16 +116,15 @@ class ConvexHull:
             hull_farest_right_point_to_new_point: Segment = Segment(
                 hull_farest_right_point, point
             )
-            if hull_farest_right_point_to_new_point.is_counter_clockwise(
-                lower_hull[-1]
-            ):
-                lower_point: Point = upper_hull[0].p0
-                upper_point: Point = upper_hull[0].p1
+            lower_point: Point
+            upper_point: Point
+            if hull_farest_right_point_to_new_point.is_counter_clockwise(lower_hull[-1]):
+                lower_point = upper_hull[0].p0
+                upper_point = upper_hull[0].p1
                 del upper_hull[0]
-
             else:
-                lower_point: Point = lower_hull[-1].p0
-                upper_point: Point = lower_hull[-1].p1
+                lower_point = lower_hull[-1].p0
+                upper_point = lower_hull[-1].p1
                 del lower_hull[-1]
 
             lower_hull.append(Segment(lower_point, point))
@@ -139,15 +141,15 @@ class ConvexHull:
             while len(lower_hull) >= 2 and not lower_hull[-1].is_counter_clockwise(
                 lower_hull[-2]
             ):
-                new_edge_p0: Point = lower_hull[-2].p0
-                new_edge_p1: Point = lower_hull[-1].p1
+                new_edge_p0 = lower_hull[-2].p0
+                new_edge_p1 = lower_hull[-1].p1
                 del lower_hull[-1:-3:-1]
                 lower_hull.append(Segment(new_edge_p0, new_edge_p1))
 
         convex_hull: list[Segment] = lower_hull + upper_hull
         return convex_hull
 
-    def plot(self) -> None:
+    def plot(self: ConvexHull) -> None:
         _, ax = plt.subplots(figsize=(100, 100))
         ax = cast(plt.Axes, ax)
         ax.scatter(
@@ -161,19 +163,15 @@ class ConvexHull:
             plt.plot([edge.p0.x, edge.p1.x], [edge.p0.y, edge.p1.y], "k", linewidth=0.5)
         plt.show()
 
-    def is_inside(self, other: ConvexHull) -> bool:
-        """
-        Checa se `other` está dentro de `self`, dado que os polígonos não se interceptam
-        """
+    def is_inside(self: ConvexHull, other: ConvexHull) -> bool:
+        """Checa se `other` está dentro de `self`, dado que os polígonos não se interceptam."""
         # Se um polígono não intersecta outro,
         # então para um estar contido no outro basta que um ponto esteja.
         point: Point = other.convex_hull[0].p0
         return point.is_inside(self.convex_hull)
 
-    def min_dist(self, other: ConvexHull) -> Segment:
-        """
-        Retorna o segmento de menor distância entre duas envoltórias convexas.
-        """
+    def min_dist(self: ConvexHull, other: ConvexHull) -> Segment:
+        """Retorna o segmento de menor distância entre duas envoltórias convexas."""
         points_hull_1: list[Point] = [edge.p0 for edge in self.convex_hull]
         points_hull_2: list[Point] = [edge.p0 for edge in other.convex_hull]
         min_dist: float = float("inf")
