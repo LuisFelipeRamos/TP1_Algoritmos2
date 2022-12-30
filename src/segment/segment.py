@@ -23,9 +23,7 @@ class Segment:
 
         # Esse coeficiente tanto pode ser usado para ser o b de uma reta y = ax + b
         # como pode o x = k em uma reta vertical
-        self.coef = (
-            self.p0.y - self.slope * self.p0.x if self.slope != Inf else self.p0.x
-        )
+        self.coef = self.p0.y - self.slope * self.p0.x if self.slope != Inf else self.p0.x
 
         self.length = self.p0.get_distance(p1)
 
@@ -71,9 +69,7 @@ class Segment:
         self.p0, self.p1 = self.p1, self.p0
 
     def contains(self, point: Point) -> bool:
-        """
-        Confere se um ponto está no intervalo fechado do segmento
-        """
+        """Confere se um ponto está no intervalo fechado do segmento."""
         return (
             point.x <= max(self.p0.x, self.p1.x)
             and point.x >= min(self.p0.x, self.p1.x)
@@ -83,7 +79,7 @@ class Segment:
 
     def orientation(self, point: Point) -> int:
         """
-        Checa se um ponto é colinear, está orientado no sentido horário ou anti-horário
+        Checa se um ponto é colinear, está orientado no sentido horário ou anti-horário.
         """
         key: float = (self.p1.y - self.p0.y) * (point.x - self.p1.x) - (
             self.p1.x - self.p0.x
@@ -95,9 +91,7 @@ class Segment:
         return 0
 
     def intersects(self, other: Segment) -> bool:
-        """
-        Confere se um segmento intersecta outro
-        """
+        """Confere se um segmento intersecta outro."""
         d_1: int = self.orientation(other.p0)
         d_2: int = self.orientation(other.p1)
         d_3: int = other.orientation(self.p0)
@@ -126,9 +120,7 @@ class Segment:
         """
         negative_inverse_slope: float = -1 / self.slope if self.slope != 0 else Inf
 
-        midpoint: Point = Point(
-            (self.p0.x + self.p1.x) / 2, (self.p0.y + self.p1.y) / 2
-        )
+        midpoint: Point = Point((self.p0.x + self.p1.x) / 2, (self.p0.y + self.p1.y) / 2)
 
         # Aplique a mesma tática para segmentos verticais usada no construtor
         # A reta passa a ser identificada por x = coef
